@@ -45,6 +45,7 @@ const service = r => require.ensure([], () => r(require('../page/service/service
 const questionDetail = r => require.ensure([], () => r(require('../page/service/children/questionDetail')), 'questionDetail')
 const find = r => require.ensure([], () => r(require('../page/find/find')), 'find')
 const download = r => require.ensure([], () => r(require('../page/download/download')), 'download')
+const register = r => require.ensure([], () => r(require('../page/register/register')), 'register')
 
 
 
@@ -250,5 +251,13 @@ export default [{
                 component: pointsDetail,
             }, ]
         },
+		{
+		    path: 'register',
+		    component: register,
+		    children: [{
+		        path: 'register', //积分说明
+		        component: register,
+		    }, ]
+		},
     ]
 }]

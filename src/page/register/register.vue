@@ -1,7 +1,7 @@
 <template>
     <div class="loginContainer">
-        <head-top :head-title="loginWay? '登录':'密码登录'" goBack="true">
-          <div slot="changeLogin" class="change_login" @click="changeLoginWay">{{loginWay? "密码登录":"短信登录"}}</div> 
+        <head-top :head-title="loginWay? '医生注册':'医生注册'" goBack="true">
+            <!-- <div slot="changeLogin" class="change_login" @click="changeLoginWay">{{loginWay? "密码登录":"短信登录"}}</div> -->
         </head-top>
         <form class="loginForm" v-if="loginWay">
             <section class="input_container phone_number">
@@ -27,6 +27,18 @@
                     <span>...</span>
                 </div>
             </section>
+		  <section class="input_container phone_number">
+		    <input type="text" placeholder="手机号" name="phone" maxlength="11" v-model="phoneNumber">
+			
+		    <button @click.prevent="getVerifyCode" :class="{right_phone_number:rightPhoneNumber}" v-show="!computedTime">获取验证码</button>
+		    <button  @click.prevent v-show="computedTime">已发送({{computedTime}}s)</button>
+		  </section>
+			<section class="input_container">
+			    <input type="text" placeholder="身份证号" v-model.lazy="userAccount">
+			</section>
+			<section class="input_container">
+			    <input type="text" placeholder="地址" v-model.lazy="userAccount">
+			</section>
             <section class="input_container captcha_code_container">
                 <input type="text" placeholder="验证码" maxlength="4" v-model="codeNumber">
                 <div class="img_change_img">
@@ -39,15 +51,9 @@
             </section>
         </form>
         <p class="login_tips">
-            温馨提示：未注册过的账号，登录时将自动注册
-        </p>
-        <p class="login_tips">
             注册过的用户可凭账号密码登录
         </p>
-        <div class="login_container" @click="mobileLogin">登录</div>
-
-        <router-link to="/forget" class="to_forget" v-if="!loginWay">重置密码？</router-link>
-		 <router-link to="/register" class="to_forget" >医生注册</router-link>
+        <div class="login_container" @click="mobileLogin">注册</div>
         <alert-tip v-if="showAlert" :showHide="showAlert" @closeTip="closeTip" :alertText="alertText"></alert-tip>
     </div>
 </template>
@@ -102,9 +108,6 @@
             changePassWordType(){
                 this.showPassword = !this.showPassword;
             },
-			async phoneCodeLogin(){
-				
-			},
             //获取验证吗，线上环境使用固定的图片，生产环境使用真实的验证码
             async getCaptchaCode(){
                 let res = await getcaptchas();
