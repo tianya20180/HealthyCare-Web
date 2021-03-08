@@ -16,7 +16,7 @@
         </form>
         <form class="loginForm" v-else>
             <section class="input_container">
-                <input type="text" placeholder="账号" v-model.lazy="userAccount">
+                <input type="text" placeholder="账号" v-model.lazy="phoneNumber">
             </section>
             <section class="input_container">
                 <input v-if="!showPassword" type="password" placeholder="密码"  v-model="passWord">
@@ -122,23 +122,17 @@
                     }, 1000)
                     //判读用户是否存在
                     let exsis = await checkExsis(this.phoneNumber, 'mobile');
-                    if (exsis.message) {
+					console.log(exsis);
+                    if (exsis.status!=0) {
                         this.showAlert = true;
                         this.alertText = exsis.message;
-                        return
-                    }else if(!exsis.is_exists) {
-                        this.showAlert = true;
-                        this.alertText = '您输入的手机号尚未绑定';
                         return
                     }
                     //发送短信验证码
                     let res = await mobileCode(this.phoneNumber);
-                    if (res.message) {
-                        this.showAlert = true;
-                        this.alertText = res.message;
-                        return
-                    }
-                    this.validate_token = res.validate_token;
+                    console.log(res);
+					console.log(res.data.code);
+                    this.validate_token = res.data.code;
                 }
             },
             //发送登录信息
@@ -148,13 +142,9 @@
                         this.showAlert = true;
                         this.alertText = '手机号码不正确';
                         return
-                    }else if(!(/^\d{6}$/gi.test(this.mobileCode))){
-                        this.showAlert = true;
-                        this.alertText = '短信验证码不正确';
-                        return
                     }
                     //手机号登录
-                    this.userInfo = await sendLogin(this.mobileCode, this.phoneNumber, this.validate_token);
+                    this.userInfo = await sendLogin(this.mobileCode, this.phoneNumber,1);
                 }else{
                     if (!this.userAccount) {
                         this.showAlert = true;
@@ -170,14 +160,15 @@
                         return
                     }
                     //用户名登录
-                    this.userInfo = await accountLogin(this.userAccount, this.passWord, this.codeNumber);
+                    this.userInfo = await accountLogin(this.phoneNumber, this.passWord,1, this.codeNumber);
                 }
                 //如果返回的值不正确，则弹出提示框，返回的值正确则返回上一页
-                if (!this.userInfo.user_id) {
+                if (this.userInfo.status!=0) {
                     this.showAlert = true;
                     this.alertText = this.userInfo.message;
                     if (!this.loginWay) this.getCaptchaCode();
                 }else{
+					console.log("登录成功");
                     this.RECORD_USERINFO(this.userInfo);
                     this.$router.go(-1);
 

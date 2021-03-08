@@ -24,7 +24,7 @@
         	<svg class="icon_style">
                 <use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="$route.path.indexOf('msite') !== -1? '#msiteActive' : '#msite'"></use>
             </svg>
-            <span>外卖</span>
+            <span>主页</span>
         </section>
         <section @click = "gotoAddress({path: '/search/geohash'})" class="guide_item">
         	<svg class="icon_style">
@@ -36,7 +36,7 @@
         	<svg class="icon_style">
                 <use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="$route.path.indexOf('order') !== -1? '#orderActive' : '#order'"></use>
             </svg>
-            <span>订单</span>
+            <span>消息</span>
         </section>
         <section @click = "gotoAddress('/profile')" class="guide_item">
         	<svg class="icon_style">

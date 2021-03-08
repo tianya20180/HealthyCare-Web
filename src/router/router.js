@@ -46,6 +46,7 @@ const questionDetail = r => require.ensure([], () => r(require('../page/service/
 const find = r => require.ensure([], () => r(require('../page/find/find')), 'find')
 const download = r => require.ensure([], () => r(require('../page/download/download')), 'download')
 const register = r => require.ensure([], () => r(require('../page/register/register')), 'register')
+const chat = r => require.ensure([], () => r(require('../page/chat/chat')), 'chat')
 
 
 
@@ -259,5 +260,9 @@ export default [{
 		        component: register,
 		    }, ]
 		},
+		{
+			path:'chat',
+			component:chat
+		}
     ]
 }]

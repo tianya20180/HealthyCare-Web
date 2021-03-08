@@ -1,6 +1,15 @@
 import fetch from '../config/fetch'
 import {getStore} from '../config/mUtils'
 
+let baseUrl = '';
+let routerMode = 'history';
+if (process.env.NODE_ENV == 'development') {  
+    baseUrl = 'http://localhost:8080';
+}else{  
+    baseUrl = 'http://www.test.com';
+}
+
+
 /**
  * 获取首页默认地址
  */
@@ -185,11 +194,10 @@ export const ratingTags = shopid => fetch('/ugc/v2/restaurants/' + shopid + '/ra
  * 获取短信验证码
  */
 
-export const mobileCode = phone => fetch('/v4/mobile/verify_code/send', {
-	mobile: phone,
-	scene: 'login',
-	type: 'sms'
-}, 'POST');
+
+export const mobileCode = phone => fetch(baseUrl+'/v1/sendMessage', {
+	phone: phone
+}, 'GET');
 
 
 /**
@@ -203,9 +211,8 @@ export const getcaptchas = () => fetch('/v1/captchas', {},'POST');
  * 检测帐号是否存在
  */
 
-export const checkExsis = (checkNumber, type) => fetch('/v1/users/exists', {
-	[type]: checkNumber,
-	type
+export const checkExsis = (checkNumber) => fetch(baseUrl+'/v1/exists', {
+	phone: checkNumber
 });
 
 
@@ -406,11 +413,11 @@ export const getUser = () => fetch('/v1/user', {user_id: getStore('user_id')});
  * 手机号登录
  */
 
-var sendLogin = (code, mobile, validate_token) => fetch('/v1/login/app_mobile', {
-	code,
-	mobile,
-	validate_token
-}, 'POST');
+export const sendLogin = (code, mobile, identity) => fetch(baseUrl+'/v1/loginByCode', {
+	phone:mobile,
+	sendCode:code,
+	identity
+}, 'GET');
 
 
 /**
@@ -456,7 +463,7 @@ export const deleteAddress = (userid, addressid) => fetch( '/v1/users/' + userid
 /**
  * 账号密码登录
  */
-export const accountLogin = (username, password, captcha_code) => fetch('/v2/login', {username, password, captcha_code}, 'POST');
+export const accountLogin = (phoneNumber, password,identity,captcha_code) => fetch(baseUrl+'/v1/login', {phone:phoneNumber, password,identity,captchaCode:captcha_code}, 'POST');
 
 
 /**
@@ -469,3 +476,8 @@ export const signout = () => fetch('/v2/signout');
  * 改密码
  */
 export const changePassword = (username, oldpassWord, newpassword, confirmpassword, captcha_code) => fetch('/v2/changepassword', {username, oldpassWord, newpassword, confirmpassword, captcha_code}, 'POST');
+
+/**
+ * 注册
+ * */
+ export const doctorRegister =(userName,password,phone,address,cardId)=>fetch(baseUrl+'/v1/register',{userName,password,phone,address,cardId},'POST')

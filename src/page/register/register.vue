@@ -15,9 +15,12 @@
             </section>
         </form>
         <form class="loginForm" v-else>
-            <section class="input_container">
-                <input type="text" placeholder="账号" v-model.lazy="userAccount">
-            </section>
+			<section class="input_container phone_number">
+			  <input type="text" placeholder="手机号" name="phone" maxlength="11" v-model="phoneNumber">
+						
+			<!--  <button @click.prevent="getVerifyCode" :class="{right_phone_number:rightPhoneNumber}" v-show="!computedTime">获取验证码</button>
+			  <button  @click.prevent v-show="computedTime">已发送({{computedTime}}s)</button>-->
+			</section>
             <section class="input_container">
                 <input v-if="!showPassword" type="password" placeholder="密码"  v-model="passWord">
                 <input v-else type="text" placeholder="密码"  v-model="passWord">
@@ -27,17 +30,15 @@
                     <span>...</span>
                 </div>
             </section>
-		  <section class="input_container phone_number">
-		    <input type="text" placeholder="手机号" name="phone" maxlength="11" v-model="phoneNumber">
-			
-		    <button @click.prevent="getVerifyCode" :class="{right_phone_number:rightPhoneNumber}" v-show="!computedTime">获取验证码</button>
-		    <button  @click.prevent v-show="computedTime">已发送({{computedTime}}s)</button>
-		  </section>
 			<section class="input_container">
-			    <input type="text" placeholder="身份证号" v-model.lazy="userAccount">
+			    <input type="text" placeholder="用户名" v-model.lazy="userAccount">
+			</section>
+		 
+			<section class="input_container">
+			    <input type="text" placeholder="身份证号" v-model.lazy="cardId">
 			</section>
 			<section class="input_container">
-			    <input type="text" placeholder="地址" v-model.lazy="userAccount">
+			    <input type="text" placeholder="地址" v-model.lazy="address">
 			</section>
             <section class="input_container captcha_code_container">
                 <input type="text" placeholder="验证码" maxlength="4" v-model="codeNumber">
@@ -53,7 +54,7 @@
         <p class="login_tips">
             注册过的用户可凭账号密码登录
         </p>
-        <div class="login_container" @click="mobileLogin">注册</div>
+        <div class="login_container" @click="register">注册</div>
         <alert-tip v-if="showAlert" :showHide="showAlert" @closeTip="closeTip" :alertText="alertText"></alert-tip>
     </div>
 </template>
@@ -63,7 +64,7 @@
     import alertTip from '../../components/common/alertTip'
     import {localapi, proapi, imgBaseUrl} from 'src/config/env'
     import {mapState, mapMutations} from 'vuex'
-    import {mobileCode, checkExsis, sendLogin, getcaptchas, accountLogin} from '../../service/getData'
+    import {mobileCode, checkExsis, sendLogin, getcaptchas, accountLogin,doctorRegister } from '../../service/getData'
 
     export default {
         data(){
@@ -81,6 +82,9 @@
                 codeNumber: null, //验证码
                 showAlert: false, //显示提示组件
                 alertText: null, //提示的内容
+				address:'',//地址
+				cardId:''//身份证号
+		
             }
         },
         created(){
@@ -145,6 +149,18 @@
                 }
             },
             //发送登录信息
+			async register(){
+				console.log(this.passWord)
+				let res=await doctorRegister(this.userAccount,this.passWord,this.phoneNumber,this.address,this.cardId);
+				if(res.status!=0){
+					this.showAlert = true;
+					this.alertText = res.message;
+				}else{
+					this.showAlert = true;
+					this.alertText = "注册成功";
+				}
+					
+			},
             async mobileLogin(){
                 if (this.loginWay) {
                     if (!this.rightPhoneNumber) {
