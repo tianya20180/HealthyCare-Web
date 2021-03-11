@@ -112,6 +112,18 @@ export const searchRestaurant = (geohash, keyword) => fetch('/v4/restaurants', {
 });
 
 
+
+export const searchDoctor = (keyword) => fetch(baseUrl+'/doctor/search', {
+	userName:keyword
+});
+
+export const getDoctorByTime = () => fetch(baseUrl+'/doctor/getDoctorByTime', {
+	
+});
+export const getDoctorByCategory = (category) => fetch(baseUrl+'/doctor/getDoctorByCategory', {
+	category
+});
+
 /**
  * 获取food页面的 category 种类列表
  */

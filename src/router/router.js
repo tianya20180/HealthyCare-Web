@@ -47,7 +47,8 @@ const find = r => require.ensure([], () => r(require('../page/find/find')), 'fin
 const download = r => require.ensure([], () => r(require('../page/download/download')), 'download')
 const register = r => require.ensure([], () => r(require('../page/register/register')), 'register')
 const chat = r => require.ensure([], () => r(require('../page/chat/chat')), 'chat')
-
+const message = r => require.ensure([], () => r(require('../page/message/message')), 'message')
+const category = r => require.ensure([], () => r(require('../page/category/category')), 'category')
 
 
 
@@ -263,6 +264,14 @@ export default [{
 		{
 			path:'chat',
 			component:chat
+		},
+		{
+			path:'message',
+			component:message
+		},
+		{
+			path:'category',
+			component:category
 		}
     ]
 }]

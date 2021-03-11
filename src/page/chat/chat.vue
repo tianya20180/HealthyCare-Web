@@ -1,5 +1,7 @@
 <template>
   	<div class="paddingTop search_page">
+		
+	
         <div class="chat-content">
           <div v-for="obj in msgRecord">
             <v-my-msg
@@ -14,12 +16,11 @@
             :mytime="obj.time"></v-other-msg>
           </div>
         </div>
-	
-      <form class="search_form" style="margin-top: -100;">
-          <input type="search" name="search" placeholder="请输入消息" class="search_input" v-model="content" >
-          <input type="submit" name="submit" class="search_submit" @click.prevent="sendMessage() " value="发送">
-      </form>
-       
+
+       <form class="search_form" style="">
+           <input type="search" name="search" placeholder="请输入消息" class="search_input" v-model="content" >
+           <input type="submit" name="submit" class="search_submit" @click.prevent="sendMessage() " value="发送">
+       </form>
         <foot-guide></foot-guide>
     </div>
 </template>
@@ -76,11 +77,12 @@ export default {
         //点击提交按钮，搜索结果并显示，同时将搜索内容存入历史记录
 		sendMessage(){
 			 let id = this.$route.query.id;
-			 let to=(id==1?2:1);
+			 let to = this.$route.query.to;
+			 to=(id==1?2:1);
 			 console.log("id:"+id);
-			 let jsonStr=JSON.stringify({'content':this.content,'fromId':id,'toId':to});
+			 let url='../../static/img/1.jpg';
 			 let time=new Date();
-			 let url='../../elm/static/img/1.jpg';
+			 let jsonStr=JSON.stringify({'content':this.content,'fromId':id,'toId':to,'avatar':url,'time':time.getDate()});
 			 const obj = {
 			   name: id,
 			   msg: this.content,
@@ -100,13 +102,15 @@ export default {
 			this.stompClient.connect(headers,() => {
 			                this.stompClient.subscribe('/chat/single/'+id, (msg) => { // 订阅服务端提供的某个topic
 			                    console.log('收到服务端消息')
-			                    console.log(msg);  // msg.body存放的是服务端发送给我们的信息
+			                    console.log('msg.body:'+msg.body);  // msg.body存放的是服务端发送给我们的信息
+								let msgObject=JSON.parse(msg.body);
+								console.log("content:"+msgObject.content);
 								let time=new Date();
 								const obj = {
-								  name: msg.body.fromId,
-								  msg: msg.body.content,
-								  avatar: '../../elm/static/img/2.jpg',
-								  time: time.getDate()
+								  name: msgObject.fromId,
+								  msg: msgObject.content,
+								  avatar: msgObject.avatar,
+								  time: msgObject.time
 								}
 								this.msgRecord.push(obj)
 			                });
@@ -117,40 +121,6 @@ export default {
 			                console.log(err);
 			 });
 		}
-		/*
-		initWebSocket(){ //初始化weosocket
-		        const wsuri = "ws://localhost:8080/websocket";
-		        this.websock = new WebSocket(wsuri);
-		        this.websock.onmessage = this.websocketonmessage;
-		        this.websock.onopen = this.websocketonopen;
-		        this.websock.onerror = this.websocketonerror;
-		        this.websock.onclose = this.websocketclose;
-		      },
-		      websocketonopen(){ //连接建立之后执行send方法发送数据
-		        //let actions = {"test":"12345"};
-		      //  this.websocketsend(JSON.stringify(actions));
-				console.log("socket opening");
-		      },
-		      websocketonerror(){//连接建立失败重连
-		        this.initWebSocket();
-		      },
-		      websocketonmessage(e){ //数据接收
-		        const redata = JSON.parse(e.data);
-				console.log("get data:"+redata);
-		      },
-		      websocketsend(){//数据发送
-				  console.log("send");
-				  let id = this.$route.query.id;
-				  let to=(id==1?2:1);
-				  console.log("id:"+id);
-				  let jsonStr=JSON.stringify({'content':this.content,'fromId':id,'toId':to});
-				  console.log("json str"+jsonStr);
-				 // this.stompClient.send("http://localhost:8080/app/ptp/single/chat", {}, jsonStr);
-					this.websock.send(jsonStr);
-		      },
-		      websocketclose(e){  //关闭
-		        console.log('断开连接',e);
-		      },*/
      }
 }
 
@@ -163,7 +133,8 @@ export default {
         margin-bottom: 2rem;
     }
     .search_form{
-		margin-top: 14.3rem;
+		position: fixed;
+		top: 16.3rem;
         background-color: #fff;
         padding: 0.5rem;
         display: flex;
@@ -178,6 +149,7 @@ export default {
             background-color: #f2f2f2;
             font-weight: bold;
             padding: 0 0.25rem;
+			width: 13rem;
         }
         .search_submit{
             flex: 1;

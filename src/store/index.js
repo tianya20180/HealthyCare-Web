@@ -33,6 +33,7 @@ const state = {
 	addAddress:'',		//新增地址
 	question: null,//问题详情
 	cartPrice: null, //会员卡价格
+	historyMsg:[{username:'wangxi',unreadCount:1}]
 }
 
 export default new Vuex.Store({

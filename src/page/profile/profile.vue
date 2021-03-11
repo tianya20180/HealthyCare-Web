@@ -36,11 +36,11 @@
                     </router-link>
                     <router-link to="/benefit" tag="li" class="info-data-link">
                         <span class="info-data-top"><b>{{count}}</b>个</span>
-                        <span class="info-data-bottom">我的优惠</span>
+                        <span class="info-data-bottom">关注医生</span>
                     </router-link>
                     <router-link to="/points" tag="li" class="info-data-link">
                         <span class="info-data-top"><b>{{pointNumber}}</b>分</span>
-                        <span class="info-data-bottom">我的积分</span>
+                        <span class="info-data-bottom">收藏内容</span>
                     </router-link>
                 </ul>
             </section>
@@ -53,7 +53,7 @@
                         </svg>
                     </aside>
                     <div class="myorder-div">
-                        <span>我的订单</span>
+                        <span>我的问诊</span>
                         <span class="myorder-divsvg">
                             <svg fill="#bbb">
                                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
@@ -69,7 +69,7 @@
                         </svg>
                     </aside>
                     <div class="myorder-div">
-                        <span>积分商城</span>
+                        <span>我的病历</span>
                         <span class="myorder-divsvg">
                             <svg fill="#bbb">
                                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
@@ -85,7 +85,7 @@
                         </svg>
                     </aside>
                     <div class="myorder-div">
-                        <span>饿了么会员卡</span>
+                        <span>个人信息</span>
                         <span class="myorder-divsvg">
                             <svg fill="#bbb">
                                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
@@ -119,7 +119,7 @@
                         </svg>
                     </aside>
                     <div class="myorder-div" style="border-bottom:0;">
-                        <span>下载饿了么APP</span>
+                        <span>修改密码</span>
                         <span class="myorder-divsvg">
                             <svg fill="#bbb">
                                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
@@ -149,7 +149,7 @@ export default {
             profiletitle: '我的',
             username: '登录/注册',           //用户名
             resetname: '',
-            mobile: '暂无绑定手机号',             //电话号码
+            mobile: '',             //电话号码
             balance: 0,            //我的余额
             count : 0,             //优惠券个数
             pointNumber : 0,       //积分数
@@ -191,7 +191,7 @@ export default {
             if (this.userInfo && this.userInfo.user_id) {
                 this.avatar = this.userInfo.avatar;
                 this.username = this.userInfo.username;
-                this.mobile = this.userInfo.mobile || '暂无绑定手机号';
+                this.mobile = this.userInfo.mobile ;
                 this.balance = this.userInfo.balance;
                 this.count = this.userInfo.gift_amount;
                 this.pointNumber = this.userInfo.point;

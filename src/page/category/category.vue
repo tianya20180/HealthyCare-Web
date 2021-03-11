@@ -1,10 +1,5 @@
 <template>
   	<div class="paddingTop search_page">
-        <head-top head-title="搜索" goBack="true"></head-top>
-        <form class="search_form">
-            <input type="search" name="search" placeholder="请输入医生或者疾病" class="search_input" v-model="searchValue" @input="checkInput">
-            <input type="submit" name="submit" class="search_submit" @click.prevent="searchTarget('')">
-        </form>
         <section v-if="doctorList.length">
             <h4 class="title_restaurant">医生</h4>
             <ul class="list_container">
@@ -34,7 +29,7 @@
             </ul>
         </section>
        
-        <div class="search_none" v-if="emptyResult">很抱歉！无搜索结果</div>
+        <div class="search_none" v-if="emptyResult">很抱歉！当前科室暂无医生</div>
         <foot-guide></foot-guide>
     </div>
 </template>
@@ -42,7 +37,7 @@
 <script>
 import headTop from '../../components/header/head'
 import footGuide from '../../components/footer/footGuide'
-import {searchDoctor} from '../../service/getData'
+import {getDoctorByCategory} from '../../service/getData'
 import {imgBaseUrl} from '../../config/env'
 import {getStore, setStore} from '../../config/mUtils'
 
@@ -58,62 +53,24 @@ export default {
             emptyResult: false, // 搜索结果为空时显示
         }
     },
-    created(){
-       
+   async created(){
+       let category = this.$route.query.categoryId;
+       let res = await getDoctorByCategory(category);
+       this.doctorList=res.data;
+       console.log("search res:"+this.doctorList.data);
+       this.emptyResult = !this.doctorList.length;
+       console.log("length:"+this.doctorList.length);
+       console.log("empty result:"+this.emptyResult);
     },
     mounted(){
-        this.geohash = this.$route.params.geohash;
-        //获取搜索历史记录
-        if (getStore('searchHistory')) {
-            this.searchHistory = JSON.parse(getStore('searchHistory'));
-        }
+      
     },
     components:{
         headTop,
         footGuide,
     },
     methods:{
-        //点击提交按钮，搜索结果并显示，同时将搜索内容存入历史记录
-        async searchTarget(historyValue){
-            if (historyValue) {
-                this.searchValue = historyValue;
-            }else if (!this.searchValue) {
-                return 
-            }
-            //隐藏历史记录
-            
-            //获取搜索结果
-            
-			let res = await searchDoctor(this.searchValue);
-			this.doctorList=res.data;
-			console.log("search res:"+this.doctorList.data);
-            this.emptyResult = !this.doctorList.length;
-			console.log("length:"+this.doctorList.length);
-			console.log("empty result:"+this.emptyResult);
-            /**
-             * 点击搜索结果进入下一页面时进行判断是否已经有一样的历史记录
-             * 如果没有则新增，如果有则不做重复储存，判断完成后进入下一页
-             */
-          
-        },
-        //搜索结束后，删除搜索内容直到为空时清空搜索结果，并显示历史记录
-        checkInput(){
-            if (this.searchValue === '') {
-                this.showHistory = true; //显示历史记录
-                this.doctorList = []; //清空搜索结果
-                this.emptyResult = false; //隐藏搜索为空提示
-            } 
-        },
-        //点击删除按钮，删除当前历史记录
-        deleteHistory(index){
-            this.searchHistory.splice(index, 1);
-            setStore('searchHistory',this.searchHistory);
-        },
-        //清除所有历史记录
-        clearAllHistory(){
-            this.searchHistory = [];
-            setStore('searchHistory',this.searchHistory);
-        }
+   
     }
 }
 

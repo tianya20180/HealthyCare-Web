@@ -1,27 +1,73 @@
 <template>
     <div>
     	<head-top signin-up='msite'>
-    		<router-link :to="'/search/geohash'" class="link_search" slot="search">
-	    		<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" version="1.1">
-	    			<circle cx="8" cy="8" r="7" stroke="rgb(255,255,255)" stroke-width="1" fill="none"/>
-	    			<line x1="14" y1="14" x2="20" y2="20" style="stroke:rgb(255,255,255);stroke-width:2"/>
-	    		</svg>
-    		</router-link>
+    		
 			<router-link to="/home" slot="msite-title" class="msite_title">
-				<span class="title_text ellipsis">{{msietTitle}}</span>
+				<span class="title_text ellipsis">谷芽中医问诊平台</span>
 			</router-link>
     	</head-top>
     	<nav class="msite_nav">
     		<div class="swiper-container" v-if="foodTypes.length">
 		        <div class="swiper-wrapper">
-		            <div class="swiper-slide food_types_container" v-for="(item, index) in foodTypes" :key="index">
+		           <!-- <div class="swiper-slide food_types_container" v-for="(item, index) in foodTypes" :key="index">
 	            		<router-link :to="{path: '/food', query: {geohash, title: foodItem.title, restaurant_category_id: getCategoryId(foodItem.link)}}" v-for="foodItem in item" :key="foodItem.id" class="link_to_food">
 	            			<figure>
 	            				<img :src="imgBaseUrl + foodItem.image_url">
 	            				<figcaption>{{foodItem.title}}</figcaption>
 	            			</figure>
 	            		</router-link>
-		            </div>
+		            </div>-->
+					<div class="swiper-slide food_types_container">
+						<router-link :to="{path:'/category',query:{categoryId:1}}" class="link_to_food">
+						     <figure>
+						            <img :src="imgBaseUrl">
+						            <figcaption>皮肤科</figcaption>
+						     </figure>
+						</router-link>
+						<router-link :to="{path:'/category',query:{categoryId:2}}" class="link_to_food">
+						     <figure>
+						            <img :src="imgBaseUrl">
+						            <figcaption>耳喉鼻科</figcaption>
+						     </figure>
+						</router-link>
+						<router-link :to="{path:'/category',query:{categoryId:3}}" class="link_to_food">
+						     <figure>
+						            <img :src="imgBaseUrl">
+						            <figcaption>肝病科</figcaption>
+						     </figure>
+						</router-link>
+						<router-link :to="{path:'/category',query:{categoryId:4}}" class="link_to_food">
+						     <figure>
+						            <img :src="imgBaseUrl">
+						            <figcaption>中医儿科</figcaption>
+						     </figure>
+						</router-link>
+						<router-link :to="{path:'/category',query:{categoryId:5}}" class="link_to_food">
+						     <figure>
+						            <img :src="imgBaseUrl">
+						            <figcaption>中医内科</figcaption>
+						     </figure>
+						</router-link>
+						<router-link :to="{path:'/category',query:{categoryId:6}}" class="link_to_food">
+						     <figure>
+						            <img :src="imgBaseUrl">
+						            <figcaption>消化科</figcaption>
+						     </figure>
+						</router-link>
+						<router-link :to="{path:'/category',query:{categoryId:7}}" class="link_to_food">
+						     <figure>
+						            <img :src="imgBaseUrl">
+						            <figcaption>中医妇科</figcaption>
+						     </figure>
+						</router-link>
+						<router-link :to="{path:'/category',query:{categoryId:8}}" class="link_to_food">
+						     <figure>
+						            <img :src="imgBaseUrl">
+						            <figcaption>心脑科</figcaption>
+						     </figure>
+						</router-link>
+					 </div>
+					 
 		        </div>
 		        <div class="swiper-pagination"></div>
 		    </div>
@@ -32,7 +78,7 @@
 	    		<svg class="shop_icon">
 	    			<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shop"></use>
 	    		</svg>
-	    		<span class="shop_header_title">附近商家</span>
+	    		<span class="shop_header_title">热门医生</span>
 	    	</header>
 	    	<shop-list v-if="hasGetData" :geohash="geohash"></shop-list>
     	</div>
