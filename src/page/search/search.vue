@@ -8,9 +8,9 @@
         <section v-if="doctorList.length">
             <h4 class="title_restaurant">医生</h4>
             <ul class="list_container">
-                <router-link :to="{path:'/chat', query:{id:1,to:item.id}}" tag="li" v-for="item in doctorList" :key="item.id" class="list_li">
+                <router-link :to="{path:'/chat', query:{id:id,to:item.id}}" tag="li" v-for="item in doctorList" :key="item.id" class="list_li">
                     <section class="item_left">
-                        <img :src="imgBaseUrl + item.image_path" class="restaurant_img">
+                        <img :src="'../../../static/image/avatar/'+item.avatar" class="restaurant_img">
                     </section>
                     <section class="item_right">
                         <div class="item_right_text">
@@ -22,7 +22,7 @@
                                     <text x="3.5" y="9" style="fill:#FF6000;font-size:9;font-weight:bold;">支付</text>
                                 </svg>
                             </p>
-							<button class="ask">发起问诊</button>
+							<button class="ask">查看详情</button>
 							
 							<p>姓名 {{item.userName}} </p>
                             <p>问诊量 {{item.month_sales||item.recent_order_num}} 单</p>
@@ -56,10 +56,18 @@ export default {
             searchHistory: [], // 搜索历史记录
             showHistory: true, // 是否显示历史记录，只有在返回搜索结果后隐藏
             emptyResult: false, // 搜索结果为空时显示
+			userinfo:null,
+			id:'',
+			path:''
         }
     },
     created(){
-       
+       this.userinfo=this.$store.state.userinfo;
+	   this.id=this.userinfo.id;
+	   console.log(this.userinfo);
+	   console.log(this.id);
+	   this.path='../../static/image/avatar/'+　this.userinfo.avatar;
+	   console.log(this.path);
     },
     mounted(){
         this.geohash = this.$route.params.geohash;

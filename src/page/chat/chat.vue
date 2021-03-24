@@ -20,6 +20,10 @@
        <form class="search_form" style="">
            <input type="search" name="search" placeholder="请输入消息" class="search_input" v-model="content" >
            <input type="submit" name="submit" class="search_submit" @click.prevent="sendMessage() " value="发送">
+		   <router-link :to="{path:'/prescription'}" >
+			   		<input type="submit" name="submit" class="search_submit"  value="处方单">
+		   </router-link>
+
        </form>
         <foot-guide></foot-guide>
     </div>
@@ -53,7 +57,8 @@ export default {
         msgRecord: [], //消息记录
 		stompClient:'',
 		content:'',
-		myId:''
+		myId:'',
+		userinfo:null
         }
     },
     created(){
@@ -73,14 +78,22 @@ export default {
 	    'v-other-msg': otherMsg
     },
     methods:{
-		
+		created(){
+			
+	
+			 
+		},
         //点击提交按钮，搜索结果并显示，同时将搜索内容存入历史记录
 		sendMessage(){
+			  this.userinfo=this.$store.state.userinfo;
 			 let id = this.$route.query.id;
 			 let to = this.$route.query.to;
-			 to=(id==1?2:1);
+			 console.log(this.userinfo);
+			 let avatar=this.userinfo.avatar;
+			 
+			// to=(id==1?2:1);
 			 console.log("id:"+id);
-			 let url='../../static/img/1.jpg';
+			 let url='../../static/image/avatar/'+avatar;
 			 let time=new Date();
 			 let jsonStr=JSON.stringify({'content':this.content,'fromId':id,'toId':to,'avatar':url,'time':time.getDate()});
 			 const obj = {

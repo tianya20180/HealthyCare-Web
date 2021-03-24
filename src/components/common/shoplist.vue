@@ -3,9 +3,10 @@
 		<section v-if="shopListArr.length">
 		    <h4 class="title_restaurant">医生</h4>
 		    <ul class="list_container">
-		        <router-link :to="{path:'/chat', query:{id:1,to:item.id}}" tag="li" v-for="item in shopListArr" :key="item.id" class="list_li">
+		       <!-- <router-link :to="{path:'/chat', query:{id:id,to:item.id}}" tag="li" v-for="item in shopListArr" :key="item.id" class="list_li">-->
+			   <router-link :to="{path:'/detailed', query:{id:item.id}}" tag="li" v-for="item in shopListArr" :key="item.id" class="list_li">
 		            <section class="item_left">
-		                <img :src="imgBaseUrl + item.image_path" class="restaurant_img">
+		                 <img :src="'../../../static/image/avatar/'+item.avatar" class="restaurant_img">
 		            </section>
 		            <section class="item_right">
 		                <div class="item_right_text">
@@ -17,7 +18,7 @@
 		                            <text x="3.5" y="9" style="fill:#FF6000;font-size:9;font-weight:bold;">支付</text>
 		                        </svg>
 		                    </p>
-							<button class="ask">发起问诊</button>
+							<button class="ask">查看详情</button>
 							
 							<p>姓名 {{item.userName}} </p>
 		                    <p>问诊量 {{item.month_sales||item.recent_order_num}} 单</p>
@@ -52,10 +53,18 @@ export default {
 			showLoading: true, //显示加载动画
 			touchend: false, //没有更多数据
 			imgBaseUrl,
+			id:''
 		}
 	},
 	mounted(){
 		this.initData();
+	},
+	created(){
+	   this.userinfo=this.$store.state.userinfo;
+	   this.id=this.userinfo.id;
+	   console.log(this.userinfo);
+	   console.log(this.id);
+	   console.log(this.path);
 	},
 	components: {
 		loading,
@@ -76,6 +85,7 @@ export default {
 			//获取数据
 			let res = await getDoctorByTime()
 			this.shopListArr = res.data;
+			console.log(this.shopListArr);
 			if (res.length < 20) {
 				this.touchend = true;
 			}

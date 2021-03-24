@@ -487,9 +487,23 @@ export const signout = () => fetch('/v2/signout');
 /**
  * 改密码
  */
-export const changePassword = (username, oldpassWord, newpassword, confirmpassword, captcha_code) => fetch('/v2/changepassword', {username, oldpassWord, newpassword, confirmpassword, captcha_code}, 'POST');
 
 /**
  * 注册
  * */
  export const doctorRegister =(userName,password,phone,address,cardId)=>fetch(baseUrl+'/v1/register',{userName,password,phone,address,cardId},'POST')
+ 
+ export const upload=(data)=> fetch(baseUrl+'/user/upload', {
+       file: data,
+	   headers: {
+	              'Content-Type': 'multipart/form-data',
+	        }
+     },'POST'
+	  )
+	  
+export const changePassword=(oldPassword,newPassword,phone)=>fetch(baseUrl+'/user/changePassword',{oldPassword,newPassword,phone},'POST')
+
+export const getDoctorInfo=(id)=>fetch(baseUrl+'/doctor/profile',{id},'GET')
+export const addDrug=(drugName,sum,times,way)=>fetch(baseUrl+'/prescription/addDrug',{drugName,sum,times,way},'PSOT')
+export const addPrescription=(doctorId,userId)=>fetch(baseUrl+'/prescription/addPrescription',{drugName,sum,times,way},'PSOT')
+export const getPrescription=(userId,doctorId)=>fetch(baseUrl+'/prescription/getPrescription',{userId,doctorId},'GET')

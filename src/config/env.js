@@ -13,7 +13,7 @@ let imgBaseUrl;
 
 
 if (process.env.NODE_ENV == 'development') {
-    imgBaseUrl = 'http://cangdu.org:8001/img/';
+    imgBaseUrl = "C:\\Users\\wangxi\\AppData\\Local\\Temp\\tomcat-docbase\.5375827592242057553\.8080\\upload";
 
 }else if(process.env.NODE_ENV == 'production'){
 	// baseUrl = 'http://cangdu.org:8001';

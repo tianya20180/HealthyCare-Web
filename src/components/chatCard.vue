@@ -10,7 +10,7 @@
       <div class="user-name">{{list.username}}</div>
       <div class="time">{{list.msg[list.msg.length - 1].words}}</div>
     </div>
-    <span class="price">{{list.msg[list.msg.length - 1].time.split(" ")[0]}}</span>
+   <!-- <span class="price">{{list.msg[list.msg.length - 1].time.split(" ")[0]}}</span>-->
   </div>
 </template>
 

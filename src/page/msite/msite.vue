@@ -20,49 +20,51 @@
 					<div class="swiper-slide food_types_container">
 						<router-link :to="{path:'/category',query:{categoryId:1}}" class="link_to_food">
 						     <figure>
-						            <img :src="imgBaseUrl">
+								    
+						            <!--<img src="..\..\static\img\pifu.jpg">-->
+									<img src="/static/img/pifu.png" />
 						            <figcaption>皮肤科</figcaption>
 						     </figure>
 						</router-link>
 						<router-link :to="{path:'/category',query:{categoryId:2}}" class="link_to_food">
 						     <figure>
-						            <img :src="imgBaseUrl">
+						            <img src="/static/img/er.png" />
 						            <figcaption>耳喉鼻科</figcaption>
 						     </figure>
 						</router-link>
 						<router-link :to="{path:'/category',query:{categoryId:3}}" class="link_to_food">
 						     <figure>
-						            <img :src="imgBaseUrl">
+						            <img src="/static/img/ganbing.png" />
 						            <figcaption>肝病科</figcaption>
 						     </figure>
 						</router-link>
 						<router-link :to="{path:'/category',query:{categoryId:4}}" class="link_to_food">
 						     <figure>
-						            <img :src="imgBaseUrl">
+						             <img src="/static/img/hai.png" />
 						            <figcaption>中医儿科</figcaption>
 						     </figure>
 						</router-link>
 						<router-link :to="{path:'/category',query:{categoryId:5}}" class="link_to_food">
 						     <figure>
-						            <img :src="imgBaseUrl">
+						             <img src="/static/img/nei.png" />
 						            <figcaption>中医内科</figcaption>
 						     </figure>
 						</router-link>
 						<router-link :to="{path:'/category',query:{categoryId:6}}" class="link_to_food">
 						     <figure>
-						            <img :src="imgBaseUrl">
+						            <img src="/static/img/xiaohua.png" />
 						            <figcaption>消化科</figcaption>
 						     </figure>
 						</router-link>
 						<router-link :to="{path:'/category',query:{categoryId:7}}" class="link_to_food">
 						     <figure>
-						            <img :src="imgBaseUrl">
+						             <img src="/static/img/fu.png" />
 						            <figcaption>中医妇科</figcaption>
 						     </figure>
 						</router-link>
 						<router-link :to="{path:'/category',query:{categoryId:8}}" class="link_to_food">
 						     <figure>
-						            <img :src="imgBaseUrl">
+						           <img src="/static/img/nao.png" />
 						            <figcaption>心脑科</figcaption>
 						     </figure>
 						</router-link>

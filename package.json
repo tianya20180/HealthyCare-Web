@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "better-scroll": "^0.1.15",
+    "element-ui": "^2.15.1",
     "fastclick": "^1.0.6",
     "iscroll": "^5.2.0",
     "net": "^1.0.2",

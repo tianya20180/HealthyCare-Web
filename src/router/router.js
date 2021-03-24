@@ -49,7 +49,9 @@ const register = r => require.ensure([], () => r(require('../page/register/regis
 const chat = r => require.ensure([], () => r(require('../page/chat/chat')), 'chat')
 const message = r => require.ensure([], () => r(require('../page/message/message')), 'message')
 const category = r => require.ensure([], () => r(require('../page/category/category')), 'category')
-
+const doctorProfile = r => require.ensure([], () => r(require('../page/doctorProfile/profile')), 'doctorProfile')
+const detailed = r => require.ensure([], () => r(require('../page/detailed/detailed')), 'detailed')
+const prescription=r => require.ensure([], () => r(require('../page/prescription/prescription')), 'prescription')
 
 
 export default [{
@@ -74,6 +76,7 @@ export default [{
         //所有商铺列表页
         {
             path: '/msite',
+			name:'msite',
             component: msite,
             meta: { keepAlive: true },
         },
@@ -272,6 +275,15 @@ export default [{
 		{
 			path:'category',
 			component:category
+		},{
+			path:'doctorProfile',
+			component:doctorProfile
+		},{
+			path:'detailed',
+			component:detailed
+		},{
+			path:'prescription',
+			component:prescription
 		}
     ]
 }]

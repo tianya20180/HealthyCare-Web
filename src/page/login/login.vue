@@ -37,6 +37,9 @@
                     </div>
                 </div>
             </section>
+			<!--<el-checkbox class="doctor"  v-model="checked" @click="checkedChange">医生登录</el-checkbox>-->
+			<label style="font-size:20px; float: right;">医生登录</label>
+			<input type="checkbox" v-model="checked" value="false"  @click="checkedChange" style="float: right;"></input>
         </form>
         <p class="login_tips">
             温馨提示：未注册过的账号，登录时将自动注册
@@ -75,6 +78,9 @@
                 codeNumber: null, //验证码
                 showAlert: false, //显示提示组件
                 alertText: null, //提示的内容
+				res:null,
+				checked:false,
+				identity:0
             }
         },
         created(){
@@ -94,6 +100,15 @@
             ...mapMutations([
                 'RECORD_USERINFO',
             ]),
+			checkedChange(){
+				console.log("checked");
+				if(this.checked){
+					this.identity =0;
+				}else{
+					this.identity =1;
+				}
+				console.log(this.identity);
+			},
             //改变登录方式
             changeLoginWay(){
                 this.loginWay = !this.loginWay;
@@ -107,7 +122,7 @@
 			},
             //获取验证吗，线上环境使用固定的图片，生产环境使用真实的验证码
             async getCaptchaCode(){
-                let res = await getcaptchas();
+                 let res = await getcaptchas();
                 this.captchaCodeImg = res.code;
             },
             //获取短信验证码
@@ -129,10 +144,10 @@
                         return
                     }
                     //发送短信验证码
-                    let res = await mobileCode(this.phoneNumber);
-                    console.log(res);
-					console.log(res.data.code);
-                    this.validate_token = res.data.code;
+                    this.res = await mobileCode(this.phoneNumber);
+                    console.log(this.res);
+					console.log(this.res.data.code);
+                    this.validate_token = this.res.data.code;
                 }
             },
             //发送登录信息
@@ -144,9 +159,10 @@
                         return
                     }
                     //手机号登录
-                    this.userInfo = await sendLogin(this.mobileCode, this.phoneNumber,1);
+                    this.res = await sendLogin(this.mobileCode, this.phoneNumber,this.identity);
+					this.userInfo=this.res.data;
                 }else{
-                    if (!this.userAccount) {
+                    if (!this.phoneNumber) {
                         this.showAlert = true;
                         this.alertText = '请输入手机号/邮箱/用户名';
                         return
@@ -160,17 +176,22 @@
                         return
                     }
                     //用户名登录
-                    this.userInfo = await accountLogin(this.phoneNumber, this.passWord,1, this.codeNumber);
+                    this.res = await accountLogin(this.phoneNumber, this.passWord,this.identity, this.codeNumber);
+					this.userInfo=this.res.data;
+					console.log(this.userInfo);
                 }
                 //如果返回的值不正确，则弹出提示框，返回的值正确则返回上一页
-                if (this.userInfo.status!=0) {
+                if (this.res.status!=0) {
                     this.showAlert = true;
-                    this.alertText = this.userInfo.message;
+                    this.alertText = this.res.message;
                     if (!this.loginWay) this.getCaptchaCode();
                 }else{
 					console.log("登录成功");
                     this.RECORD_USERINFO(this.userInfo);
-                    this.$router.go(-1);
+				    this.userInfo.identity=this.identity;
+					this.$store.state.userinfo=this.userInfo;
+					this.$router.push({ name: 'msite', params: { geohash: '31.22299,121.36025' }});
+              //      this.$router.push({ name: 'msite', params: { geohash: '' });
 
                 }
             },
@@ -306,4 +327,10 @@
         @include sc(.6rem, #3b95e9);
         margin-right: .3rem;
     }
+	.doctor{
+		float: right;
+		line-height: .6rem;
+		font-size: 1rem;
+
+	}
 </style>

@@ -123,7 +123,6 @@
                 showAlert: false,
                 alertText: null,
                 imgBaseUrl,
-				userinfo:null
             }
         },
         beforeDestroy(){
@@ -145,8 +144,6 @@
             ]),
 			created(){
 				this.userinfo=this.$store.state.userinfo;
-				console.log(this.userinfo);
-				
 			},
             exitlogin(){
                 this.show=true;
@@ -176,26 +173,15 @@
                 this.alertText = '请在手机APP中设置';
             },
             async uploadAvatar(){
-				
 				console.log("start upload");
                 //上传头像
 				let baseUrl='http://localhost:8080';
-                this.userinfo=this.$store.state.userinfo;
-				console.log(this.userinfo);
-                let input = document.querySelector('.profileinfopanel-upload')
-                let data = new FormData();
-                data.append('file', input.files[0]);
-				data.append('id',this.userinfo.id);
-				console.log(this.userinfo);
-			    let identity=this.userinfo.identity;
-				console.log(identity);
-				let temp='';
-				if(identity==0)
-				   temp='user';
-				 else
-				   temp='doctor';
+         
+                    let input = document.querySelector('.profileinfopanel-upload')
+                    let data = new FormData();
+                    data.append('file', input.files[0]);
                    try{
-                        let response = await fetch(baseUrl+'/'+temp+'/upload', {
+                        let response = await fetch(baseUrl+'/user/upload', {
                               method: 'POST',
                               body: data
                             })

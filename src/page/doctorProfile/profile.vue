@@ -3,13 +3,13 @@
         <head-top go-back='true' :head-title="profiletitle"></head-top>
         <section>
             <section class="profile-number">
-                <router-link :to=" '/profile/info'" class="profile-link">
-                    <img :src="this.path" class="privateImage" >
-                   <!-- <span class="privateImage" v-else>
+                <router-link :to="userInfo&&userInfo.user_id? '/profile/info' : '/login'" class="profile-link">
+                    <img :src="imgBaseUrl + userInfo.avatar" class="privateImage" v-if="userInfo&&userInfo.user_id">
+                    <span class="privateImage" v-else>
                         <svg class="privateImage-svg">
                             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#avatar-default"></use>
                         </svg>
-                    </span>-->
+                    </span>
                     <div class="user-info">
                         <p>{{username}}</p>
                         <p>
@@ -28,17 +28,13 @@
                     </span>
                 </router-link>
             </section>
-            <section class="info-data" >
+            <section class="info-data">
                 <ul class="clear">
                     <router-link to="/balance" tag="li" class="info-data-link">
                         <span class="info-data-top"><b>{{parseInt(balance).toFixed(2)}}</b>元</span>
                         <span class="info-data-bottom">我的余额</span>
                     </router-link>
-                    <router-link to="/benefit" tag="li" class="info-data-link" v-if="this.identity==0">
-                        <span class="info-data-top"><b>{{count}}</b>个</span>
-                        <span class="info-data-bottom">关注医生</span>
-                    </router-link>
-                   
+                 
                 </ul>
             </section>
             <section class="profile-1reTe">
@@ -58,58 +54,27 @@
                         </span>
                     </div>
                 </router-link>
-                <!-- 积分商城 -->
-                <a href='https://home.m.duiba.com.cn/#/chome/index' class="myorder">
-                    <aside>
-                        <svg fill="#fc7b53">
-                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#point"></use>
-                        </svg>
-                    </aside>
-                    <div class="myorder-div" v-if="this.identity==0">
-                        <span>我的病历</span>
-                        <span class="myorder-divsvg">
-                            <svg fill="#bbb">
-                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
-                            </svg>
-                        </span>
-                    </div>
-                </a>
+              
                 <!-- 饿了么会员卡 -->
-                
+                <router-link to='/vipcard' class="myorder">
+                    <aside>
+                        <svg fill="#ffc636">
+                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#vip"></use>
+                        </svg>
+                    </aside>
+                    
+					<div class="myorder-div" style="border-bottom:0;">
+					    <span>修改密码</span>
+					    <span class="myorder-divsvg">
+					        <svg fill="#bbb">
+					            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
+					        </svg>
+					    </span>
+					</div>
+                </router-link>
             </section>
-            <section class="profile-1reTe">
-                <!-- 服务中心 -->
-                <router-link to='/service' class="myorder">
-                    <aside>
-                        <svg fill="#4aa5f0">
-                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#service"></use>
-                        </svg>
-                    </aside>
-                    <div class="myorder-div">
-                        <span>服务中心</span>
-                        <span class="myorder-divsvg">
-                            <svg fill="#bbb">
-                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
-                            </svg>
-                        </span>
-                    </div>
-                </router-link>
-                <!-- 下载饿了么APP -->
-                <router-link to='/download' class="myorder">
-                    <aside>
-                        <svg fill="#3cabff">
-                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#download"></use>
-                        </svg>
-                    </aside>
-                    <div class="myorder-div" style="border-bottom:0;">
-                        <span @click="changePassword">修改密码</span>
-                        <span class="myorder-divsvg">
-                            <svg fill="#bbb">
-                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
-                            </svg>
-                        </span>
-                    </div>
-                </router-link>
+        
+               
             </section>
         </section>
         <foot-guide></foot-guide>
@@ -138,22 +103,10 @@ export default {
             pointNumber : 0,       //积分数
             avatar: '',             //头像地址
             imgBaseUrl,
-			userinfo:null,
-			path:'',
-			identity:0,
-		
-			disabled:false
         }
     },
-	created(){
-		this.userinfo=this.$store.state.userinfo;
-		 this.initData();
-	},
     mounted(){
-		this.userinfo=this.$store.state.userinfo;
-		/*this.userinfo=this.$store.state.userinfo;
-		console.log("userinfo:"+this.userinfo.avatar)*/
-       
+        this.initData();
     },
     mixins: [getImgPath],
     components:{
@@ -182,25 +135,18 @@ export default {
         ...mapMutations([
             'SAVE_AVANDER'
         ]),
-		submitChange(){
-			
-		},
-		changePassword(){
-			this.disabled=true;
-		},
         initData(){
-			console.log(this.userinfo.userName);
-		    console.log(this.userinfo);
-            this.avatar = this.userinfo.avatar;
-		    console.log("avatar:"+this.avatar);
-            this.username = this.userinfo.userName;
-            this.mobile = this.userinfo.phone ;
-            this.balance = this.userinfo.money;
-            this.count = this.userinfo.followSize;
-            this.pointNumber = this.userinfo.point;
-			this.path='/static/image/avatar/'+　this.avatar;
-			this.identity = this.userinfo.identity;
-			console.log(this.path);
+            if (this.userInfo && this.userInfo.user_id) {
+                this.avatar = this.userInfo.avatar;
+                this.username = this.userInfo.username;
+                this.mobile = this.userInfo.mobile ;
+                this.balance = this.userInfo.balance;
+                this.count = this.userInfo.gift_amount;
+                this.pointNumber = this.userInfo.point;
+            }else{
+                this.username = '登录/注册';
+                this.mobile = '暂无绑定手机号';
+            }
         },
     },
     watch: {
@@ -373,23 +319,4 @@ export default {
         transform: translate3d(2rem, 0, 0);
         opacity: 0;
     }
-	.input_container{
-	    display: flex;
-	    justify-content: space-between;
-	    padding: .6rem .8rem;
-	    border-bottom: 1px solid #f1f1f1;
-	    input{
-	        @include sc(.7rem, #666);
-	    }
-	    button{
-	        @include sc(.65rem, #fff);
-	        font-family: Helvetica Neue,Tahoma,Arial;
-	        padding: .28rem .4rem;
-	        border: 1px;
-	        border-radius: 0.15rem;
-	    }
-	    .right_phone_number{
-	        background-color: #4cd964;
-	    }
-	}
 </style>
