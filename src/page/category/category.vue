@@ -3,9 +3,9 @@
         <section v-if="doctorList.length">
             <h4 class="title_restaurant">医生</h4>
             <ul class="list_container">
-                <router-link :to="{path:'/chat', query:{id:1,to:item.id}}" tag="li" v-for="item in doctorList" :key="item.id" class="list_li">
+                <router-link :to="{path:'/detailed', query:{id:item.id}}" tag="li" v-for="item in doctorList" :key="item.id" class="list_li">
                     <section class="item_left">
-                        <img :src="imgBaseUrl + item.image_path" class="restaurant_img">
+                        <img :src="'../../../static/image/avatar/'+item.avatar" class="restaurant_img">
                     </section>
                     <section class="item_right">
                         <div class="item_right_text">
@@ -20,7 +20,7 @@
 							<button class="ask">发起问诊</button>
 							
 							<p>姓名 {{item.userName}} </p>
-                            <p>问诊量 {{item.month_sales||item.recent_order_num}} 单</p>
+                            <p>问诊量 {{item.count}} 单</p>
 							
                         </div>
                     

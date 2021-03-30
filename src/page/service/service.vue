@@ -17,14 +17,7 @@
         </section>
         <section class="hot_questions" v-if="serviceData">
             <h4 class="qustion_header">热门问题</h4>
-            <ul>
-                <li v-for="(item, index) in questionTitle" :key="index" class="question_title" @click="toQuestionDetail(item, index)">
-                    <span>{{item}}</span>
-                     <svg class="arrow-svg" fill="#999">
-                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
-                    </svg>
-                </li>
-            </ul>
+          
         </section>
         <transition name="router-slid" mode="out-in">
             <router-view></router-view>

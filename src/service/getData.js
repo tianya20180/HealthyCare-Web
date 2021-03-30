@@ -446,7 +446,12 @@ export const getOrderList = (user_id, offset) => fetch('/bos/v2/users/' + user_i
  * 获取订单详情
  */
 
-export const getOrderDetail = (user_id, orderid) => fetch('/bos/v1/users/' + user_id + '/orders/' + orderid + '/snapshot');
+export const getOrderDetail = (userId,doctorId,money) => fetch(baseUrl+'/order/addOrder/',
+      {
+		  userId,
+		  doctorId,
+		  money
+	  });
 
 
 /**
@@ -507,3 +512,4 @@ export const getDoctorInfo=(id)=>fetch(baseUrl+'/doctor/profile',{id},'GET')
 export const addDrug=(drugName,sum,times,way)=>fetch(baseUrl+'/prescription/addDrug',{drugName,sum,times,way},'PSOT')
 export const addPrescription=(doctorId,userId)=>fetch(baseUrl+'/prescription/addPrescription',{drugName,sum,times,way},'PSOT')
 export const getPrescription=(userId,doctorId)=>fetch(baseUrl+'/prescription/getPrescription',{userId,doctorId},'GET')
+export const pay=(orderId)=>fetch(baseUrl+'/pay',{orderId},'GET')

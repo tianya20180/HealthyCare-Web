@@ -61,7 +61,7 @@ export default [{
         //地址为空时跳转home页面
         {
             path: '',
-            redirect: '/home'
+            redirect: '/login'
         },
         //首页城市列表页
         {

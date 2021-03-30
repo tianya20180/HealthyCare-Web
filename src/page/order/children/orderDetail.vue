@@ -3,66 +3,12 @@
         <head-top head-title="订单详情" go-back='true'></head-top>
         <section v-if="!showLoading" id="scroll_section" class="scroll_container">
             <section class="scroll_insert">
-                <section class="order_titel">
-                    <img :src="imgBaseUrl + orderDetail.restaurant_image_url">
-                    <p>{{orderDetail.status_bar.title}}</p>
-                    <p>{{orderDetail.timeline_node.description}}</p>
-                    <router-link class="order_again" :to="{path: '/shop', query: {geohash, id: orderDetail.restaurant_id}}">再来一单</router-link>
-                </section>
-                <section class="food_list">
-                    <router-link class="food_list_header" :to="{path: '/shop', query: {geohash, id: orderDetail.restaurant_id}}">
-                        <div class="shop_name">
-                            <img :src="imgBaseUrl + orderDetail.restaurant_image_url">
-                            <span>{{orderDetail.restaurant_name}}</span>
-                        </div>
-                        <svg fill="#333" class="arrow_right">
-                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
-                        </svg>
-                    </router-link>
-                    <ul class="food_list_ul">
-                        <li v-for="item in orderDetail.basket.group[0]">
-                            <p class="food_name ellipsis">{{item.name}}</p>
-                            <div class="quantity_price">
-                                <span>X{{item.quantity}}</span>
-                                <span>¥{{item.price}}</span>
-                            </div>
-                        </li>
-                    </ul>
-                    <div class="deliver_fee">
-                        <span>配送费</span>
-                        <span>{{orderDetail.basket.deliver_fee&&orderDetail.basket.deliver_fee.price || 0}}</span>   
-                    </div>
-                    <div class="pay_ment">实付{{orderDetail.total_amount.toFixed(2)}}</div>
-                </section>
-                <section class="order_detail_style">
-                    <header>配送信息</header>
-                    <section class="item_style">
-                        <p class="item_left">送达时间：</p>
-                        <div class="item_right">
-                            <p>{{orderData.deliver_time}}</p>
-                        </div>
-                    </section>
-                    <section class="item_style">
-                        <p class="item_left">送货地址：</p>
-                        <div class="item_right">
-                            <p>{{orderData.consignee}}</p>
-                            <p>{{orderData.phone}}</p>
-                            <p>{{orderData.address}}</p>
-                        </div>
-                    </section>
-                    <section class="item_style">
-                        <p class="item_left">配送方式：</p>
-                        <div class="item_right">
-                            <p>蜂鸟专送</p>
-                        </div>
-                    </section>
-                </section>
                 <section class="order_detail_style">
                     <header>订单信息</header>
                     <section class="item_style">
                         <p class="item_left">订单号：</p>
                         <div class="item_right">
-                            <p>{{orderDetail.id}}</p>
+                            <p>{{orderData.orderId}}</p>
                         </div>
                     </section>
                     <section class="item_style">
@@ -74,12 +20,23 @@
                     <section class="item_style">
                         <p class="item_left">下单时间：</p>
                         <div class="item_right">
-                            <p>{{orderDetail.formatted_created_at}}</p>
+                            <p>{{orderData.createTime}}</p>
                         </div>
                     </section>
+					<section class="item_style">
+					    <p class="item_left">金额：</p>
+					    <div class="item_right">
+					        <p>{{orderData.money}}</p>
+					    </div>
+					</section>
                 </section>
+				<el-button type="primary" style="float: right; width: 4rem;height: 2rem;" @click="pay()">立即支付</el-button>
+				
             </section>
+			
         </section>
+		
+		<foot-guide></foot-guide>
         <transition name="loading">
             <loading v-if="showLoading"></loading>
         </transition>
@@ -90,11 +47,12 @@
     import {mapState, mapMutations} from 'vuex'
     import headTop from 'src/components/header/head'
     import {getImgPath} from 'src/components/common/mixin'
-    import {getOrderDetail} from 'src/service/getData'
+    import {getOrderDetail,pay} from 'src/service/getData'
     import loading from 'src/components/common/loading'
     import BScroll from 'better-scroll'
     import {imgBaseUrl} from 'src/config/env'
-
+	import footGuide from 'src/components/footer/footGuide'
+	
 
     export default {
 
@@ -102,16 +60,24 @@
             return{
                 showLoading: true, //显示加载动画
                 orderData: null,
+				userinfo:null,
+				userId:'',
+				doctorId:'',
+				money:'',
                 imgBaseUrl
             }
         },
         mounted(){
             this.initData();
         },
+		created(){
+			this.userinfo=this.$store.state.userinfo;
+		},
         mixins: [getImgPath],
         components: {
             headTop,
             loading,
+			footGuide
         },
         computed: {
             ...mapState([
@@ -119,9 +85,30 @@
             ]),
         },
         methods: {
+			async pay(){
+				   this.$alert('是否确认付款', '付款', {
+				             confirmButtonText: '确定',
+				             callback: async action => {
+								  let orderId=this.orderData.orderId;
+								  let res = await pay(orderId);
+								  if(res.status==0){
+									this.$router.push({ path: '/chat', query: { id: this.userId, to: this.doctorId } });
+								  }else{
+									alert("付款失败:"+res.message);  
+								  }
+								 }
+				           });
+				   
+			},
             async initData(){
-                if (this.userInfo && this.userInfo.user_id) {
-                    this.orderData = await getOrderDetail(this.userInfo.user_id, this.orderDetail.unique_id);
+				    this.userId=this.userinfo.id;
+					this.doctorId=this.$route.query.doctorId;
+					this.money=this.$route.query.money;
+					console.log(this.userId);
+					console.log(this.doctorId);
+					console.log(this.money);
+                    let res = await getOrderDetail(this.userId, this.doctorId,this.money);
+					this.orderData=res.data;
                     this.showLoading = false;
                     this.$nextTick(() => {
                         new BScroll('#scroll_section', {  
@@ -131,7 +118,6 @@
                             click: true,
                         }); 
                     })
-                }
             },
         },
         watch: {

@@ -10,7 +10,7 @@
 				<span >姓名</span><span class="innerspan">{{username}}</span>
 			</div>
 			<div class="myorder-div2">
-				<span>工作年限</span><span class="innerspan">{{username}}</span>
+				<span>工作年限</span><span class="innerspan">{{years}}</span>
 			</div >
 			<div class="myorder-div2">
 				<span>医院</span><span class="innerspan"> {{hospital}}</span>
@@ -28,7 +28,7 @@
 		</el-card>
 		 <el-card>
 			 <div class="myorder-div2">
-			 	<span>评价</span><span class="innerspan">{{desc}}</span>
+			 	<span>评价</span><span class="innerspan"></span>
 			 </div>
 			 
 		 </el-card>
@@ -36,8 +36,8 @@
 		
 		
 	     <el-card>
-			 <router-link  :to="{path:'/chat',query:{id:id,to:to}}">
-			 			 <el-button type="primary" class="ask">发起问诊</el-button>
+			 <router-link  :to="{path:'/order/orderDetail',query:{doctorId:doctorId,money:money}}">
+			 			 <el-button type="primary" class="ask1">发起问诊</el-button>
 			 </router-link>
 		 </el-card>
 	    
@@ -59,7 +59,7 @@
 	            count : 0,             //
 	            pointNumber : 0,       //积分数
 	            avatar: '',             //头像地址
-	        
+				years:0,
 				userinfo:null,
 				path:'',
 				identity:0,
@@ -71,7 +71,8 @@
 				hospital:'',
 				myuser:null,
 				id:'',
-				to:''
+				to:'',
+				doctorId:''
 	        }
 	    },
 		async created(){
@@ -99,6 +100,8 @@
 				this.special= this.userinfo.special;
 				this.desc=this.userinfo.des;
 				this.hospital=this.userinfo.hospital;
+				this.doctorId=this.userinfo.id;
+				this.years=this.userinfo.workYears;
 				console.log(this.path);
 				this.path='../../../static/image/avatar/'+this.avatar;
 	        },
@@ -131,13 +134,15 @@
 	    }
 		
 	}
-	.ask{
+	.ask1{
 		flex: 1;
 		margin-left: .2rem;
 		@include sc(0.65rem, #fff);
 		background-color: $blue;
 		font-weight: bold;
 		margin-left: 5rem;
+		width: 4rem;
+        height: 2rem;
 	}
 	.innerspan{
 		front-size:0.1rem

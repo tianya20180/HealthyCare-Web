@@ -21,7 +21,7 @@
 							<button class="ask">查看详情</button>
 							
 							<p>姓名 {{item.userName}} </p>
-		                    <p>问诊量 {{item.month_sales||item.recent_order_num}} 单</p>
+		                    <p>问诊量 {{item.count}} 单</p>
 							
 		                </div>
 		            

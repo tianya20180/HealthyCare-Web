@@ -8,7 +8,7 @@
         <section v-if="doctorList.length">
             <h4 class="title_restaurant">医生</h4>
             <ul class="list_container">
-                <router-link :to="{path:'/chat', query:{id:id,to:item.id}}" tag="li" v-for="item in doctorList" :key="item.id" class="list_li">
+                <router-link :to="{path:'/detailed', query:{id:item.id}}" tag="li" v-for="item in doctorList" :key="item.id" class="list_li">
                     <section class="item_left">
                         <img :src="'../../../static/image/avatar/'+item.avatar" class="restaurant_img">
                     </section>
