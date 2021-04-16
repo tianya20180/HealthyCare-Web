@@ -1,8 +1,6 @@
 <template>
     <div class="item-right">
-        <div class="name-right">
-            <span>{{ mytime }}</span>
-        </div>
+    
         <img :src="avatar" alt="" class="avatar-right">
         <span v-if="msg">
             {{ msg }}

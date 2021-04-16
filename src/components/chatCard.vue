@@ -72,7 +72,7 @@
           //console.log(`原来是没有的${m[0]}`)
           window.localStorage.setItem(this.group_name, JSON.stringify(m))
         }
-        this.$router.push('/chat');
+        this.$router.push({path: '/chat', query: {id:2,to:1}});
       }
     }
   }

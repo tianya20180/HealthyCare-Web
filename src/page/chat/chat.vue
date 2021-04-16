@@ -20,9 +20,12 @@
        <form class="search_form" style="">
            <input type="search" name="search" placeholder="请输入消息" class="search_input" v-model="content" >
            <input type="submit" name="submit" class="search_submit" @click.prevent="sendMessage() " value="发送">
-		   <router-link :to="{path:'/prescription'}" >
-			   		<input type="submit" name="submit" class="search_submit"  value="处方单">
+		   <router-link :to="{path:'/prescription',query: { userId:userId,orderId:orderId }}" v-if="identity==1">
+			   	<input type="submit" name="submit" class="submit"  value="处方单">
 		   </router-link>
+		 <router-link :to="{path:'/prescription',query: { orderId:orderId }}" v-if="identity==0">
+		 			   	<input type="submit" name="submit" class="submit"  value="处方单">
+		 </router-link>
 
        </form>
         <foot-guide></foot-guide>
@@ -58,7 +61,10 @@ export default {
 		stompClient:'',
 		content:'',
 		myId:'',
-		userinfo:null
+		userinfo:null,
+		userId:'',
+		orderId:'',
+		identity:''
         }
     },
     created(){
@@ -77,17 +83,20 @@ export default {
 		'v-my-msg': myMsg,
 	    'v-other-msg': otherMsg
     },
+	created(){
+		this.userinfo=this.$store.state.userinfo;
+		 this.userId=this.$route.query.id;
+		 this.orderId=this.$route.query.orderId;
+		 this.identity=this.userinfo.identity;
+	},
     methods:{
-		created(){
-			
-	
-			 
-		},
+		
         //点击提交按钮，搜索结果并显示，同时将搜索内容存入历史记录
 		sendMessage(){
 			  this.userinfo=this.$store.state.userinfo;
 			 let id = this.$route.query.id;
 			 let to = this.$route.query.to;
+			 
 			 console.log(this.userinfo);
 			 let avatar=this.userinfo.avatar;
 			 
@@ -95,7 +104,15 @@ export default {
 			 console.log("id:"+id);
 			 let url='../../static/image/avatar/'+avatar;
 			 let time=new Date();
-			 let jsonStr=JSON.stringify({'content':this.content,'fromId':id,'toId':to,'avatar':url,'time':time.getDate()});
+			 let jsonStr={};
+			 console.log(this.identity);
+			 if(this.identity==0){
+				console.log(this.orderId);
+				jsonStr=JSON.stringify({'content':this.content,'fromId':id,'toId':to,'avatar':url,'time':time.getDate(),'orderId':this.orderId});
+			}
+			 else{ 
+			    jsonStr=JSON.stringify({'content':this.content,'fromId':id,'toId':to,'avatar':url,'time':time.getDate(),'orderId':''});
+			}
 			 const obj = {
 			   name: id,
 			   msg: this.content,
@@ -125,6 +142,10 @@ export default {
 								  avatar: msgObject.avatar,
 								  time: msgObject.time
 								}
+								if(this.identity==1){
+									this.orderId=msgObject.orderId;
+									console.log(this.orderId);
+								}
 								this.msgRecord.push(obj)
 			                });
 			               
@@ -146,6 +167,7 @@ export default {
         margin-bottom: 2rem;
     }
     .search_form{
+		width: 15rem;
 		position: fixed;
 		top: 16.3rem;
         background-color: #fff;
@@ -162,7 +184,7 @@ export default {
             background-color: #f2f2f2;
             font-weight: bold;
             padding: 0 0.25rem;
-			width: 13rem;
+			width: 8rem;
         }
         .search_submit{
             flex: 1;
@@ -173,7 +195,19 @@ export default {
             background-color: $blue;
             font-weight: bold;
             padding: 0 0.25rem;
+			width: 1rem;
         }
+		.submit{
+		    flex: 1;
+		    border: 0.025rem solid $blue;
+		    margin-left: .2rem;
+		    @include sc(0.65rem, #fff);
+		    border-radius: 0.125rem;
+		    background-color: $blue;
+		    font-weight: bold;
+		    padding: 0 0.25rem;
+			width: 2.2rem;
+		}
     }
     .title_restaurant{
         font-size: 0.6rem;

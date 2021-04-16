@@ -109,6 +109,14 @@
                             </svg>
                         </span>
                     </div>
+					<div class="myorder-div" style="border-bottom:0;" v-if="this.identity==1">
+					    <span @click="authentication()">医生认证</span>
+					    <span class="myorder-divsvg">
+					        <svg fill="#bbb">
+					            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
+					        </svg>
+					    </span>
+					</div>
                 </router-link>
             </section>
         </section>
@@ -140,7 +148,7 @@ export default {
             imgBaseUrl,
 			userinfo:null,
 			path:'',
-			identity:0,
+			identity:1,
 		
 			disabled:false
         }
@@ -185,6 +193,9 @@ export default {
 		submitChange(){
 			
 		},
+		authentication(){
+			this.$route.push('/authentication');
+		},
 		changePassword(){
 			this.disabled=true;
 		},
@@ -200,6 +211,7 @@ export default {
             this.pointNumber = this.userinfo.point;
 			this.path='/static/image/avatar/'+　this.avatar;
 			this.identity = this.userinfo.identity;
+			console.log("identity"+this.identity);
 			console.log(this.path);
         },
     },

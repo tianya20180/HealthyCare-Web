@@ -52,6 +52,8 @@ const category = r => require.ensure([], () => r(require('../page/category/categ
 const doctorProfile = r => require.ensure([], () => r(require('../page/doctorProfile/profile')), 'doctorProfile')
 const detailed = r => require.ensure([], () => r(require('../page/detailed/detailed')), 'detailed')
 const prescription=r => require.ensure([], () => r(require('../page/prescription/prescription')), 'prescription')
+const authentication=r => require.ensure([], () => r(require('../page/authentication/authentication')), 'authentication')
+
 
 
 export default [{
@@ -284,6 +286,9 @@ export default [{
 		},{
 			path:'prescription',
 			component:prescription
+		},{
+			path:'authentication',
+			component:authentication
 		}
     ]
 }]

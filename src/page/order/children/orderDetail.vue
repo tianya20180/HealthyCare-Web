@@ -92,7 +92,7 @@
 								  let orderId=this.orderData.orderId;
 								  let res = await pay(orderId);
 								  if(res.status==0){
-									this.$router.push({ path: '/chat', query: { id: this.userId, to: this.doctorId } });
+									this.$router.push({ path: '/chat', query: { id: this.userId, to: this.doctorId ,orderId:orderId} });
 								  }else{
 									alert("付款失败:"+res.message);  
 								  }

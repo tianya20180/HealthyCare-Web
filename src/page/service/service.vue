@@ -15,9 +15,12 @@
                 <span>在线客服</span>
             </a>
         </section>
-        <section class="hot_questions" v-if="serviceData">
+        <section class="hot_questions" >
             <h4 class="qustion_header">热门问题</h4>
-          
+            <h4 class="qustion_header">如何问诊</h4>
+			<h4 class="qustion_header">如何查找医生</h4>
+			<h4 class="qustion_header">如何付款</h4>
+			<h4 class="qustion_header">帮助手册</h4>
         </section>
         <transition name="router-slid" mode="out-in">
             <router-view></router-view>

@@ -509,7 +509,7 @@ export const signout = () => fetch('/v2/signout');
 export const changePassword=(oldPassword,newPassword,phone)=>fetch(baseUrl+'/user/changePassword',{oldPassword,newPassword,phone},'POST')
 
 export const getDoctorInfo=(id)=>fetch(baseUrl+'/doctor/profile',{id},'GET')
-export const addDrug=(drugName,sum,times,way)=>fetch(baseUrl+'/prescription/addDrug',{drugName,sum,times,way},'PSOT')
-export const addPrescription=(doctorId,userId)=>fetch(baseUrl+'/prescription/addPrescription',{drugName,sum,times,way},'PSOT')
-export const getPrescription=(userId,doctorId)=>fetch(baseUrl+'/prescription/getPrescription',{userId,doctorId},'GET')
+export const addDrug=(drugName,sum,times,way,orderId)=>fetch(baseUrl+'/prescription/addDrug',{drugName,sum,times,way,orderId},'POST')
+export const addPrescription=(doctorId,userId,orderId)=>fetch(baseUrl+'/prescription/addPrescription',{doctorId,userId,orderId},'GET')
+export const getPrescription=(orderId)=>fetch(baseUrl+'/prescription/getPrescription',{orderId},'GET')
 export const pay=(orderId)=>fetch(baseUrl+'/pay',{orderId},'GET')

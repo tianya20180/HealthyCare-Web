@@ -7,7 +7,7 @@
 			</router-link>
     	</head-top>
     	<nav class="msite_nav">
-    		<div class="swiper-container" v-if="foodTypes.length">
+    		<div class="swiper-container" >
 		        <div class="swiper-wrapper">
 		           <!-- <div class="swiper-slide food_types_container" v-for="(item, index) in foodTypes" :key="index">
 	            		<router-link :to="{path: '/food', query: {geohash, title: foodItem.title, restaurant_category_id: getCategoryId(foodItem.link)}}" v-for="foodItem in item" :key="foodItem.id" class="link_to_food">
@@ -73,7 +73,7 @@
 		        </div>
 		        <div class="swiper-pagination"></div>
 		    </div>
-		    <img src="../../images/fl.svg" class="fl_back animation_opactiy" v-else>
+		   <!-- <img src="../../images/fl.svg" class="fl_back animation_opactiy" >-->
     	</nav>
     	<div class="shop_list_container">
 	    	<header class="shop_header">
@@ -116,17 +116,19 @@ export default {
 			this.geohash = this.$route.query.geohash
 		}
 		//保存geohash 到vuex
+		/*
 		this.SAVE_GEOHASH(this.geohash);
     	//获取位置信息
     	let res = await msiteAdress(this.geohash);
     	this.msietTitle = res.name;
     	// 记录当前经度纬度
     	this.RECORD_ADDRESS(res);
-
+		*/
     	this.hasGetData = true;
     },
     mounted(){
         //获取导航食品类型列表
+		
        	msiteFoodTypes(this.geohash).then(res => {
        		let resLength = res.length;
        		let resArr = [...res]; // 返回一个新的数组

@@ -15,12 +15,9 @@
 			<div class="myorder-div2">
 				<span>医院</span><span class="innerspan"> {{hospital}}</span>
 			</div>
+			
 			<div class="myorder-div2">
-				<span>擅长疾病</span>
-				<el-tag>高血压</el-tag><el-tag>高血脂</el-tag><el-tag>高血糖</el-tag>
-			</div>
-			<div class="myorder-div2">
-				<span>详细介绍</span><span class="innerspan">{{desc}}</span>
+				<span>详细介绍</span><span class="innerspan">   {{desc}}</span>
 			</div>
 			<div class="myorder-div2">
 				<span>问诊价格</span><span class="innerspan">{{money}}</span>
