@@ -40,6 +40,18 @@
 			<section class="input_container">
 			    <input type="text" placeholder="地址" v-model.lazy="address">
 			</section>
+			<section class="input_container">
+			    <el-select>
+					<el-option value="1" label="皮肤科"></el-option>
+					<el-option value="2" label="耳喉鼻科"></el-option>
+					<el-option value="3" label="肝病科"></el-option>
+					<el-option value="4" label="中医儿科"></el-option>
+					<el-option value="5" label="中医内科"></el-option>
+					<el-option value="6" label="消化科"></el-option>
+					<el-option value="7" label="中医妇科"></el-option>
+					<el-option value="8" label="心脑科"></el-option>
+				</el-select>
+			</section>
             <section class="input_container captcha_code_container">
                 <input type="text" placeholder="验证码" maxlength="4" v-model="codeNumber">
                 <div class="img_change_img">

@@ -48,7 +48,7 @@
 				<el-input type="text" style="width: 8rem;" v-model="way"/><label>使用方法</label>
 				<el-input type="text" style="width: 8rem;" v-model="times"/><label>次数</label>
 				<el-button type="primary" @click="addDrug">添加药品</el-button>
-					<el-button @click="submit()" >提交问诊单</el-button>
+				<el-button @click="submit()" >提交问诊单</el-button>
 			</el-form>
 		</el-card>
 
@@ -87,9 +87,10 @@
 				if(this.identity==0){
 					
 					let res=await getPrescription(this.orderId);
-					const Prescription = res.data.drugList;
+					
 					console.log(res);
 					if(res.status==0){
+						const Prescription = res.data.drugList;
 						this.tableData = [];
 						console.log(Prescription);
 						Prescription.forEach((item, index) => {

@@ -496,7 +496,7 @@ export const signout = () => fetch('/v2/signout');
 /**
  * 注册
  * */
- export const doctorRegister =(userName,password,phone,address,cardId)=>fetch(baseUrl+'/v1/register',{userName,password,phone,address,cardId},'POST')
+ export const doctorRegister =(userName,password,phone,address,cardId,category)=>fetch(baseUrl+'/v1/register',{userName,password,phone,address,cardId,category},'POST')
  
  export const upload=(data)=> fetch(baseUrl+'/user/upload', {
        file: data,
@@ -513,3 +513,9 @@ export const addDrug=(drugName,sum,times,way,orderId)=>fetch(baseUrl+'/prescript
 export const addPrescription=(doctorId,userId,orderId)=>fetch(baseUrl+'/prescription/addPrescription',{doctorId,userId,orderId},'GET')
 export const getPrescription=(orderId)=>fetch(baseUrl+'/prescription/getPrescription',{orderId},'GET')
 export const pay=(orderId)=>fetch(baseUrl+'/pay',{orderId},'GET')
+export const getMyUser=(id)=>fetch(baseUrl+'/user/get',{id},'GET')
+export const getDoctor=(id)=>fetch(baseUrl+'/doctor/get',{id},'GET')
+export const getCommits=(doctorId)=>fetch(baseUrl+'/commit/get',{doctorId},'GET')
+export const addCommit=(userName, doctorId, content)=>fetch(baseUrl+'/commit/add',{userName,doctorId,content},'GET')
+export const addInfomation=(userId,orderId,height,weight,desc,facePhoto,tonguePhoto,time)=>fetch(baseUrl+'/information/add',{userId,orderId,height,weight,desc,facePhoto,tonguePhoto,time},'POST')
+export const getInfomation=(orderId)=>fetch(baseUrl+'/information/get',{orderId},'GET')

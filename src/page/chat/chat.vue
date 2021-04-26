@@ -1,7 +1,7 @@
 <template>
   	<div class="paddingTop search_page">
-		
-	
+		 
+	 
         <div class="chat-content">
           <div v-for="obj in msgRecord">
             <v-my-msg
@@ -16,7 +16,7 @@
             :mytime="obj.time"></v-other-msg>
           </div>
         </div>
-
+	
        <form class="search_form" style="">
            <input type="search" name="search" placeholder="请输入消息" class="search_input" v-model="content" >
            <input type="submit" name="submit" class="search_submit" @click.prevent="sendMessage() " value="发送">
@@ -26,8 +26,11 @@
 		 <router-link :to="{path:'/prescription',query: { orderId:orderId }}" v-if="identity==0">
 		 			   	<input type="submit" name="submit" class="submit"  value="处方单">
 		 </router-link>
-
+		<router-link :to="{path:'/commit',query: { doctorId:tempId}}" v-if="identity==0">
+		  <input type="submit" name="submit" class="submit"  value="结束">
+		</router-link>
        </form>
+	  
         <foot-guide></foot-guide>
     </div>
 </template>
@@ -64,7 +67,8 @@ export default {
 		userinfo:null,
 		userId:'',
 		orderId:'',
-		identity:''
+		identity:'',
+		tempId:''
         }
     },
     created(){
@@ -88,6 +92,8 @@ export default {
 		 this.userId=this.$route.query.id;
 		 this.orderId=this.$route.query.orderId;
 		 this.identity=this.userinfo.identity;
+		 let to = this.$route.query.to;
+		 this.tempId=to;
 	},
     methods:{
 		
@@ -96,7 +102,7 @@ export default {
 			  this.userinfo=this.$store.state.userinfo;
 			 let id = this.$route.query.id;
 			 let to = this.$route.query.to;
-			 
+			 this.tempId=to;
 			 console.log(this.userinfo);
 			 let avatar=this.userinfo.avatar;
 			 

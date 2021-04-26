@@ -1,7 +1,9 @@
  <template>
     <div class="rating_page">
         <head-top head-title="认证信息上传" go-back='true'></head-top>
+		
         <section class="profile-info">
+			
             <section class="headportrait">
                 <input type="file" class="profileinfopanel-upload" @change="uploadAvatar">
                 <h2>身份证正反面上传</h2>
@@ -14,6 +16,36 @@
 			    <input type="file" class="profileinfopanel-upload" @change="uploadAvatar">
 			    <h2>医生证明上传</h2>
 			</section>
+			
+			
+			<section class="headportrait">
+			   <h2>工作年限</h2> <el-input type="text" v-model="years" style="width: 12rem; " />
+			</section>
+			<section class="headportrait">
+			    <h2>医院</h2> <el-input type="text"   v-model="hospital"   style="width: 12rem; "/>
+			</section>
+			<section class="headportrait">
+			   <h2>自我介绍</h2>  <el-input type="text" v-model="introduce" style="width: 12rem; "/>
+			</section>
+			<section class="headportrait">
+			   <h2>问诊价格</h2>  <el-input type="text" v-model="money" style="width: 12rem; "/>
+			</section>
+			<section class="headportrait">
+			   <h2>科室</h2> 
+			   
+				  <el-select v-model="category"  style="width: 12rem; ">
+				  	<el-option value="1" label="皮肤科"></el-option>
+				  	<el-option value="2" label="耳喉鼻科"></el-option>
+				  	<el-option value="3" label="肝病科"></el-option>
+				  	<el-option value="4" label="中医儿科"></el-option>
+				  	<el-option value="5" label="中医内科"></el-option>
+				  	<el-option value="6" label="消化科"></el-option>
+				  	<el-option value="7" label="中医妇科"></el-option>
+				  	<el-option value="8" label="心脑科"></el-option>
+				  </el-select>
+			   
+			</section>
+			<el-button type="primary" style="width: 4rem;margin: 0 auto;" @click="submit()">提交</el-button>
         </section>
     </div>
 </template>
@@ -39,7 +71,12 @@
                 showAlert: false,
                 alertText: null,
                 imgBaseUrl,
-				userinfo:null
+				userinfo:null,
+				years:'',
+				introduce:'',
+				money:'',
+				hospital:'',
+				category:''
             }
         },
         beforeDestroy(){
@@ -130,7 +167,11 @@
 				   	console.log("start upload");
 				    alert("上传成功");
                 
-            }
+            },
+				
+			submit(){
+				alert("提交成功");
+			}
         },
         watch: {
             userInfo: function (value) {

@@ -53,7 +53,8 @@ const doctorProfile = r => require.ensure([], () => r(require('../page/doctorPro
 const detailed = r => require.ensure([], () => r(require('../page/detailed/detailed')), 'detailed')
 const prescription=r => require.ensure([], () => r(require('../page/prescription/prescription')), 'prescription')
 const authentication=r => require.ensure([], () => r(require('../page/authentication/authentication')), 'authentication')
-
+const commit=r => require.ensure([], () => r(require('../page/commit/commit')), 'commit')
+const information=r => require.ensure([], () => r(require('../page/information/information')), 'information')
 
 
 export default [{
@@ -289,6 +290,9 @@ export default [{
 		},{
 			path:'authentication',
 			component:authentication
+		},{
+			path:'information',
+			component:information
 		}
     ]
 }]

@@ -65,14 +65,7 @@
                             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#point"></use>
                         </svg>
                     </aside>
-                    <div class="myorder-div" v-if="this.identity==0">
-                        <span>我的病历</span>
-                        <span class="myorder-divsvg">
-                            <svg fill="#bbb">
-                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
-                            </svg>
-                        </span>
-                    </div>
+                  
                 </a>
                 <!-- 饿了么会员卡 -->
                 
@@ -102,13 +95,16 @@
                         </svg>
                     </aside>
                     <div class="myorder-div" style="border-bottom:0;">
-                        <span @click="changePassword">修改密码</span>
+                        <span @click="changePassword()">修改密码</span>
                         <span class="myorder-divsvg">
                             <svg fill="#bbb">
                                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
                             </svg>
                         </span>
                     </div>
+					
+                </router-link>
+				<router-link to="/authentication" class="myorder">
 					<div class="myorder-div" style="border-bottom:0;" v-if="this.identity==1">
 					    <span @click="authentication()">医生认证</span>
 					    <span class="myorder-divsvg">
@@ -117,7 +113,8 @@
 					        </svg>
 					    </span>
 					</div>
-                </router-link>
+				</router-link>
+				
             </section>
         </section>
         <foot-guide></foot-guide>

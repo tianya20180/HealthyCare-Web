@@ -24,14 +24,17 @@
 			</div>
 		</el-card>
 		 <el-card>
-			 <div class="myorder-div2">
-			 	<span>评价</span><span class="innerspan"></span>
+			 <div >
+			 	<span>评论</span>
+				<div >
+				    <p v-for="(item) in commits" style="font-size: .6rem;">{{item.content}} <br>
+				    {{item.userName}} 发表于 {{item.createTime}}<el-divider></el-divider></p> 
+					
+				</div>
 			 </div>
 			 
 		 </el-card>
-		
-		
-		
+	
 	     <el-card>
 			 <router-link  :to="{path:'/order/orderDetail',query:{doctorId:doctorId,money:money}}">
 			 			 <el-button type="primary" class="ask1">发起问诊</el-button>
@@ -43,7 +46,7 @@
 </template>
 
 <script>
-	import {getDoctorInfo} from 'src/service/getData'
+	import {getDoctorInfo,getCommits} from 'src/service/getData'
 	
 	export default {
 	    data(){
@@ -69,16 +72,28 @@
 				myuser:null,
 				id:'',
 				to:'',
-				doctorId:''
+				doctorId:'',
+				commits:[]
 	        }
 	    },
 		async created(){
-			let id=this.$route.query.id;
+			
+			let doctorId=this.$route.query.id;
+
 			this.myuser=this.$store.state.userinfo;
-			this.to=id;
-			this.id=this.myuser.id;
-			let res =await getDoctorInfo(id);
+			console.log(this.myuser)
+			this.to=doctorId;
+		 	this.id=this.myuser.id;
+			console.log(this.id);
+			let res =await getDoctorInfo(doctorId);
+			let commitsRes =await getCommits(doctorId);
 			this.userinfo=res.data;
+			console.log(commitsRes);
+			if(commitsRes.status==0){
+				//console.log(this.commitRes);
+				this.commits=commitsRes.data;
+			}
+			
 			this.initData();
 		},
 	    methods:{
@@ -142,6 +157,9 @@
         height: 2rem;
 	}
 	.innerspan{
+		front-size:0.1rem
+	}
+	.commit{
 		front-size:0.1rem
 	}
 </style>

@@ -6,8 +6,8 @@
                 <input type="file" class="profileinfopanel-upload" @change="uploadAvatar">
                 <h2>头像</h2>
                 <div class="headportrait-div">
-                    <img  v-if="userInfo" :src="imgBaseUrl + userInfo.avatar" class="headportrait-div-top">
-                    <span class="headportrait-div-top" v-else>
+                     <img :src="path" class="privateImage" >
+                    <span class="headportrait-div-top" >
                         <svg>
                             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#avatar-default"></use>
                         </svg>
@@ -33,16 +33,7 @@
                 </section>
             </router-link>
             <router-link to="/profile/info/address" class="info-router">
-                <section class="headportrait headportraitwo headportraithree">
-                        <h2>收货地址</h2>
-                        <div class="headportrait-div">
-                            <span class="headportrait-div-bottom">
-                                <svg fill="#d8d8d8">
-                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
-                                </svg>
-                            </span>
-                        </div>
-                </section>
+               
             </router-link>
             <section class="bind-phone">
                 账号绑定
@@ -64,17 +55,7 @@
                 安全设置
             </section>
             <router-link to="/forget" class="info-router">
-                <section class="headportrait headportraitwo headportraithree">
-                        <h2>登录密码</h2>
-                        <div class="headportrait-div">
-                            <p>修改</p>
-                            <span class="headportrait-div-bottom">
-                                <svg fill="#d8d8d8">
-                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
-                                </svg>
-                            </span>
-                        </div>
-                </section>
+               
             </router-link>
             <section class="exitlogin" @click="exitlogin">退出登录</section>
         </section>
@@ -105,7 +86,7 @@
 <script>
     import {mapMutations, mapState} from 'vuex'
     import headTop from 'src/components/header/head'
-    import {signout,upload} from 'src/service/getData'
+    import {signout,upload,getMyUser,getDoctor} from 'src/service/getData'
     import alertTip from 'src/components/common/alertTip'
     import {getImgPath} from 'src/components/common/mixin'
     import {imgBaseUrl} from 'src/config/env'
@@ -123,7 +104,8 @@
                 showAlert: false,
                 alertText: null,
                 imgBaseUrl,
-				userinfo:null
+				userinfo:null,
+				path:''
             }
         },
         beforeDestroy(){
@@ -146,7 +128,8 @@
 			created(){
 				this.userinfo=this.$store.state.userinfo;
 				console.log(this.userinfo);
-				
+				this.path='/static/image/avatar/'+　this.avatar;
+				console.log(this.path)
 			},
             exitlogin(){
                 this.show=true;
@@ -195,22 +178,29 @@
 				 else
 				   temp='doctor';
                    try{
-                        let response = await fetch(baseUrl+'/'+temp+'/upload', {
+                       let response = await fetch(baseUrl+'/'+temp+'/upload', {
                               method: 'POST',
                               body: data
-                            })
-                        let res = await response.json();
-						console.log(res);
-                        if (res.status == 0) {
-                            this.userInfo.avatar = res.data;
-                        }
+                         })
+					
+					  alert("上传成功");
+                   
+                        if(identity==0){
+							this.userinfo=await getMyUser(this.userinfo.id);
+							console.log(this.userinfo);
+						}
+                         else{
+							this.userinfo=await getDoctor(this.userinfo.id);
+						 }
+						 this.$store.state.userinfo=this.userInfo;
+                          
                     }catch (error) {
                         this.showAlert = true;
                         this.alertText = '上传失败';
 						console.log(error);
                         throw new Error(error);
                     }
-					
+			
                 
             }
         },
