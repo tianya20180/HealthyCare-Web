@@ -29,6 +29,7 @@
 		<router-link :to="{path:'/commit',query: { doctorId:tempId}}" v-if="identity==0">
 		  <input type="submit" name="submit" class="submit"  value="结束">
 		</router-link>
+		 <!--<input type="file" name="submit" class="submit"  value="发送图片" @change="sendPhoto">-->
        </form>
 	  
         <foot-guide></foot-guide>
@@ -38,7 +39,7 @@
 <script>
 import headTop from '../../components/header/head'
 import footGuide from '../../components/footer/footGuide'
-import {searchRestaurant} from '../../service/getData'
+import {searchRestaurant,addMessage} from '../../service/getData'
 import {imgBaseUrl} from '../../config/env'
 import {getStore, setStore} from '../../config/mUtils'
 import myMsg from '../../components/myMsg'
@@ -68,7 +69,8 @@ export default {
 		userId:'',
 		orderId:'',
 		identity:'',
-		tempId:''
+		tempId:'',
+		photoBase64:''
         }
     },
     created(){
@@ -97,11 +99,69 @@ export default {
 	},
     methods:{
 		
+		
+			
+		sendPhoto(e){
+			this.$base64Img(e).then((res)=>{		//调用全局方法
+			      this.photoBase64 =res;
+				 // console.log(this.photoBase64);
+				   this.userinfo=this.$store.state.userinfo;
+				    let id = this.$route.query.id;
+				    let to = this.$route.query.to;
+				    this.tempId=to;
+				    console.log(this.userinfo);
+				    let avatar=this.userinfo.avatar;
+				    
+				   // to=(id==1?2:1);
+				    console.log("id:"+id);
+				    let url='../../static/image/avatar/'+avatar;
+				    let time=new Date();
+				    let jsonStr={};
+				    console.log(this.identity);
+				    if(this.identity==0){
+				   	//console.log(this.orderId);
+				   	jsonStr=JSON.stringify({'content':'','fromId':id,'toId':to,'avatar':url,'time':time.getDate(),'orderId':this.orderId,photo:this.photoBase64});
+				   }
+				    else{ 
+				       jsonStr=JSON.stringify({'content':'','fromId':id,'toId':to,'avatar':url,'time':time.getDate(),'orderId':'',photo:this.photoBase64});
+				   }
+				    const obj = {
+				      name: id,
+				      msg: '',
+				      avatar: url,
+				      time: time.getDate(),
+				  	photo:this.photoBase64
+				    };
+				    //console.log(this.photoBase64);
+				    this.msgRecord.push(obj);
+				    console.log("json str"+jsonStr);
+				    this.stompClient.send("/app/ptp/single/chat", {}, jsonStr);
+			 })
+			
+		},
+		
+		
         //点击提交按钮，搜索结果并显示，同时将搜索内容存入历史记录
-		sendMessage(){
+		async sendMessage(){
 			  this.userinfo=this.$store.state.userinfo;
 			 let id = this.$route.query.id;
 			 let to = this.$route.query.to;
+			 let doctorId='';
+			 let userId='';
+			 if(this.userinfo.identity==0){
+				 userId=id;
+				 doctorId=to;
+			 }else{
+				 userId=to;
+				 doctorId=id;
+			 }
+			 let obj= {
+				 avatarUrl:this.userinfo.avatar,
+				 type:this.userinfo.identity,
+				 doctorId:doctorId
+				 userId:userId
+			 }
+			 await addMessage(obj);
 			 this.tempId=to;
 			 console.log(this.userinfo);
 			 let avatar=this.userinfo.avatar;
@@ -123,7 +183,8 @@ export default {
 			   name: id,
 			   msg: this.content,
 			   avatar: url,
-			   time: time.getDate()
+			   time: time.getDate(),
+			   photo:this.photoBase64
 			 };
 			 this.msgRecord.push(obj);
 			 console.log("json str"+jsonStr);
@@ -147,6 +208,9 @@ export default {
 								  msg: msgObject.content,
 								  avatar: msgObject.avatar,
 								  time: msgObject.time
+								}
+								if(msgObject.photo!=null&&msgObject.photo!=''){
+									obj.photo=msgObject.photo;
 								}
 								if(this.identity==1){
 									this.orderId=msgObject.orderId;

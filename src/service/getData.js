@@ -519,3 +519,7 @@ export const getCommits=(doctorId)=>fetch(baseUrl+'/commit/get',{doctorId},'GET'
 export const addCommit=(userName, doctorId, content)=>fetch(baseUrl+'/commit/add',{userName,doctorId,content},'GET')
 export const addInfomation=(userId,orderId,height,weight,desc,facePhoto,tonguePhoto,time)=>fetch(baseUrl+'/information/add',{userId,orderId,height,weight,desc,facePhoto,tonguePhoto,time},'POST')
 export const getInfomation=(orderId)=>fetch(baseUrl+'/information/get',{orderId},'GET')
+export const authentication=(data)=>fetch(baseUrl+'/doctor/authentication',data,'POST')
+export const getMessageListByUser=(userId)=>fetch(baseUrl+'/message/user/get',userId,'GET')
+export const getMessageListByDoctor=(doctorId)=>fetch(baseUrl+'/message/doctor/get',data,'doctorId')
+export const addMessage=(data)=>fetch(baseUrl+'/message/add',data,'POST')

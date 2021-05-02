@@ -2,6 +2,7 @@
     <div class="item-right">
     
         <img :src="avatar" alt="" class="avatar-right">
+		<img :src="photo" class="photo" >
         <span v-if="msg">
             {{ msg }}
         </span>
@@ -11,7 +12,7 @@
 <script>
 //import dateFormat from '../utils/date'
 export default {
-  props: ['msg', 'mytime', 'avatar'],
+  props: ['msg', 'mytime', 'avatar','photo'],
   computed: {
     
   }
@@ -81,6 +82,10 @@ span {
     height: 40px;
     border-radius: 50%;
     right: -70px;
+}
+.photo{
+	width: 170px;
+	height: 170px;
 }
 @keyframes show-chat-odd {
 0% {

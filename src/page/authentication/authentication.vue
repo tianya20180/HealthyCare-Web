@@ -5,17 +5,15 @@
         <section class="profile-info">
 			
             <section class="headportrait">
-                <input type="file" class="profileinfopanel-upload" @change="uploadAvatar">
-                <h2>身份证正反面上传</h2>
+                <input type="file"  @change="uploadDoctor">
+                <h2>医生证明上传</h2>
             </section>
+			
            <section class="headportrait">
-               <input type="file" class="profileinfopanel-upload" @change="uploadAvatar">
-               <h2>学位证上传</h2>
+               <input type="file"  @change="uploadCard">
+               <h2>身份证上传</h2>
            </section>
-			<section class="headportrait">
-			    <input type="file" class="profileinfopanel-upload" @change="uploadAvatar">
-			    <h2>医生证明上传</h2>
-			</section>
+		
 			
 			
 			<section class="headportrait">
@@ -53,7 +51,7 @@
 <script>
     import {mapMutations, mapState} from 'vuex'
     import headTop from 'src/components/header/head'
-    import {signout,upload} from 'src/service/getData'
+    import {signout,upload,authentication} from 'src/service/getData'
     import alertTip from 'src/components/common/alertTip'
     import {getImgPath} from 'src/components/common/mixin'
     import {imgBaseUrl} from 'src/config/env'
@@ -76,12 +74,20 @@
 				introduce:'',
 				money:'',
 				hospital:'',
-				category:''
+				category:'',
+				cardPhoto:'',
+				doctorPhoto:'',
+				doctorId:''
             }
         },
         beforeDestroy(){
             clearTimeout(this.timer)
         },
+		created(){
+			this.userinfo=this.$store.state.userinfo;
+			console.log(this.$store.state);
+			console.log(this.userinfo);
+		},
         components: {
             headTop,
             alertTip,
@@ -96,6 +102,21 @@
             ...mapMutations([
                 'OUT_LOGIN', 'SAVE_AVANDER'
             ]),
+			uploadCard(e){
+				console.log("身份证上传");
+				this.$base64Img(e).then((res)=>{		//调用全局方法
+				     this.cardPhoto=res;
+					 console.log(this.cardPhoto);
+				 })
+			},
+			
+			uploadDoctor(e){
+				console.log("医生证上传");
+				this.$base64Img(e).then((res)=>{		//调用全局方法
+				    this.doctorPhoto=res;
+					console.log(this.doctorPhoto);
+				 })
+			},
 			created(){
 				this.userinfo=this.$store.state.userinfo;
 				console.log(this.userinfo);
@@ -128,49 +149,26 @@
                 this.showAlert = true;
                 this.alertText = '请在手机APP中设置';
             },
-            async uploadAvatar(){
-				/*
-				console.log("start upload");
-                //上传头像
-				let baseUrl='http://localhost:8080';
-                this.userinfo=this.$store.state.userinfo;
-				console.log(this.userinfo);
-                let input = document.querySelector('.profileinfopanel-upload')
-                let data = new FormData();
-                data.append('file', input.files[0]);
-				data.append('id',this.userinfo.id);
-				console.log(this.userinfo);
-			    let identity=this.userinfo.identity;
-				console.log(identity);
-				let temp='';
-				if(identity==0)
-				   temp='user';
-				 else
-				   temp='doctor';
-                   try{
-                        let response = await fetch(baseUrl+'/'+temp+'/upload', {
-                              method: 'POST',
-                              body: data
-                            })
-                        let res = await response.json();
-						console.log(res);
-                        if (res.status == 0) {
-                            this.userInfo.avatar = res.data;
-                        }
-                    }catch (error) {
-                        this.showAlert = true;
-                        this.alertText = '上传失败';
-						console.log(error);
-                        throw new Error(error);
-                    }
-					*/
-				   	console.log("start upload");
-				    alert("上传成功");
-                
-            },
-				
-			submit(){
-				alert("提交成功");
+           async submit(){
+			   console.log(this.userinfo);
+			   this.doctorId=this.userinfo.id;
+			   console.log(this.doctorPhoto);
+			    let formData={
+					cardPhoto:this.cardPhoto,
+					doctorPhoto:this.doctorPhoto,
+					doctorId:this.doctorId,
+					category:this.category,
+					workYears:this.years,
+					introduce:this.introduce,
+					money:this.money
+				}
+				console.log(formData);
+				let res=await authentication(formData);
+				console.log(res);
+				if(res.status==0)
+					alert("提交成功");
+				else
+					alert("提交失败");
 			}
         },
         watch: {

@@ -12,6 +12,7 @@
   //import footGuide from '../../components/footer/footGuide'
   import chatCard from '../../components/chatCard'
   import footGuide from '../../components/footer/footGuide'
+  import {getMessageListByUser,getMessageListByDoctor} from 'src/service/getData'
   
   export default{
     name:'message',
@@ -22,10 +23,22 @@
     data(){
       return{
         menuIndex: '3',
+		userinfo:{}
       }
     },
-	created(){
+	async created(){
+		this.userinfo=this.$store.state.userinfo;
 		console.log( this.$store.state.historyMsg);
+		let res=null;
+		if(this.userinfo==0){
+			 res=await getMessageListByUser(this.userinfo.id);
+		}
+		else{
+			res=await getMessageListByDoctor(this.userinfo.id);
+		}
+		if(res.status==0){
+		   this.historyMsg =res.data;
+		}
 	},
     computed: {
       ...mapGetters([

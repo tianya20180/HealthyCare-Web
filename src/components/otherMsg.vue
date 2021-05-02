@@ -4,6 +4,7 @@
             <span>{{ mytime }}</span>
         </div>
         <img :src="avatar" alt="" class="avatar-left">
+		<img :src="photo" class="photo" v-if="photo!=''">
         <span v-if="msg">
             {{ msg }}
         </span>
@@ -13,7 +14,7 @@
 <script>
 //import dateFormat from '../utils/date'
 export default{
-  props: ['msg', 'mytime', 'avatar'],
+  props: ['msg', 'mytime', 'avatar','photo'],
   computed: {
     // getdate () {
     //   return dateFormat(new Date(this.mytime), 'yyyy-MM-dd HH:mm:ss')
