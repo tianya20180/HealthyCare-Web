@@ -20,18 +20,21 @@
        <form class="search_form" style="">
            <input type="search" name="search" placeholder="请输入消息" class="search_input" v-model="content" >
            <input type="submit" name="submit" class="search_submit" @click.prevent="sendMessage() " value="发送">
-		   <router-link :to="{path:'/prescription',query: { userId:userId,orderId:orderId }}" v-if="identity==1">
-			   	<input type="submit" name="submit" class="submit"  value="处方单">
-		   </router-link>
-		 <router-link :to="{path:'/prescription',query: { orderId:orderId }}" v-if="identity==0">
-		 			   	<input type="submit" name="submit" class="submit"  value="处方单">
-		 </router-link>
-		<router-link :to="{path:'/commit',query: { doctorId:tempId}}" v-if="identity==0">
-		  <input type="submit" name="submit" class="submit"  value="结束">
-		</router-link>
-		 <!--<input type="file" name="submit" class="submit"  value="发送图片" @change="sendPhoto">-->
+		  
        </form>
-	  
+	   <form class="button_form">
+		   <router-link :to="{path:'/prescription',query: { userId:userId,orderId:orderId }}" v-if="identity==1">
+		   	   	<input type="submit" name="submit" class="submit"  value="处方单">
+		      </router-link>
+		    <router-link :to="{path:'/prescription',query: { orderId:orderId }}" v-if="identity==0">
+		    			   	<input type="submit" name="submit" class="submit"  value="处方单">
+		    </router-link>
+		   <router-link :to="{path:'/commit',query: { doctorId:tempId}}" v-if="identity==0">
+		     <input type="submit" name="submit" class="submit"  value="结束">
+		   </router-link>
+		    <input type="file" name="submit" class="submit" id="file"  size="1" label="发送图片" @change="sendPhoto" style="width: 2rem;">
+			
+	   </form>
         <foot-guide></foot-guide>
     </div>
 </template>
@@ -98,45 +101,33 @@ export default {
 		 this.tempId=to;
 	},
     methods:{
-		
-		
-			
-		sendPhoto(e){
-			this.$base64Img(e).then((res)=>{		//调用全局方法
-			      this.photoBase64 =res;
-				 // console.log(this.photoBase64);
-				   this.userinfo=this.$store.state.userinfo;
-				    let id = this.$route.query.id;
-				    let to = this.$route.query.to;
-				    this.tempId=to;
-				    console.log(this.userinfo);
-				    let avatar=this.userinfo.avatar;
-				    
-				   // to=(id==1?2:1);
-				    console.log("id:"+id);
-				    let url='../../static/image/avatar/'+avatar;
-				    let time=new Date();
-				    let jsonStr={};
-				    console.log(this.identity);
-				    if(this.identity==0){
-				   	//console.log(this.orderId);
-				   	jsonStr=JSON.stringify({'content':'','fromId':id,'toId':to,'avatar':url,'time':time.getDate(),'orderId':this.orderId,photo:this.photoBase64});
-				   }
-				    else{ 
-				       jsonStr=JSON.stringify({'content':'','fromId':id,'toId':to,'avatar':url,'time':time.getDate(),'orderId':'',photo:this.photoBase64});
-				   }
-				    const obj = {
-				      name: id,
-				      msg: '',
-				      avatar: url,
-				      time: time.getDate(),
-				  	photo:this.photoBase64
-				    };
-				    //console.log(this.photoBase64);
-				    this.msgRecord.push(obj);
-				    console.log("json str"+jsonStr);
-				    this.stompClient.send("/app/ptp/single/chat", {}, jsonStr);
-			 })
+
+		async sendPhoto(e){	 
+					let id = this.$route.query.id;
+					let to = this.$route.query.to;
+					let avatar=this.userinfo.avatar;
+					console.log("id:"+id);
+					let url='../../static/image/avatar/'+avatar;
+					let obj={};
+			        this.$base64Img(e).then((res)=>{		//调用全局方法
+			            obj = {
+			                 content: res,
+			            	 fromId:id,
+			                 toId: to,
+			            	 avatar:url,
+			            	 time:"2021",
+			                 type: 1			                ,
+			            };
+			            let jsonStr= JSON.stringify(obj);
+						const record = {
+						  name: id,
+						  msg: res,
+						  avatar: url
+						};	
+						this.msgRecord.push(record);
+			            this.stompClient.send("/app/ptp/single/chat", {}, jsonStr);
+			         })
+	
 			
 		},
 		
@@ -155,18 +146,17 @@ export default {
 				 userId=to;
 				 doctorId=id;
 			 }
-			 let obj= {
+			 
+			 let message= {
 				 avatarUrl:this.userinfo.avatar,
 				 type:this.userinfo.identity,
-				 doctorId:doctorId
+				 doctorId:doctorId,
 				 userId:userId
 			 }
-			 await addMessage(obj);
+			 await addMessage(message);
 			 this.tempId=to;
 			 console.log(this.userinfo);
 			 let avatar=this.userinfo.avatar;
-			 
-			// to=(id==1?2:1);
 			 console.log("id:"+id);
 			 let url='../../static/image/avatar/'+avatar;
 			 let time=new Date();
@@ -174,18 +164,16 @@ export default {
 			 console.log(this.identity);
 			 if(this.identity==0){
 				console.log(this.orderId);
-				jsonStr=JSON.stringify({'content':this.content,'fromId':id,'toId':to,'avatar':url,'time':time.getDate(),'orderId':this.orderId});
+				jsonStr=JSON.stringify({'content':this.content,'fromId':id,'toId':to,'avatar':url,'time':"2021",'orderId':this.orderId,type:0});
 			}
 			 else{ 
-			    jsonStr=JSON.stringify({'content':this.content,'fromId':id,'toId':to,'avatar':url,'time':time.getDate(),'orderId':''});
+			    jsonStr=JSON.stringify({'content':this.content,'fromId':id,'toId':to,'avatar':url,'time':time.getDate(),'orderId':'',type:0});
 			}
 			 const obj = {
 			   name: id,
-			   msg: this.content,
-			   avatar: url,
-			   time: time.getDate(),
-			   photo:this.photoBase64
-			 };
+			   time: this.content,
+			   avatar: url
+			 };	 
 			 this.msgRecord.push(obj);
 			 console.log("json str"+jsonStr);
 			 this.stompClient.send("/app/ptp/single/chat", {}, jsonStr);
@@ -195,27 +183,29 @@ export default {
 			let headers = {Authorization:''};
 			let id = this.$route.query.id;
 		    this.stompClient = Stomp.over(socket);
-			
+		
 			this.stompClient.connect(headers,() => {
 			                this.stompClient.subscribe('/chat/single/'+id, (msg) => { // 订阅服务端提供的某个topic
 			                    console.log('收到服务端消息')
-			                    console.log('msg.body:'+msg.body);  // msg.body存放的是服务端发送给我们的信息
+			                //    console.log('msg.body:'+msg.body);  // msg.body存放的是服务端发送给我们的信息
 								let msgObject=JSON.parse(msg.body);
-								console.log("content:"+msgObject.content);
+								//console.log("content:"+msgObject.content);
 								let time=new Date();
 								const obj = {
 								  name: msgObject.fromId,
-								  msg: msgObject.content,
 								  avatar: msgObject.avatar,
-								  time: msgObject.time
+								  type:msgObject.type
 								}
-								if(msgObject.photo!=null&&msgObject.photo!=''){
-									obj.photo=msgObject.photo;
-								}
+								if(msgObject.type==1){
+									obj.msg=msgObject.content;
+								}else{
+									obj.time=msgObject.content;
+								}					
 								if(this.identity==1){
 									this.orderId=msgObject.orderId;
 									console.log(this.orderId);
 								}
+								console.log(obj.photo);
 								this.msgRecord.push(obj)
 			                });
 			               
@@ -239,7 +229,7 @@ export default {
     .search_form{
 		width: 15rem;
 		position: fixed;
-		top: 16.3rem;
+		top: 15.3rem;
         background-color: #fff;
         padding: 0.5rem;
         display: flex;
@@ -265,7 +255,7 @@ export default {
             background-color: $blue;
             font-weight: bold;
             padding: 0 0.25rem;
-			width: 1rem;
+			width: 2rem;
         }
 		.submit{
 		    flex: 1;
@@ -276,7 +266,8 @@ export default {
 		    background-color: $blue;
 		    font-weight: bold;
 		    padding: 0 0.25rem;
-			width: 2.2rem;
+			width: 1.2rem;
+			
 		}
     }
     .title_restaurant{
@@ -385,5 +376,48 @@ export default {
 	  background: #ffffff;
 	}
 	
-	
+	.button_form{
+		width: 12rem;
+		position: fixed;
+		top: 17.4rem;
+		background-color: #fff;
+		padding: 0.5rem;
+		display: flex;
+		input{
+		    height: 1.5rem;
+		}
+		.search_input{
+		    flex: 4;
+		    border: 0.025rem solid $bc;
+		    @include sc(0.65rem, #333);
+		    border-radius: 0.125rem;
+		    background-color: #f2f2f2;
+		    font-weight: bold;
+		    padding: 0 0.25rem;
+			width: 8rem;
+		}
+		.search_submit{
+		    flex: 1;
+		    border: 0.025rem solid $blue;
+		    margin-left: .2rem;
+		    @include sc(0.65rem, #fff);
+		    border-radius: 0.125rem;
+		    background-color: $blue;
+		    font-weight: bold;
+		    padding: 0 0.25rem;
+			width: 2rem;
+		}
+		.submit{
+		    flex: 1;
+		    border: 0.025rem solid $blue;
+		    margin-left: .2rem;
+		    @include sc(0.65rem, #fff);
+		    border-radius: 0.125rem;
+		    background-color: $blue;
+		    font-weight: bold;
+		    padding: 0 0.25rem;
+			width: 4rem;
+			
+		}
+	}
 </style>

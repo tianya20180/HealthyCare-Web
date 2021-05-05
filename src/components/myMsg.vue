@@ -1,18 +1,19 @@
 <template>
     <div class="item-right">
     
-        <img :src="avatar" alt="" class="avatar-right">
-		<img :src="photo" class="photo" >
-        <span v-if="msg">
-            {{ msg }}
-        </span>
+       <img :src="avatar" alt="" class="avatar-left"/>
+        <img :src="msg"  class="photo" v-if="msg">
+       <span v-if="mytime">
+             {{ mytime }}
+       			
+         </span>
     </div>
 </template>
 
 <script>
 //import dateFormat from '../utils/date'
 export default {
-  props: ['msg', 'mytime', 'avatar','photo'],
+  props: ['msg', 'mytime', 'avatar','type','photo'],
   computed: {
     
   }
@@ -83,10 +84,7 @@ span {
     border-radius: 50%;
     right: -70px;
 }
-.photo{
-	width: 170px;
-	height: 170px;
-}
+
 @keyframes show-chat-odd {
 0% {
     margin-right: -480px;

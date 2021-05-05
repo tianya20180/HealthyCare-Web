@@ -1,12 +1,13 @@
 <template>
     <div class="item-left">
         <div class="name-left">
-            <span>{{ mytime }}</span>
+           
         </div>
-        <img :src="avatar" alt="" class="avatar-left">
-		<img :src="photo" class="photo" v-if="photo!=''">
-        <span v-if="msg">
-            {{ msg }}
+       <img :src="avatar" alt="" class="avatar-left"/>
+	   <img :src="msg"  class="photo" v-if="msg">
+      <span v-if="mytime">
+            {{ mytime }}
+			
         </span>
     </div>
 </template>
@@ -88,5 +89,10 @@ span {
     height: 40px;
     border-radius: 50%;
     left: -70px;
+}
+	
+.photo{
+	width: 170px;
+	height: 170px;
 }
 </style>

@@ -23,27 +23,29 @@
     data(){
       return{
         menuIndex: '3',
-		userinfo:{}
+		userinfo:{},
+		historyMsg:{}
       }
     },
 	async created(){
 		this.userinfo=this.$store.state.userinfo;
-		console.log( this.$store.state.historyMsg);
 		let res=null;
-		if(this.userinfo==0){
+		console.log(this.userinfo.identity);
+		if(this.userinfo.identity==0){
+			 console.log(this.userinfo.id);
 			 res=await getMessageListByUser(this.userinfo.id);
+			 console.log(res);
+			 this.historyMsg=res.data;
+			 
+			 console.log(this.historyMsg);
 		}
 		else{
 			res=await getMessageListByDoctor(this.userinfo.id);
+			console.log(res);
+			this.historyMsg=res.data;
+			console.log(this.historyMsg);
 		}
-		if(res.status==0){
-		   this.historyMsg =res.data;
-		}
-	},
-    computed: {
-      ...mapGetters([
-        'historyMsg'
-      ]),
-    },
+		
+	}
   }
 </script>

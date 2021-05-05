@@ -7,8 +7,7 @@
       <img :src="list.avatar_url" class="user-head" v-else>
     </div>
     <div class="tao">
-      <div class="user-name">{{list.username}}</div>
-      <div class="time">{{list.msg[list.msg.length - 1].words}}</div>
+      <div class="user-name">{{list.userName}}</div>
     </div>
    <!-- <span class="price">{{list.msg[list.msg.length - 1].time.split(" ")[0]}}</span>-->
   </div>
@@ -23,7 +22,7 @@
     },
     data(){
       return{
-        
+        userinfo:{}
       }
     },
     computed: {
@@ -32,6 +31,9 @@
         'group_name',
       ]),
     },
+	created(){
+	   this.userinfo=this.$store.state.userinfo;
+	},
     methods:{
       ...mapActions([
         'actionSetChatToUser',
@@ -41,11 +43,10 @@
       ]),
       chatDetail() {
         //开始读取消息的位置
-        const startPosition = this.list.msg.length - this.list.unreadCount
         let obj = {
             user_id: this.list.user_id,
-            username: this.list.username,
-            avatar_url: this.list.avatar_url,
+            username: this.list.userName,
+            avatar_url: this.list.avatarUrl,
         }
         this.actionSetGroupName(this.list.user_id)
         this.actionSetChatToUser(obj)
@@ -53,16 +54,17 @@
         //this.unread = false
         this.actionChangeReadState(this.list.username)
         //通过缓存传送历史消息至聊天界面
-        let m = []
+       /* let m = []
         for(let i = startPosition; i < this.list.msg.length; i++) {
           let o = {
-            name: this.list.username,
-            msg: this.list.msg[i].words,
-            avatar: this.list.avatar_url,
-            time: this.list.msg[i].time,
+            name: this.list.userName,
+            msg: this.list.words,
+            avatar: this.list.avatarUrl,
+            time: this.list.createTime,
           }
           m.push(o)
-        }
+        }*/
+		/*
         let existingMsg = JSON.parse(window.localStorage.getItem(this.group_name))
         if(existingMsg) {
           //console.log('原来是有的')
@@ -71,8 +73,13 @@
         } else {
           //console.log(`原来是没有的${m[0]}`)
           window.localStorage.setItem(this.group_name, JSON.stringify(m))
-        }
-        this.$router.push({path: '/chat', query: {id:2,to:1}});
+        }*/
+		   if(this.userinfo.identity==0){
+			   this.$router.push({path: '/chat', query: {id:this.list.userId,to:this.list.doctorId}});
+		   }else{
+			   this.$router.push({path: '/chat', query: {id:this.list.doctorId,to:this.list.userId}});
+		   }
+			
       }
     }
   }
