@@ -3,16 +3,14 @@
 		<head-top signin-up='msite'>
 			
 			<router-link to="/home" slot="msite-title" class="msite_title">
-				<span class="title_text ellipsis">谷芽中医问诊平台</span>
+				<span class="title_text ellipsis">谷芽在线问诊平台</span>
 			</router-link>
 		</head-top>
 		<el-card ><span style="margin-left: 4rem;">谷芽平台问诊单</span></el-card>
 		<el-card>
 			<span>患者名字：wangxi</span>
-		
-		
 			<span>患者性别：男</span>
-			<span style="margin-left: 1rem;">时间：2021</span>
+			
 				<el-divider></el-divider>
 		</el-card>
 		
@@ -21,12 +19,12 @@
 		      style="width: 100%">
 		      <el-table-column
 		        prop="drugName"
-		        label="中药名称"
+		        label="药品名称"
 		        width="180">
 		      </el-table-column>
 		      <el-table-column
 		        prop="sum"
-		        label="中药总量"
+		        label="药品总量"
 		        width="180">
 		      </el-table-column>
 		      <el-table-column
@@ -110,7 +108,6 @@
 					let id=this.$route.query.id;
 					
 					this.myuser=this.$store.state.userinfo;
-					this.patient=await getPatient(this.$route.query.id);
 				}
 			},
 	        components: {

@@ -158,7 +158,7 @@ export default {
 			 console.log(this.userinfo);
 			 let avatar=this.userinfo.avatar;
 			 console.log("id:"+id);
-			 let url='../../static/image/avatar/'+avatar;
+			 let url='../../../static/image/avatar/'+avatar;
 			 let time=new Date();
 			 let jsonStr={};
 			 console.log(this.identity);

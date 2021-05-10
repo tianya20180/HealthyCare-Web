@@ -3,7 +3,7 @@
     	<head-top signin-up='msite'>
     		
 			<router-link to="/home" slot="msite-title" class="msite_title">
-				<span class="title_text ellipsis">谷芽中医问诊平台</span>
+				<span class="title_text ellipsis">谷芽在线问诊平台</span>
 			</router-link>
     	</head-top>
     	<nav class="msite_nav">
@@ -41,13 +41,13 @@
 						<router-link :to="{path:'/category',query:{categoryId:4}}" class="link_to_food">
 						     <figure>
 						             <img src="/static/img/hai.png" />
-						            <figcaption>中医儿科</figcaption>
+						            <figcaption>儿科</figcaption>
 						     </figure>
 						</router-link>
 						<router-link :to="{path:'/category',query:{categoryId:5}}" class="link_to_food">
 						     <figure>
 						             <img src="/static/img/nei.png" />
-						            <figcaption>中医内科</figcaption>
+						            <figcaption>内科</figcaption>
 						     </figure>
 						</router-link>
 						<router-link :to="{path:'/category',query:{categoryId:6}}" class="link_to_food">
@@ -59,7 +59,7 @@
 						<router-link :to="{path:'/category',query:{categoryId:7}}" class="link_to_food">
 						     <figure>
 						             <img src="/static/img/fu.png" />
-						            <figcaption>中医妇科</figcaption>
+						            <figcaption>妇科</figcaption>
 						     </figure>
 						</router-link>
 						<router-link :to="{path:'/category',query:{categoryId:8}}" class="link_to_food">

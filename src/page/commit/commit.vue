@@ -12,7 +12,9 @@
         </section>
         <section class="hot_questions" >
             <h4 class="qustion_header">评价</h4>
-			<el-input v-model="content" style="width: 12rem;"></el-input>
+	
+			<el-input type="textarea" v-model="content" style="width: 12rem;"></el-input>
+
 			<el-button @click="submit()">提交</el-button>
         </section>
         <transition name="router-slid" mode="out-in">

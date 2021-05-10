@@ -293,6 +293,10 @@ export default [{
 		},{
 			path:'information',
 			component:information
+		},
+		{
+			path:'commit',
+			component:commit
 		}
     ]
 }]

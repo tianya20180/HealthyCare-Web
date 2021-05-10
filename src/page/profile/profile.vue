@@ -34,37 +34,29 @@
                         <span class="info-data-top"><b>{{parseInt(balance).toFixed(2)}}</b>元</span>
                         <span class="info-data-bottom">我的余额</span>
                     </router-link>
-                    <router-link to="/benefit" tag="li" class="info-data-link" v-if="this.identity==0">
-                        <span class="info-data-top"><b>{{count}}</b>个</span>
-                        <span class="info-data-bottom">关注医生</span>
-                    </router-link>
+                   
                    
                 </ul>
             </section>
             <section class="profile-1reTe">
                 <!-- 我的订单 -->
                 <router-link to='/order' class="myorder">
-                    <aside>
+                  <!--  <aside>
                         <svg fill="#4aa5f0">
                             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#order"></use>
                         </svg>
-                    </aside>
-                    <div class="myorder-div">
+                    </aside>-->
+                  <!--  <div class="myorder-div">
                         <span>我的问诊</span>
                         <span class="myorder-divsvg">
                             <svg fill="#bbb">
                                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
                             </svg>
                         </span>
-                    </div>
+                    </div>-->
                 </router-link>
                 <!-- 积分商城 -->
-                <a href='https://home.m.duiba.com.cn/#/chome/index' class="myorder">
-                    <aside>
-                        <svg fill="#fc7b53">
-                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#point"></use>
-                        </svg>
-                    </aside>
+                 
                   
                 </a>
                 <!-- 饿了么会员卡 -->

@@ -4,18 +4,32 @@
            
         </div>
        <img :src="avatar" alt="" class="avatar-left"/>
-	   <img :src="msg"  class="photo" v-if="msg">
+	   <img :src="msg"  class="photo" v-if="msg" @click="show()">
       <span v-if="mytime">
             {{ mytime }}
 			
         </span>
+		<el-dialog title="图片" :visible.sync="disable" center :append-to-body='true' :lock-scroll="false" width="90%">
+		      <img :src="msg" style="width: 400px; height: 400px;"/>
+		</el-dialog>
     </div>
 </template>
 
 <script>
 //import dateFormat from '../utils/date'
 export default{
+	data(){
+	    return {
+	       disable:false
+	    }
+	},
   props: ['msg', 'mytime', 'avatar','photo'],
+  methods: {
+  	  show(){
+  		  console.log("show");
+  		  this.disable=true;
+  	  }
+  },
   computed: {
     // getdate () {
     //   return dateFormat(new Date(this.mytime), 'yyyy-MM-dd HH:mm:ss')

@@ -46,13 +46,13 @@
         let obj = {
             user_id: this.list.user_id,
             username: this.list.userName,
-            avatar_url: this.list.avatarUrl,
+            avatar_url: '../../static/image/avatar/'+this.list.avatarUrl,
         }
-        this.actionSetGroupName(this.list.user_id)
+    /*    this.actionSetGroupName(this.list.user_id)
         this.actionSetChatToUser(obj)
         this.actionReduceUnreadMsg(this.list.unreadCount)
         //this.unread = false
-        this.actionChangeReadState(this.list.username)
+        this.actionChangeReadState(this.list.username)*/
         //通过缓存传送历史消息至聊天界面
        /* let m = []
         for(let i = startPosition; i < this.list.msg.length; i++) {

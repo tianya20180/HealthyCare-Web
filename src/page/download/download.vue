@@ -2,10 +2,10 @@
   <div class="loginContainer">
       <form class="loginForm" >
           <section class="input_container">
-              <input type="text" placeholder="请输入原密码" v-model="originPassword">
+              <input type="password" placeholder="请输入原密码" v-model="originPassword">
           </section>
           <section class="input_container">
-              <input  type="text" placeholder="请输入新密码"  v-model="newPassword">
+              <input  type="password" placeholder="请输入新密码"  v-model="newPassword">
           </section>
           <button @click="submit()" class="submit">提交</button>
          
