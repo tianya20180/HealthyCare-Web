@@ -4,7 +4,7 @@ import {getStore} from '../config/mUtils'
 let baseUrl = '';
 let routerMode = 'history';
 if (process.env.NODE_ENV == 'development') {  
-    baseUrl = 'http://localhost:8080';
+    baseUrl = 'http://192.144.236.155:8080';
 }else{  
     baseUrl = 'http://www.test.com';
 }
