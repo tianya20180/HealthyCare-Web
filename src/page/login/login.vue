@@ -42,7 +42,7 @@
 			<input type="checkbox" v-model="checked" value="false"  @click="checkedChange" style="float: right;"></input>
         </form>
         <p class="login_tips">
-            温馨提示：未注册过的账号，登录时将自动注册
+            温馨提示：通过短信登录时，未注册过的账号，登录时将自动注册
         </p>
         <p class="login_tips">
             注册过的用户可凭账号密码登录
@@ -183,6 +183,7 @@
                 //如果返回的值不正确，则弹出提示框，返回的值正确则返回上一页
                 if (this.res.status!=0) {
                     this.showAlert = true;
+					console.log(this.res);
                     this.alertText = this.res.message;
                     if (!this.loginWay) this.getCaptchaCode();
                 }else{
