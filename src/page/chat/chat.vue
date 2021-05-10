@@ -179,7 +179,7 @@ export default {
 			 this.stompClient.send("/app/ptp/single/chat", {}, jsonStr);
 		},
 	    connect() {
-			let socket = new SockJS('http://localhost:8080/endpoint-websocket');
+			let socket = new SockJS('http://192.144.236.155:8080/endpoint-websocket');
 			let headers = {Authorization:''};
 			let id = this.$route.query.id;
 		    this.stompClient = Stomp.over(socket);
