@@ -525,5 +525,5 @@ export const getMessageListByUser=(userId)=>fetch(baseUrl+'/message/user/get?use
 export const getMessageListByDoctor=(doctorId)=>fetch(baseUrl+'/message/doctor/get?doctorId='+doctorId)
 export const addMessage=(data)=>fetch(baseUrl+'/message/add',data,'POST')
 export const changeMsgStatus=(msgId)=>fetch(baseUrl+'/message/change_status',{msgId},'GET')
-export const getOfflineMsgByDoctor=(doctorId)=>fetch(baseUrl+'/message/user/get_offline',{doctorId},'GET')
-export const getOfflineMsgByUser=(userId)=>fetch(baseUrl+'/message/doctor/get_offline',{userId},'GET')
+export const getOfflineMsgByUser=(doctorId)=>fetch(baseUrl+'/message/user/get_offline',{doctorId},'GET')
+export const getOfflineMsgByDoctor=(userId)=>fetch(baseUrl+'/message/doctor/get_offline',{userId},'GET')

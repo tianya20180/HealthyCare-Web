@@ -181,10 +181,10 @@ export default {
 			 console.log(this.identity);
 			 if(this.identity==0){
 				console.log(this.orderId);
-				jsonStr=JSON.stringify({'content':this.content,'fromId':id,'toId':to,'avatar':url,'time':"2021",'orderId':this.orderId,type:0});
+				jsonStr=JSON.stringify({'content':this.content,'fromId':id,'toId':to,'avatar':url,'time':"2021",'orderId':this.orderId,contentType:0,sendType:0});
 			}
 			 else{ 
-			    jsonStr=JSON.stringify({'content':this.content,'fromId':id,'toId':to,'avatar':url,'time':time.getDate(),'orderId':'',type:0});
+			    jsonStr=JSON.stringify({'content':this.content,'fromId':id,'toId':to,'avatar':url,'time':time.getDate(),'orderId':'',contentType:0,sendType:1});
 			}
 			 const obj = {
 			   name: id,
