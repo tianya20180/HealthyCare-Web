@@ -42,7 +42,7 @@
 <script>
 import headTop from '../../components/header/head'
 import footGuide from '../../components/footer/footGuide'
-import {searchRestaurant,addMessage} from '../../service/getData'
+import {searchRestaurant,addMessage,getOfflineMsgByDoctor,getOfflineMsgByUser,changeMsgStatus} from '../../service/getData'
 import {imgBaseUrl} from '../../config/env'
 import {getStore, setStore} from '../../config/mUtils'
 import myMsg from '../../components/myMsg'
@@ -92,13 +92,30 @@ export default {
 		'v-my-msg': myMsg,
 	    'v-other-msg': otherMsg
     },
-	created(){
-		this.userinfo=this.$store.state.userinfo;
+	async created(){
+		 this.userinfo=this.$store.state.userinfo;
 		 this.userId=this.$route.query.id;
 		 this.orderId=this.$route.query.orderId;
 		 this.identity=this.userinfo.identity;
 		 let to = this.$route.query.to;
 		 this.tempId=to;
+		 let res;
+		 if(this.identity==0){
+			  res=await getOfflineMsgByUser(this.userinfo.id);
+		
+		 }else{
+			  res=await getOfflineMsgByDoctor(this.userinfo.id);
+		 }
+		 let data=res.data;
+		 for(let msgObj in data){
+		 	const obj = {
+		 		name: msgObj.fromId,
+		 	    avatar: msgObj.avatar,
+		 		type:msgObj.type
+		 	}
+			 this.msgRecord.push(obj);
+		 }
+		
 	},
     methods:{
 
@@ -153,7 +170,7 @@ export default {
 				 doctorId:doctorId,
 				 userId:userId
 			 }
-			 await addMessage(message);
+			 
 			 this.tempId=to;
 			 console.log(this.userinfo);
 			 let avatar=this.userinfo.avatar;
@@ -184,12 +201,13 @@ export default {
 			let id = this.$route.query.id;
 		    this.stompClient = Stomp.over(socket);
 		
-			this.stompClient.connect(headers,() => {
-			                this.stompClient.subscribe('/chat/single/'+id, (msg) => { // 订阅服务端提供的某个topic
+			this.stompClient.connect(headers,   () =>  {
+			                this.stompClient.subscribe('/chat/single/'+id,async (msg) => { // 订阅服务端提供的某个topic
 			                    console.log('收到服务端消息')
 			                //    console.log('msg.body:'+msg.body);  // msg.body存放的是服务端发送给我们的信息
-								let msgObject=JSON.parse(msg.body);
+								
 								//console.log("content:"+msgObject.content);
+								let msgObject=JSON.parse(msg.body);
 								let time=new Date();
 								const obj = {
 								  name: msgObject.fromId,
@@ -200,7 +218,10 @@ export default {
 									obj.msg=msgObject.content;
 								}else{
 									obj.time=msgObject.content;
-								}					
+								}
+								let msgId=msgObject.id;
+								console.log(msgId);
+								//let res=await changeMsgStatus(msgId);
 								if(this.identity==1){
 									this.orderId=msgObject.orderId;
 									console.log(this.orderId);

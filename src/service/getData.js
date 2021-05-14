@@ -4,8 +4,8 @@ import {getStore} from '../config/mUtils'
 let baseUrl = '';
 let routerMode = 'history';
 if (process.env.NODE_ENV == 'development') {  
-    baseUrl = 'http://192.144.236.155:8080';
-   //baseUrl = 'http://localhost:8080';
+   // baseUrl = 'http://192.144.236.155:8080';
+   baseUrl = 'http://localhost:8080';
 }else{  
     baseUrl = 'http://www.test.com';
 }
@@ -524,3 +524,6 @@ export const authentication=(data)=>fetch(baseUrl+'/doctor/authentication',data,
 export const getMessageListByUser=(userId)=>fetch(baseUrl+'/message/user/get?userId='+userId)
 export const getMessageListByDoctor=(doctorId)=>fetch(baseUrl+'/message/doctor/get?doctorId='+doctorId)
 export const addMessage=(data)=>fetch(baseUrl+'/message/add',data,'POST')
+export const changeMsgStatus=(msgId)=>fetch(baseUrl+'/message/change_status',{msgId},'GET')
+export const getOfflineMsgByDoctor=(doctorId)=>fetch(baseUrl+'/message/user/get_offline',{doctorId},'GET')
+export const getOfflineMsgByUser=(userId)=>fetch(baseUrl+'/message/doctor/get_offline',{userId},'GET')
