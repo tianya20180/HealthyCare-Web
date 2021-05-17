@@ -1,54 +1,33 @@
 <template>
     <div class="loginContainer">
-        <head-top :head-title="问诊单" goBack="true">
+        <head-top :head-title="title" goBack="true">
             <!-- <div slot="changeLogin" class="change_login" @click="changeLoginWay">{{loginWay? "密码登录":"短信登录"}}</div> -->
         </head-top>
  
-        <form class="loginForm" v-if="identity==0">
+        <form class="loginForm" >
+	
+			<section class="input_container">
+			    <input type="text" placeholder="年龄" v-model.lazy="age">
+			</section>
 			<section class="input_container">
 			    <input type="text" placeholder="身高" v-model.lazy="height">
 			</section>
+
 			<section class="input_container">
 			    <input type="text" placeholder="体重" v-model.lazy="weight">
 			</section>
 			<section class="input_container">
 			    <input type="text" placeholder="患病时长" v-model.lazy="time">
 			</section>
-		
 			<section class="input_container">
 			    <input type="text" placeholder="病情简述" v-model.lazy="desc">
 			</section>
-            <section class="input_container">
-               <input type="file" class="profileinfopanel-upload1" @change="handleFacePhoto">
-               <h2>请上传舌苔照片</h2>
-            </section>
-			<section class="input_container">
-			   <input type="file" class="profileinfopanel-upload2" @change="handleTonguePhoto">
-			   <h2>请上传面部照片</h2>
-			</section>
+
+
+			<el-button type="primary" style="width: 4rem;margin: 0 auto;" @click="submit()">提交</el-button>
+			
         </form>
-        <form class="loginForm" v-lese>
-        	<section class="input_container">
-        	    <input type="text" placeholder="身高" v-model.lazy="height" disabled="disabled">
-        	</section>
-        	<section class="input_container">
-        	    <input type="text" placeholder="体重" v-model.lazy="weight" disabled="disabled">
-        	</section>
-        	<section class="input_container">
-        	    <input type="text" placeholder="患病时长" v-model.lazy="time" disabled="disabled">
-        	</section>
         
-        	<section class="input_container">
-        	    <input type="text" placeholder="病情简述" v-model.lazy="desc" disabled="disabled">
-        	</section>
-            <section class="input_container">
-               <img :src="tonguePhoto"/>
-               <h2>舌苔照片</h2>
-            </section>
-        	<section class="input_container">
-        	  <img :src="facePhoto"/>
-        	</section>
-        </form>
     </div>
 </template>
 
@@ -73,27 +52,19 @@
 			   time:'',
 			   userId:'',
 			   doctorId:'',
-			   identity:''
+			   identity:'',
+			   photo:'',
+			   title:'',
+			   age:''
             }
         },
         async created(){
 		   this.userinfo=this.$store.state.userinfo;
            this.orderId=this.$route.query.orderId;
-		   this.doctorId=this.$route.query.doctorId;
-		   this.userId=this.userinfo.userId;
+		   this.doctorId=this.$route.query.to;
+		   this.userId=this.userinfo.id;
 		   this.identity=this.userinfo.identity;
-		   if(this.identity==1){
-			   let res=await getInfomation(this.orderId);
-			   let info=res.data;
-			   if(res.status==0){
-				   this.height=info.height;
-				   this.weight=info.weight;
-				   this.facePhoto='data:image/jpeg;base64'+info.facePhoto;
-				   this.tonguePhoto='data:image/jpeg;base64'+info.tonguePhoto;
-				   this.desc=info.desc;
-				   this.time=info.time;
-			   }
-		   }
+		   this.title="问诊单";
         },
         components: {
             headTop,
@@ -102,21 +73,30 @@
      
         methods: {
 		
-            handleFacePhoto(e){
+            handlePhoto(e){
+				console.log(e);
+                console.log("上传");
                 this.$base64Img(e).then((res)=>{		//调用全局方法
-                     this.facePhoto =res;
+                    this.photo=res;
+                	console.log(this.photo);
                  })
             },
-		   handleTonguePhoto(){
-			  this.$base64Img(e).then((res)=>{		//调用全局方法
-			       this.tonguePhoto =res;
-			   })
-		   },
+		
 		   async submit(){
-			   let res=await addInfomation(this.userId,this.orderId,this.height,this.weight,this.desc,this.facePhoto,this.tonguePhoto,this.time);
+			   let data={
+				   userId:this.userId,
+				   orderId:this.orderId,
+				   height:this.height,
+				   weight:this.weight,
+				   des:this.desc,
+				   times:this.time,
+				   age:this.age
+				   }
+			   console.log(data);
+			   let res=await addInfomation(data);
 			   if(res.status==0){
 				   alert("信息提交成功");
-				   this.$router.push({ path: '/chat', query: { id: this.userId, to: this.doctorId ,orderId:orderId} });
+				   this.$router.push({ path: '/chat', query: { id: this.userId, to: this.doctorId ,orderId:this.orderId} });
 				   
 			   }else{
 				   alert("信息提交失败");
@@ -267,5 +247,11 @@
 	    top: 2.35rem;
 	    left: 0;
 	    @include wh(100%,3.1rem);
+	}
+	h2{
+	    @include sc(.6rem,#333);
+	    font-weight:500;
+	    display:flex;
+	    align-items:center;
 	}
 </style>

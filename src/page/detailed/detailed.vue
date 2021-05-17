@@ -36,9 +36,9 @@
 		 </el-card>
 	
 	     <el-card>
-			 <router-link  :to="{path:'/order/orderDetail',query:{doctorId:doctorId,money:money}}">
-			 			 <el-button type="primary" class="ask1">发起问诊</el-button>
-			 </router-link>
+			
+			 	<el-button type="primary" class="ask1" @click="submit()">发起问诊</el-button>
+
 		 </el-card>
 	    
 		
@@ -46,7 +46,7 @@
 </template>
 
 <script>
-	import {getDoctorInfo,getCommits} from 'src/service/getData'
+	import {getDoctorInfo,getCommits,getAsk} from 'src/service/getData'
 	
 	export default {
 	    data(){
@@ -97,6 +97,24 @@
 			this.initData();
 		},
 	    methods:{
+			async submit(){
+				let doctorId=this.$route.query.id;
+				let res=await getAsk(this.id,doctorId);
+				console.log(this.id);
+				console.log(doctorId);
+				if(res.status==0){
+					console.log(res);
+					let data=res.data;
+					console.log(data);
+					if(data==null||data==undefined||data.status==0) {
+						this.$router.push({path: '/order/orderDetail', query: {doctorId:doctorId,money:this.money}});
+						
+					}else{
+						this.$router.push({path: '/chat', query: {id:data.userId,to:data.doctorId,orderId:data.orderId}});
+						
+					}
+				}
+			},
 	        initData(){
 				console.log(this.userinfo.userName);
 			    console.log(this.userinfo);

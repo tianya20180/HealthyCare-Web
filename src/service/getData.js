@@ -4,8 +4,8 @@ import {getStore} from '../config/mUtils'
 let baseUrl = '';
 let routerMode = 'history';
 if (process.env.NODE_ENV == 'development') {  
-    baseUrl = 'http://192.144.236.155:8080';
-   //baseUrl = 'http://localhost:8080';
+   // baseUrl = 'http://192.144.236.155:8080';
+   baseUrl = 'http://localhost:8080';
 }else{  
     baseUrl = 'http://www.test.com';
 }
@@ -518,12 +518,15 @@ export const getMyUser=(id)=>fetch(baseUrl+'/user/get',{id},'GET')
 export const getDoctor=(id)=>fetch(baseUrl+'/doctor/get',{id},'GET')
 export const getCommits=(doctorId)=>fetch(baseUrl+'/commit/get',{doctorId},'GET')
 export const addCommit=(userName, doctorId, content)=>fetch(baseUrl+'/commit/add',{userName,doctorId,content},'GET')
-export const addInfomation=(userId,orderId,height,weight,desc,facePhoto,tonguePhoto,time)=>fetch(baseUrl+'/information/add',{userId,orderId,height,weight,desc,facePhoto,tonguePhoto,time},'POST')
-export const getInfomation=(orderId)=>fetch(baseUrl+'/information/get',{orderId},'GET')
+export const addInfomation=(data)=>fetch(baseUrl+'/info/add',data,'POST')
+export const getInfomation=(orderId)=>fetch(baseUrl+'/info/get',{orderId},'GET')
 export const authentication=(data)=>fetch(baseUrl+'/doctor/authentication',data,'POST')
 export const getMessageListByUser=(userId)=>fetch(baseUrl+'/message/user/get?userId='+userId)
 export const getMessageListByDoctor=(doctorId)=>fetch(baseUrl+'/message/doctor/get?doctorId='+doctorId)
 export const addMessage=(data)=>fetch(baseUrl+'/message/add',data,'POST')
 export const changeMsgStatus=(msgId)=>fetch(baseUrl+'/message/change_status',{msgId},'GET')
-export const getOfflineMsgByUser=(doctorId)=>fetch(baseUrl+'/message/user/get_offline',{doctorId},'GET')
-export const getOfflineMsgByDoctor=(userId)=>fetch(baseUrl+'/message/doctor/get_offline',{userId},'GET')
+export const getOfflineMsgByUser=(userId)=>fetch(baseUrl+'/message/user/get_offline',{userId},'GET')
+export const getOfflineMsgByDoctor=(doctorId)=>fetch(baseUrl+'/message/doctor/get_offline',{doctorId},'GET')
+export const getAskStatus=(userId,doctorId)=>fetch(baseUrl+'/ask/status',{userId,doctorId},'GET')
+export const getAsk=(userId,doctorId)=>fetch(baseUrl+'/ask/get',{userId,doctorId},'GET')
+export const changeAskStatus=(userId,doctorId)=>fetch(baseUrl+'/ask/change/status',{userId,doctorId},'GET')

@@ -29,9 +29,8 @@
 		    <router-link :to="{path:'/prescription',query: { orderId:orderId }}" v-if="identity==0">
 		    			   	<input type="submit" name="submit" class="submit"  value="处方单">
 		    </router-link>
-		   <router-link :to="{path:'/commit',query: { doctorId:tempId}}" v-if="identity==0">
-		     <input type="submit" name="submit" class="submit"  value="结束">
-		   </router-link>
+		     <input type="submit"  class="submit" @click="end()" value="结束" v-if="identity==0">
+		   
 		    <input type="file" name="submit" class="submit" id="file"  size="1" label="发送图片" @change="sendPhoto" style="width: 2rem;">
 			
 	   </form>
@@ -42,7 +41,7 @@
 <script>
 import headTop from '../../components/header/head'
 import footGuide from '../../components/footer/footGuide'
-import {searchRestaurant,addMessage,getOfflineMsgByDoctor,getOfflineMsgByUser,changeMsgStatus} from '../../service/getData'
+import {searchRestaurant,addMessage,getOfflineMsgByDoctor,getOfflineMsgByUser,changeMsgStatus,getInfomation,changeAskStatus } from '../../service/getData'
 import {imgBaseUrl} from '../../config/env'
 import {getStore, setStore} from '../../config/mUtils'
 import myMsg from '../../components/myMsg'
@@ -73,18 +72,18 @@ export default {
 		orderId:'',
 		identity:'',
 		tempId:'',
-		photoBase64:''
+		photoBase64:'',
+		information:''
         }
     },
     created(){
-      // this.initWebSocket();
 	  this.myId=this.$route.query.id;
     },
 	destroyed() {
 	      this.websock.close() //离开路由之后断开websocket连接
 	 },
     mounted(){
-      this.connect();
+		this.connect();
     },
     components:{
         headTop,
@@ -93,6 +92,12 @@ export default {
 	    'v-other-msg': otherMsg
     },
 	async created(){
+		
+		 console.log(localStorage.getItem('msgRecord'));
+		 if(localStorage.getItem('msgRecord')!=''&&localStorage.getItem('msgRecord')!=null){
+			 this.msgRecord=JSON.parse(localStorage.getItem('msgRecord'));
+		 }
+		 
 		 this.userinfo=this.$store.state.userinfo;
 		 this.userId=this.$route.query.id;
 		 this.orderId=this.$route.query.orderId;
@@ -101,24 +106,66 @@ export default {
 		 this.tempId=to;
 		 let res;
 		 if(this.identity==0){
+			 console.log("0");
 			  res=await getOfflineMsgByUser(this.userinfo.id);
 		
 		 }else{
+			 console.log("1");
 			  res=await getOfflineMsgByDoctor(this.userinfo.id);
 		 }
 		 let data=res.data;
-		 for(let msgObj in data){
+		 console.log(data);
+		 for(let i in data){
+			 console.log(data[i]);
 		 	const obj = {
-		 		name: msgObj.fromId,
-		 	    avatar: msgObj.avatar,
-		 		type:msgObj.type
+		 		name: data[i].id,
+		 		avatar: data[i].avatar
 		 	}
+			if(data[i].contentType==1){
+				obj.msg=data[i].content;
+			}else{
+				obj.time=data[i].content;
+			}
+			console.log(obj);
 			 this.msgRecord.push(obj);
+	
 		 }
-		
+		 
+		 
+		 if(this.identity==0){
+			 let avatar=this.userinfo.avatar;
+			 let url='../../static/image/avatar/'+avatar;
+			 res= await getInfomation(this.orderId);
+			 console.log(res);
+			  data=res.data;
+			 let msg="年龄："+data.age+"  身高（cm）："+data.height+"   体重（kg）："+data.weight+"  病情描述:"+data.des+"   持续时间"+data.times;
+			 console.log(msg);
+			 let obj = {
+				 content:msg,
+			 	  fromId:this.userinfo.id,
+			      toId: to,
+			 	  avatar:url,
+			 	  time:"2021",
+			      contentType:0,
+				  sendType:this.identity
+			 };
+			this.information= JSON.stringify(obj);
+             const record = {
+			   time: obj.content,
+			   avatar: url
+			 };	
+			 console.log(record);
+			 this.msgRecord.push(record);
+		 }
 	},
     methods:{
-
+		async end(){ 
+			let id = this.$route.query.id; 
+			let to = this.$route.query.to; 
+			await changeAskStatus(id,to);
+			 this.$router.push({path: '/commit', query: {doctorId:to}});
+			 
+			},
 		async sendPhoto(e){	 
 					let id = this.$route.query.id;
 					let to = this.$route.query.to;
@@ -133,8 +180,9 @@ export default {
 			                 toId: to,
 			            	 avatar:url,
 			            	 time:"2021",
-			                 type: 1			                ,
+			                 contentType: 1			                ,
 			            };
+						obj.sendType=this.identity;
 			            let jsonStr= JSON.stringify(obj);
 						const record = {
 						  name: id,
@@ -194,14 +242,23 @@ export default {
 			 this.msgRecord.push(obj);
 			 console.log("json str"+jsonStr);
 			 this.stompClient.send("/app/ptp/single/chat", {}, jsonStr);
+			 this.content='';
+			 localStorage.setItem('msgRecord', JSON.stringify(this.msgRecord));
 		},
-	    connect() {
+	    async connect() {
 			let socket = new SockJS('http://192.144.236.155:8080/endpoint-websocket');
 			let headers = {Authorization:''};
 			let id = this.$route.query.id;
 		    this.stompClient = Stomp.over(socket);
 		
-			this.stompClient.connect(headers,   () =>  {
+			await this.stompClient.connect(headers,   () =>  {
+				
+				            let status=localStorage.getItem('status');
+							if(status==0){
+								console.log("send");
+								this.stompClient.send("/app/ptp/single/chat", {}, this.information);
+							}
+				            localStorage.setItem('status',1);
 			                this.stompClient.subscribe('/chat/single/'+id,async (msg) => { // 订阅服务端提供的某个topic
 			                    console.log('收到服务端消息')
 			                //    console.log('msg.body:'+msg.body);  // msg.body存放的是服务端发送给我们的信息
@@ -212,7 +269,7 @@ export default {
 								const obj = {
 								  name: msgObject.fromId,
 								  avatar: msgObject.avatar,
-								  type:msgObject.type
+								  type:msgObject.contentType
 								}
 								if(msgObject.type==1){
 									obj.msg=msgObject.content;
@@ -221,20 +278,23 @@ export default {
 								}
 								let msgId=msgObject.id;
 								console.log(msgId);
-								//let res=await changeMsgStatus(msgId);
+								let res=await changeMsgStatus(msgId);
 								if(this.identity==1){
 									this.orderId=msgObject.orderId;
 									console.log(this.orderId);
 								}
-								console.log(obj.photo);
-								this.msgRecord.push(obj)
+								this.msgRecord.push(obj);
+								
+							   localStorage.setItem('msgRecord', JSON.stringify(this.msgRecord));
 			                });
 			               
 			            }, (err) => {
 			                // 连接发生错误时的处理函数
 			                console.log('失败')
 			                console.log(err);
-			 });
+			 },
+			 );
+			 
 		}
      }
 }
