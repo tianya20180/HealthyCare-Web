@@ -33,6 +33,18 @@
                 </router-link>
             </ul>
         </section>
+		<section v-else>
+			<el-card v-for="(item,i) in artilceList">
+			 
+				  <div >
+					   <router-link :to="{ path: '/articleDeatil', query: { id: item.id }}">
+							<span>{{item.title}}</span>
+					    </router-link>
+				  </div>
+			 
+				
+			</el-card>
+		</section>
        
         <div class="search_none" v-if="emptyResult">很抱歉！无搜索结果</div>
         <foot-guide></foot-guide>
@@ -42,7 +54,7 @@
 <script>
 import headTop from '../../components/header/head'
 import footGuide from '../../components/footer/footGuide'
-import {searchDoctor} from '../../service/getData'
+import {searchDoctor,getHotArticle} from '../../service/getData'
 import {imgBaseUrl} from '../../config/env'
 import {getStore, setStore} from '../../config/mUtils'
 
@@ -58,16 +70,19 @@ export default {
             emptyResult: false, // 搜索结果为空时显示
 			userinfo:null,
 			id:'',
-			path:''
+			path:'',
+			artilceList:[]
         }
     },
-    created(){
+    async created(){
        this.userinfo=this.$store.state.userinfo;
 	   this.id=this.userinfo.id;
 	   console.log(this.userinfo);
 	   console.log(this.id);
 	   this.path='../../static/image/avatar/'+　this.userinfo.avatar;
 	   console.log(this.path);
+	   let res=await getHotArticle();
+	   this.artilceList=res.data;
     },
     mounted(){
         this.geohash = this.$route.params.geohash;
@@ -261,5 +276,11 @@ export default {
 		background-color: $blue;
 		font-weight: bold;
 		padding: 0 0.25rem;
+	}
+	#view{
+		front-size:1px;
+	}
+	#like{
+		front-size:1px;
 	}
 </style>

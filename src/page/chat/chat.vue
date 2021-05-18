@@ -155,7 +155,11 @@ export default {
 			   avatar: url
 			 };	
 			 console.log(record);
+			 let status=localStorage.getItem('status');
+			 if(status==0){
+			 	console.log("send");
 			 this.msgRecord.push(record);
+			 }
 		 }
 	},
     methods:{

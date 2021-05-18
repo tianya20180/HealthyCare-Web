@@ -6,6 +6,13 @@ import {routerMode} from './config/env'
 import './config/rem'
 import FastClick from 'fastclick'
 import ElementUI from 'element-ui';
+import  VueQuillEditor from 'vue-quill-editor'
+// require styles 引入样式
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+
+Vue.use(VueQuillEditor)
 import 'element-ui/lib/theme-chalk/index.css';
 if ('addEventListener' in document) {
     document.addEventListener('DOMContentLoaded', function() {

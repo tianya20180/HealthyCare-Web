@@ -55,6 +55,9 @@ const prescription=r => require.ensure([], () => r(require('../page/prescription
 const authentication=r => require.ensure([], () => r(require('../page/authentication/authentication')), 'authentication')
 const commit=r => require.ensure([], () => r(require('../page/commit/commit')), 'commit')
 const information=r => require.ensure([], () => r(require('../page/information/information')), 'information')
+const payGateWay=r => require.ensure([], () => r(require('../page/payGateWay/payGateWay')), 'payGateWay')
+const article=r => require.ensure([], () => r(require('../page/article/article')), 'article')
+const articleDeatil=r => require.ensure([], () => r(require('../page/articleDetail/detail')), 'articleDeatil')
 
 
 export default [{
@@ -297,6 +300,15 @@ export default [{
 		{
 			path:'commit',
 			component:commit
+		},{
+			path:'payGateWay',
+			component:payGateWay
+		},{
+			path:'article',
+			component:article
+		},{
+			path:'articleDeatil',
+			component:articleDeatil
 		}
     ]
 }]

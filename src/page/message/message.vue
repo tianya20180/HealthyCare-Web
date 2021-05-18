@@ -12,7 +12,7 @@
   //import footGuide from '../../components/footer/footGuide'
   import chatCard from '../../components/chatCard'
   import footGuide from '../../components/footer/footGuide'
-  import {getMessageListByUser,getMessageListByDoctor} from 'src/service/getData'
+  import {getMessageListByUser,getMessageListByDoctor,getAskByUserId,getAskByDoctorId} from 'src/service/getData'
   
   export default{
     name:'message',
@@ -24,7 +24,7 @@
       return{
         menuIndex: '3',
 		userinfo:{},
-		historyMsg:{}
+		historyMsg:[]
       }
     },
 	async created(){
@@ -33,16 +33,32 @@
 		console.log(this.userinfo.identity);
 		if(this.userinfo.identity==0){
 			 console.log(this.userinfo.id);
-			 res=await getMessageListByUser(this.userinfo.id);
+			 res=await getAskByUserId(this.userinfo.id);
 			 console.log(res);
-			 this.historyMsg=res.data;
-			 
+			 let data=res.data;
+			 for(let obj of data){
+				 let msg={
+					 avatarUrl:obj.doctorAvatar,
+					 unreadCount:obj.userUnread,
+					 userName:obj.doctorName
+				 }
+				 this.historyMsg.push(msg);
+			 }			 
 			 console.log(this.historyMsg);
 		}
 		else{
-			res=await getMessageListByDoctor(this.userinfo.id);
+			res=await getAskByDoctorId(this.userinfo.id);
 			console.log(res);
-			this.historyMsg=res.data;
+			let data=res.data;
+			for(let obj of data){
+							 let msg={
+								 avatarUrl:obj.userAvatar,
+								 unreadCount:obj.doctorUnread,
+								 userName:obj.userName
+							 }
+							 this.historyMsg.push(msg);
+			}			 
+			console.log(this.historyMsg);
 			console.log(this.historyMsg);
 		}
 		

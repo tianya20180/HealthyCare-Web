@@ -2,9 +2,9 @@
   <div class="clearfix" @click="chatDetail()">
     <div class="img-tao">
       <el-badge :value="list.unreadCount" v-if="list.unreadCount != 0">
-      <img :src="list.avatar_url" class="user-head">
+      <img :src="'../../static/image/avatar/'+list.avatarUrl" class="user-head">
       </el-badge>
-      <img :src="list.avatar_url" class="user-head" v-else>
+      <img :src="'/static/image/avatar/'+list.avatarUrl" class="user-head" v-else>
     </div>
     <div class="tao">
       <div class="user-name">{{list.userName}}</div>
@@ -33,6 +33,7 @@
     },
 	created(){
 	   this.userinfo=this.$store.state.userinfo;
+	   console.log(this.list.avatarUrl);
 	},
     methods:{
       ...mapActions([
@@ -46,8 +47,9 @@
         let obj = {
             user_id: this.list.user_id,
             username: this.list.userName,
-            avatar_url: '../../static/image/avatar/'+this.list.avatarUrl,
+            avatar_url: this.list.avatarUrl,
         }
+		console.log(obj.avatar_url);
     /*    this.actionSetGroupName(this.list.user_id)
         this.actionSetChatToUser(obj)
         this.actionReduceUnreadMsg(this.list.unreadCount)
@@ -102,6 +104,7 @@
   }
   .img-tao {
     float: left;
+	margin-top: 10px;
   }
   .user-name {
     /*float: left;

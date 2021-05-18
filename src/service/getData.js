@@ -4,8 +4,8 @@ import {getStore} from '../config/mUtils'
 let baseUrl = '';
 let routerMode = 'history';
 if (process.env.NODE_ENV == 'development') {  
-    baseUrl = 'http://192.144.236.155:8080';
-   //baseUrl = 'http://localhost:8080';
+    //baseUrl = 'http://192.144.236.155:8080';
+   baseUrl = 'http://localhost:8080';
 }else{  
     baseUrl = 'http://www.test.com';
 }
@@ -530,3 +530,10 @@ export const getOfflineMsgByDoctor=(doctorId)=>fetch(baseUrl+'/message/doctor/ge
 export const getAskStatus=(userId,doctorId)=>fetch(baseUrl+'/ask/status',{userId,doctorId},'GET')
 export const getAsk=(userId,doctorId)=>fetch(baseUrl+'/ask/get',{userId,doctorId},'GET')
 export const changeAskStatus=(userId,doctorId)=>fetch(baseUrl+'/ask/change/status',{userId,doctorId},'GET')
+export const alipay=(orderId)=>fetch(baseUrl+'/pay/goAlipay',{orderId},'GET')
+export const getArticleDetailById=(articleId)=>fetch(baseUrl+'/article/getOne',{articleId},'GET')
+export const getHotArticle=()=>fetch(baseUrl+'/article/getHot','GET')
+export const getAskByUserId=(userId)=>fetch(baseUrl+'/ask/user/get',{userId},'GET')
+export const getAskByDoctorId=(userId)=>fetch(baseUrl+'/ask/doctor/get',{doctorId},'GET')
+
+

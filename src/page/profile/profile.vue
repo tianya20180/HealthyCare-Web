@@ -106,6 +106,16 @@
 					    </span>
 					</div>
 				</router-link>
+				<router-link to="/article" class="myorder">
+					<div class="myorder-div" style="border-bottom:0;" v-if="this.identity==1">
+					    <span >发布文章</span>
+					    <span class="myorder-divsvg">
+					        <svg fill="#bbb">
+					            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
+					        </svg>
+					    </span>
+					</div>
+				</router-link>
 				
             </section>
         </section>
