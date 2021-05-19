@@ -77,7 +77,7 @@
           window.localStorage.setItem(this.group_name, JSON.stringify(m))
         }*/
 		   if(this.userinfo.identity==0){
-			   this.$router.push({path: '/chat', query: {id:this.list.userId,to:this.list.doctorId}});
+			   this.$router.push({path: '/chat', query: {id:this.list.userId,to:this.list.doctorId,orderId:this.list.orderId}});
 		   }else{
 			   this.$router.push({path: '/chat', query: {id:this.list.doctorId,to:this.list.userId}});
 		   }

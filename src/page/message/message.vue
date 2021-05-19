@@ -40,7 +40,10 @@
 				 let msg={
 					 avatarUrl:obj.doctorAvatar,
 					 unreadCount:obj.userUnread,
-					 userName:obj.doctorName
+					 userName:obj.doctorName,
+					 userId:obj.userId,
+					 doctorId:obj.doctorId,
+					 orderId:obj.orderId
 				 }
 				 this.historyMsg.push(msg);
 			 }			 
@@ -54,7 +57,9 @@
 							 let msg={
 								 avatarUrl:obj.userAvatar,
 								 unreadCount:obj.doctorUnread,
-								 userName:obj.userName
+								 userName:obj.userName,
+								 userId:obj.userId,
+								 doctorId:obj.doctorId
 							 }
 							 this.historyMsg.push(msg);
 			}			 
