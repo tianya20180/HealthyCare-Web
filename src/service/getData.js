@@ -534,6 +534,6 @@ export const alipay=(orderId)=>fetch(baseUrl+'/pay/goAlipay',{orderId},'GET')
 export const getArticleDetailById=(articleId)=>fetch(baseUrl+'/article/getOne',{articleId},'GET')
 export const getHotArticle=()=>fetch(baseUrl+'/article/getHot','GET')
 export const getAskByUserId=(userId)=>fetch(baseUrl+'/ask/user/get',{userId},'GET')
-export const getAskByDoctorId=(userId)=>fetch(baseUrl+'/ask/doctor/get',{doctorId},'GET')
+export const getAskByDoctorId=(doctorId)=>fetch(baseUrl+'/ask/doctor/get',{doctorId},'GET')
 
 
