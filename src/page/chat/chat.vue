@@ -17,19 +17,19 @@
           </div>
         </div>
 	
-       <form class="search_form" style="" v-if="status==1">
+       <form class="search_form" style="" >
            <input type="search" name="search" placeholder="请输入消息" class="search_input" v-model="content" >
            <input type="submit" name="submit" class="search_submit" @click.prevent="sendMessage() " value="发送">
 		  
        </form>
 	   <form class="button_form">
 	
-		    <router-link :to="{path:'/diagnosis',query: { userId:toId }}" v-if="identity==1&&status==1">
+		    <router-link :to="{path:'/diagnosis',query: { userId:toId }}" v-if="identity==1">
 		    			   	<input type="submit" name="submit" class="submit"  value="诊断书">
 		    </router-link>
-		     <input type="submit"  class="submit" @click="end()" value="结束" v-if="identity==0&&status==1">
+		     <input type="submit"  class="submit" @click="end()" value="结束" v-if="identity==0">
 		   
-		    <input type="file" name="submit" class="submit" id="file"  size="1" label="发送图片" @change="sendPhoto" style="width: 2rem;" v-if="status==1">
+		    <input type="file" name="submit" class="submit" id="file"  size="1" label="发送图片" @change="sendPhoto" style="width: 2rem;"
 			
 	   </form>
         <foot-guide></foot-guide>
