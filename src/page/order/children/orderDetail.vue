@@ -86,6 +86,7 @@
         },
         methods: {
 			async pay(){
+				/*
 				   this.$alert('是否确认付款', '付款', {
 				             confirmButtonText: '确定',
 				             callback: async action => {
@@ -106,14 +107,31 @@
 								  } 
 								  
 								  //console.log(res);
-								  /*
-								  if(res.status==0){
-									this.$router.push({ path: '/information', query: { id: this.userId, to: this.doctorId ,orderId:orderId} });
-								  }else{
-									alert("付款失败:"+res.message);  
-								  }*/
+								
 								 }
-				           });
+				           });*/
+						   this.$confirm('您确定付款吗？').then(async ()=> {
+						   
+						   let orderId=this.orderData.orderId;
+						   console.log(orderId);
+						   let res = await alipay(orderId);
+						   if (res.status == 0) {
+						                        let routerData = this.$router.resolve({path:'/payGateWay',query:{htmls:res.data}})
+						                         this.htmls = res.data.result;
+						        
+						                         //打开新页面
+						                         window.open(routerData.href,'_ blank')
+						                          const div = document.createElement('div');
+						                          div.innerHTML = htmls;
+						                         document.body.appendChild(div);
+						                         document.forms [0].submit();
+						      
+						   } 
+						   }).catch(() => {
+						   
+						   
+						   })
+			
 				   
 			},
             async initData(){

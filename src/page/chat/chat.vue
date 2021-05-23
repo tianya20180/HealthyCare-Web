@@ -17,19 +17,19 @@
           </div>
         </div>
 	
-       <form class="search_form" style="">
+       <form class="search_form" style="" v-if="status==1">
            <input type="search" name="search" placeholder="请输入消息" class="search_input" v-model="content" >
            <input type="submit" name="submit" class="search_submit" @click.prevent="sendMessage() " value="发送">
 		  
        </form>
 	   <form class="button_form">
 	
-		    <router-link :to="{path:'/diagnosis',query: { userId:toId }}" v-if="identity==1">
+		    <router-link :to="{path:'/diagnosis',query: { userId:toId }}" v-if="identity==1&&status==1">
 		    			   	<input type="submit" name="submit" class="submit"  value="诊断书">
 		    </router-link>
-		     <input type="submit"  class="submit" @click="end()" value="结束" v-if="identity==0">
+		     <input type="submit"  class="submit" @click="end()" value="结束" v-if="identity==0&&status==1">
 		   
-		    <input type="file" name="submit" class="submit" id="file"  size="1" label="发送图片" @change="sendPhoto" style="width: 2rem;">
+		    <input type="file" name="submit" class="submit" id="file"  size="1" label="发送图片" @change="sendPhoto" style="width: 2rem;" v-if="status==1">
 			
 	   </form>
         <foot-guide></foot-guide>
@@ -39,7 +39,7 @@
 <script>
 import headTop from '../../components/header/head'
 import footGuide from '../../components/footer/footGuide'
-import {searchRestaurant,addMessage,getOfflineMsgByDoctor,getOfflineMsgByUser,changeMsgStatus,getInfomation,changeAskStatus } from '../../service/getData'
+import {searchRestaurant,addMessage,getOfflineMsgByDoctor,getOfflineMsgByUser,changeMsgStatus,getInfomation,changeAskStatus,getAskStatus } from '../../service/getData'
 import {imgBaseUrl} from '../../config/env'
 import {getStore, setStore} from '../../config/mUtils'
 import myMsg from '../../components/myMsg'
@@ -72,7 +72,8 @@ export default {
 		tempId:'',
 		photoBase64:'',
 		information:'',
-		toId:''
+		toId:'',
+		status:''
         }
     },
     created(){
@@ -103,15 +104,26 @@ export default {
 		 this.identity=this.userinfo.identity;
 		 let to = this.$route.query.to;
 		 this.toId= this.$route.query.to;
+		 
 		 this.tempId=to;
 		 let res;
 		 if(this.identity==0){
 			 console.log("0");
 			  res=await getOfflineMsgByUser(this.userinfo.id);
+			  let askRes=await getAskStatus(this.userId,this.toId);
+			  console.log(askRes.data);
+			  this.status=askRes.data;
+			  console.log(this.status)
 		
 		 }else{
 			 console.log("1");
 			  res=await getOfflineMsgByDoctor(this.userinfo.id);
+			  let ask=await ResgetAskStatus(this.toId,this.userId);
+			  this.status=askRes.data;
+		 }
+		 if(this.status==0){
+			 alert("当前问诊已结束");
+			 this.$router.go(-1)
 		 }
 		 let data=res.data;
 		 console.log(data);
