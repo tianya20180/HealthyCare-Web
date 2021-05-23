@@ -26,7 +26,7 @@
 							
 							<p>姓名 {{item.userName}} </p>
                             <p>问诊量 {{item.count}} 单</p>
-							<my-rate v-model="item.score" readonly="false"/>
+							<my-rate v-model="item.score" :readonly="true"/>
                         </div>
                     
                     </section>
