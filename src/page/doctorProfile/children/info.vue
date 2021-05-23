@@ -175,7 +175,7 @@
             async uploadAvatar(){
 				console.log("start upload");
                 //上传头像
-				let baseUrl='http://localhost:8080';
+				let baseUrl='http://192.144.236.155:8000:8080';
          
                     let input = document.querySelector('.profileinfopanel-upload')
                     let data = new FormData();

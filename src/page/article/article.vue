@@ -132,7 +132,7 @@ export default {
       // 发送 POST 请求
       axios({
         method: 'post',
-        url: 'http://localhost:8080/article/addarticle',
+        url: 'http://192.144.236.155:8000/article/addarticle',
         data: formData,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',

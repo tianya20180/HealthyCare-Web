@@ -162,7 +162,7 @@
 				
 				console.log("start upload");
                 //上传头像
-				let baseUrl='http://localhost:8080';
+				let baseUrl='http://192.144.236.155:8000';
                 this.userinfo=this.$store.state.userinfo;
 				console.log(this.userinfo);
                 let input = document.querySelector('.profileinfopanel-upload')
