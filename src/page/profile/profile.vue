@@ -107,16 +107,7 @@
 					    </span>
 					</div>
 				</router-link>
-				<router-link to="/articleList" class="myorder">
-					<div class="myorder-div" style="border-bottom:0;" v-if="this.identity==0">
-					    <span >我的处方单</span>
-					    <span class="myorder-divsvg">
-					        <svg fill="#bbb">
-					            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
-					        </svg>
-					    </span>
-					</div>
-				</router-link>
+			
 				<router-link to="/orderList" class="myorder">
 					<div class="myorder-div" style="border-bottom:0;" v-if="this.identity==0">
 					    <span >我的订单</span>
