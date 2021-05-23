@@ -29,7 +29,7 @@
 		    </router-link>
 		     <input type="submit"  class="submit" @click="end()" value="结束" v-if="identity==0">
 		   
-		    <input type="file" name="submit" class="submit" id="file"  size="1" label="发送图片" @change="sendPhoto" style="width: 2rem;"
+		    <input type="file" name="submit" class="submit" id="file"  size="1" label="发送图片" @change="sendPhoto" style="width: 2rem;">
 			
 	   </form>
         <foot-guide></foot-guide>
