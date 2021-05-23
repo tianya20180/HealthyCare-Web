@@ -7,20 +7,20 @@
 		</el-card>
 		<el-card>
 			<div class="myorder-div2">
-				<span >姓名</span><span class="innerspan">{{username}}</span>
+				<span class="outsapn">姓名</span><span class="innerspan">{{username}}</span>
 			</div>
 			<div class="myorder-div2">
-				<span>工作年限</span><span class="innerspan">{{years}}</span>
+				<span class="outsapn">工作年限</span><span class="innerspan">{{years}}</span>
 			</div >
 			<div class="myorder-div2">
-				<span>医院</span><span class="innerspan"> {{hospital}}</span>
+				<span class="outsapn">医院</span><span class="innerspan"> {{hospital}}</span>
 			</div>
 			
 			<div class="myorder-div2">
-				<span>详细介绍</span><span class="innerspan">   {{desc}}</span>
+				<span class="outsapn">详细介绍</span><span class="innerspan">   {{desc}}</span>
 			</div>
 			<div class="myorder-div2">
-				<span>问诊价格</span><span class="innerspan">{{money}}</span>
+				<span class="outsapn">问诊价格</span><span class="innerspan">{{money}}元</span>
 			</div>
 		</el-card>
 		 <el-card>
@@ -28,7 +28,9 @@
 			 	<span>评论</span>
 				<div >
 				    <p v-for="(item) in commits" style="font-size: .6rem;">{{item.content}} <br>
-				    {{item.userName}} 发表于 {{item.createTime}}<el-divider></el-divider></p> 
+				    {{item.userName}} 发表于 {{item.createTime}} 
+					<span>评分:{{item.score}}</span>
+					<el-divider></el-divider></p> 
 					
 				</div>
 			 </div>
@@ -175,7 +177,10 @@
         height: 2rem;
 	}
 	.innerspan{
-		front-size:0.1rem
+		font-size:20px
+	}
+	.outspan{
+		font-size:22px
 	}
 	.commit{
 		front-size:0.1rem

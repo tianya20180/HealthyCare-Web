@@ -11,10 +11,8 @@
         
         </section>
         <section class="hot_questions" >
-            <h4 class="qustion_header">评价</h4>
-	
+			<my-rate v-model="score" style="margin-left:80px"/>
 			<el-input type="textarea" v-model="content" style="width: 12rem;"></el-input>
-
 			<el-button @click="submit()">提交</el-button>
         </section>
         <transition name="router-slid" mode="out-in">
@@ -29,6 +27,7 @@
     import {getService,addCommit} from 'src/service/getData'
     import {mapMutations} from 'vuex'
 	import footGuide from '../../components/footer/footGuide'
+	import myRate from 'src/components/common/myRate'
     export default {
       data(){
             return{
@@ -37,7 +36,8 @@
                 questionDetail: [], //问题详情
 				userinfo:{},
 				doctroId:'',
-				content:''
+				content:'',
+				score:0
             }
         },
 		created(){
@@ -50,7 +50,8 @@
         mixins: [],
         components: {
             headTop,
-			footGuide
+			footGuide,
+			myRate
         },
         props:[],
         methods: {
@@ -59,7 +60,8 @@
             ]),
             //获取信息
 			async submit(){
-				let res=await addCommit(this.userinfo.userName,this.doctorId,this.content);
+				console.log(this.score);
+				let res=await addCommit(this.userinfo.userName,this.doctorId,this.content,this.score);
 				if(res.status==0){
 					alert("评论成功");
 					this.$router.push('/msite');

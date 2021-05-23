@@ -58,7 +58,11 @@ const information=r => require.ensure([], () => r(require('../page/information/i
 const payGateWay=r => require.ensure([], () => r(require('../page/payGateWay/payGateWay')), 'payGateWay')
 const article=r => require.ensure([], () => r(require('../page/article/article')), 'article')
 const articleDeatil=r => require.ensure([], () => r(require('../page/articleDetail/detail')), 'articleDeatil')
-
+const articleList=r => require.ensure([], () => r(require('../page/articleList/articleList')), 'articleList')
+const articleCategory=r => require.ensure([], () => r(require('../page/articleCategory/articleCategory')), 'articleCategory')
+const commitList=r => require.ensure([], () => r(require('../page/commitList/commitList')), 'commitList')
+const orderList=r => require.ensure([], () => r(require('../page/orderList/orderList')), 'orderList')
+const diagnosis=r => require.ensure([], () => r(require('../page/diagnosis/diagnosis')), 'diagnosis')
 
 export default [{
     path: '/',
@@ -309,6 +313,21 @@ export default [{
 		},{
 			path:'articleDeatil',
 			component:articleDeatil
+		},{
+			path:'articleList',
+			component:articleList
+		},{
+			path:'articleCategory',
+			component:articleCategory
+		},{
+			path:'commitList',
+			component:commitList
+		},{
+			path:'orderList',
+			component:orderList
+		},{
+			path:'diagnosis',
+			component:diagnosis
 		}
     ]
 }]

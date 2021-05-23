@@ -21,7 +21,7 @@
 							
 							<p>姓名 {{item.userName}} </p>
                             <p>问诊量 {{item.count}} 单</p>
-							
+							<my-rate v-model="item.score" readonly="false"/>
                         </div>
                     
                     </section>
@@ -40,6 +40,7 @@ import footGuide from '../../components/footer/footGuide'
 import {getDoctorByCategory} from '../../service/getData'
 import {imgBaseUrl} from '../../config/env'
 import {getStore, setStore} from '../../config/mUtils'
+import myRate from '../../components/common/myRate'
 
 export default {
 	data(){
@@ -68,6 +69,7 @@ export default {
     components:{
         headTop,
         footGuide,
+		myRate
     },
     methods:{
    

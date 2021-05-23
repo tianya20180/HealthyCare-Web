@@ -62,14 +62,46 @@
 						            <figcaption>妇科</figcaption>
 						     </figure>
 						</router-link>
-						<router-link :to="{path:'/category',query:{categoryId:8}}" class="link_to_food">
+						<router-link :to="{path:'/articleCategory',query:{categoryId:8}}" class="link_to_food">
 						     <figure>
 						           <img src="/static/img/nao.png" />
 						            <figcaption>心脑科</figcaption>
 						     </figure>
 						</router-link>
+						
 					 </div>
-					 
+					 <div class="swiper-slide food_types_container">
+						 <router-link :to="{path:'/articleCategory',query:{articleCategory:1}}" class="link_to_food">
+						      <figure>
+						            <img src="/static/img/yangsheng.png" />
+						             <figcaption>养生类</figcaption>
+						      </figure>
+						 </router-link>
+						 <router-link :to="{path:'/articleCategory',query:{articleCategory:2}}" class="link_to_food">
+						      <figure>
+						            <img src="/static/img/chuanran.png" />
+						             <figcaption>传染病防治</figcaption>
+						      </figure>
+						 </router-link>
+						 <router-link :to="{path:'/articleCategory',query:{articleCategory:3}}" class="link_to_food">
+						      <figure>
+						            <img src="/static/img/ertong.png" />
+						             <figcaption>儿童健康</figcaption>
+						      </figure>
+						 </router-link>
+						 <router-link :to="{path:'/articleCategory',query:{articleCategory:3}}" class="link_to_food">
+						      <figure>
+						            <img src="/static/img/old.png" />
+						             <figcaption>老年健康</figcaption>
+						      </figure>
+						 </router-link>
+						 <router-link :to="{path:'/articleCategory',query:{articleCategory:3}}" class="link_to_food">
+						      <figure>
+						            <img src="/static/img/ai.png" />
+						             <figcaption>癌症防治</figcaption>
+						      </figure>
+						 </router-link>
+					 </div>
 		        </div>
 		        <div class="swiper-pagination"></div>
 		    </div>

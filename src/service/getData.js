@@ -4,8 +4,8 @@ import {getStore} from '../config/mUtils'
 let baseUrl = '';
 let routerMode = 'history';
 if (process.env.NODE_ENV == 'development') {  
-   baseUrl = 'http://192.144.236.155:8080';
-  // baseUrl = 'http://localhost:8080';
+   //baseUrl = 'http://192.144.236.155:8080';
+   baseUrl = 'http://localhost:8080';
 }else{  
     baseUrl = 'http://www.test.com';
 }
@@ -517,7 +517,7 @@ export const pay=(orderId)=>fetch(baseUrl+'/pay',{orderId},'GET')
 export const getMyUser=(id)=>fetch(baseUrl+'/user/get',{id},'GET')
 export const getDoctor=(id)=>fetch(baseUrl+'/doctor/get',{id},'GET')
 export const getCommits=(doctorId)=>fetch(baseUrl+'/commit/get',{doctorId},'GET')
-export const addCommit=(userName, doctorId, content)=>fetch(baseUrl+'/commit/add',{userName,doctorId,content},'GET')
+export const addCommit=(userName, doctorId, content,score)=>fetch(baseUrl+'/commit/add',{userName,doctorId,content,score},'GET')
 export const addInfomation=(data)=>fetch(baseUrl+'/info/add',data,'POST')
 export const getInfomation=(orderId)=>fetch(baseUrl+'/info/get',{orderId},'GET')
 export const authentication=(data)=>fetch(baseUrl+'/doctor/authentication',data,'POST')
@@ -535,5 +535,12 @@ export const getArticleDetailById=(articleId)=>fetch(baseUrl+'/article/getOne',{
 export const getHotArticle=()=>fetch(baseUrl+'/article/getHot','GET')
 export const getAskByUserId=(userId)=>fetch(baseUrl+'/ask/user/get',{userId},'GET')
 export const getAskByDoctorId=(doctorId)=>fetch(baseUrl+'/ask/doctor/get',{doctorId},'GET')
+
+export const viewArticle=(articleId)=>fetch(baseUrl+'/article/view/',{articleId},'GET')
+export const likeArticle=(articleId,userId)=>fetch(baseUrl+'/article/like',{articleId,userId},'GET')
+export const getArticleByDoctorId=(doctorId)=>fetch(baseUrl+'/article/getByDoctorId',{doctorId},'GET')
+export const searchArticle=(title)=>fetch(baseUrl+'/article/searchArticle',{title},'GET')
+export const getArticleByCategoryId=(category)=>fetch(baseUrl+'/article/getByCategory',{category},'GET')
+export const getOrderByUserId=(userId)=>fetch(baseUrl+'/order/user/get',{userId},'GET')
 
 

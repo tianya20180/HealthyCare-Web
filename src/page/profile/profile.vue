@@ -37,6 +37,7 @@
                    
                    
                 </ul>
+				
             </section>
             <section class="profile-1reTe">
                 <!-- 我的订单 -->
@@ -64,38 +65,7 @@
             </section>
             <section class="profile-1reTe">
                 <!-- 服务中心 -->
-                <router-link to='/service' class="myorder">
-                    <aside>
-                        <svg fill="#4aa5f0">
-                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#service"></use>
-                        </svg>
-                    </aside>
-                    <div class="myorder-div">
-                        <span>服务中心</span>
-                        <span class="myorder-divsvg">
-                            <svg fill="#bbb">
-                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
-                            </svg>
-                        </span>
-                    </div>
-                </router-link>
-                <!-- 下载饿了么APP -->
-                <router-link to='/download' class="myorder">
-                    <aside>
-                        <svg fill="#3cabff">
-                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#download"></use>
-                        </svg>
-                    </aside>
-                    <div class="myorder-div" style="border-bottom:0;">
-                        <span @click="changePassword()">修改密码</span>
-                        <span class="myorder-divsvg">
-                            <svg fill="#bbb">
-                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
-                            </svg>
-                        </span>
-                    </div>
-					
-                </router-link>
+               
 				<router-link to="/authentication" class="myorder">
 					<div class="myorder-div" style="border-bottom:0;" v-if="this.identity==1">
 					    <span @click="authentication()">医生认证</span>
@@ -117,6 +87,82 @@
 					</div>
 				</router-link>
 				
+				<router-link to="/articleList" class="myorder">
+					<div class="myorder-div" style="border-bottom:0;" v-if="this.identity==1">
+					    <span >我的文章</span>
+					    <span class="myorder-divsvg">
+					        <svg fill="#bbb">
+					            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
+					        </svg>
+					    </span>
+					</div>
+				</router-link>
+				<router-link to="/articleList" class="myorder">
+					<div class="myorder-div" style="border-bottom:0;" v-if="this.identity==1">
+					    <span >我的评论</span>
+					    <span class="myorder-divsvg">
+					        <svg fill="#bbb">
+					            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
+					        </svg>
+					    </span>
+					</div>
+				</router-link>
+				<router-link to="/articleList" class="myorder">
+					<div class="myorder-div" style="border-bottom:0;" v-if="this.identity==0">
+					    <span >我的处方单</span>
+					    <span class="myorder-divsvg">
+					        <svg fill="#bbb">
+					            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
+					        </svg>
+					    </span>
+					</div>
+				</router-link>
+				<router-link to="/orderList" class="myorder">
+					<div class="myorder-div" style="border-bottom:0;" v-if="this.identity==0">
+					    <span >我的订单</span>
+					    <span class="myorder-divsvg">
+					        <svg fill="#bbb">
+					            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
+					        </svg>
+					    </span>
+					</div>
+				</router-link>
+				<router-link to='/service' class="myorder">
+				  
+				    <div class="myorder-div">
+				        <span>服务中心</span>
+				        <span class="myorder-divsvg">
+				            <svg fill="#bbb">
+				                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
+				            </svg>
+				        </span>
+				    </div>
+				</router-link>
+				<!-- 下载饿了么APP -->
+				<router-link to='/download' class="myorder">
+				  
+				    <div class="myorder-div" style="border-bottom:0;">
+				        <span @click="changePassword()">修改密码</span>
+				        <span class="myorder-divsvg">
+				            <svg fill="#bbb">
+				                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
+				            </svg>
+				        </span>
+				    </div>
+					
+				</router-link>
+				<router-link to='/login' class="myorder">
+				  
+				    <div class="myorder-div" style="border-bottom:0;">
+				        <span @click="changePassword()">退出登录</span>
+				        <span class="myorder-divsvg">
+				            <svg fill="#bbb">
+				                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
+				            </svg>
+				        </span>
+				    </div>
+					
+				</router-link>
             </section>
         </section>
         <foot-guide></foot-guide>

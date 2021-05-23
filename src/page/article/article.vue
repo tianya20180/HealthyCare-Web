@@ -1,12 +1,23 @@
 
 <template>
   <div class="editor">
-    <h3>编辑页面</h3>
-    <el-form ref="form" :model="form" label-width="80px">
+	 <head-top head-title="发表文章" go-back='true'></head-top>
+  
+    <el-form ref="form" :model="form" label-width="40px" class="form"> 
       <el-form-item label="标题">
         <el-input v-model="form.title"></el-input>
       </el-form-item>
-      <el-form-item label="描述">
+	  <el-form-item label="类别">
+	    <el-select v-model="form.articletype"  style="width: 12rem; ">
+	    	<el-option value="1" label="养生类"></el-option>
+	    	<el-option value="2" label="传染病防治"></el-option>
+	    	<el-option value="3" label="儿童健康"></el-option>
+	    	<el-option value="4" label="老年健康"></el-option>
+	    	<el-option value="5" label="癌症防治"></el-option>
+	    	
+	    </el-select>
+	  </el-form-item>
+      <el-form-item label="描述" >
         <el-input v-model="form.description"></el-input>
       </el-form-item>
       <el-form-item label="正文">
@@ -32,6 +43,8 @@
  
  
 import { quillEditor } from 'vue-quill-editor'
+import headTop from 'src/components/header/head'
+import footGuide from 'src/components/footer/footGuide'
 import axios from 'axios'
 export default {
   components: { quillEditor },
@@ -39,9 +52,11 @@ export default {
   data() {
     return {
       form: {
+		  userinto:{},
         title: '',
         description: '',
         content: '',
+		articletype:''
       },
       editorOption: {
         modules: {
@@ -75,7 +90,12 @@ export default {
     }
   },
   computed: {},
+  components:{
+      headTop,
+      footGuide,
+  },
   created() {
+	  this.userinfo=this.$store.state.userinfo;
 	  console.log("created")
   },
   mounted() {},
@@ -101,11 +121,14 @@ export default {
         this.$message('请输入正文')
       }
  
- 
+      let _this=this;
       let formData = new FormData()
       formData.append('title', this.form.title)
       formData.append('description', this.form.description)
       formData.append('content', this.form.content)
+	  formData.append('createuserid', this.userinfo.id)
+	  formData.append('articletype', this.form.articletype)
+	  
       // 发送 POST 请求
       axios({
         method: 'post',
@@ -126,7 +149,7 @@ export default {
           //   description: '',
           //   content: '',
           // }
-          this.$router.goBack()
+         _this.$router.go(-1)
         })
         .catch(function(error) {
           console.log(error)
@@ -139,9 +162,13 @@ export default {
  
 <style >
 .editor {
-  height: 500px;
+  height: 15rem;
+  width: 95%;
 }
 .btn {
-  margin-top: 100px;
+  margin-top: 120px;
+}
+.form{
+	margin-top: 70px;
 }
 </style>

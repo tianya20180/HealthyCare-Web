@@ -2,7 +2,7 @@
   	<div class="paddingTop search_page">
         <head-top head-title="搜索" goBack="true"></head-top>
         <form class="search_form">
-            <input type="search" name="search" placeholder="请输入医生或者疾病" class="search_input" v-model="searchValue" @input="checkInput">
+            <input type="search" name="search" placeholder="请输入医生、疾病或者文章" class="search_input" v-model="searchValue" @input="checkInput">
             <input type="submit" name="submit" class="search_submit" @click.prevent="searchTarget('')">
         </form>
         <section v-if="doctorList.length">
@@ -25,21 +25,47 @@
 							<button class="ask">查看详情</button>
 							
 							<p>姓名 {{item.userName}} </p>
-                            <p>问诊量 {{item.month_sales||item.recent_order_num}} 单</p>
-							
+                            <p>问诊量 {{item.count}} 单</p>
+							<my-rate v-model="item.score" readonly="false"/>
                         </div>
                     
                     </section>
                 </router-link>
             </ul>
         </section>
-		<section v-else>
-			<el-card v-for="(item,i) in artilceList">
+		
+		
+		<section v-else-if="searchArticleList.length!=0">
+			<el-card v-for="(item,i) in searchArticleList" class="article">
 			 
 				  <div >
 					   <router-link :to="{ path: '/articleDeatil', query: { id: item.id }}">
-							<span>{{item.title}}</span>
+							<span class="title">{{item.title}}</span>
 					    </router-link>
+						<br />
+						<router-link :to="{ path: '/articleDeatil', query: { id: item.id }}">
+							<span>{{item.description}}</span>
+						</router-link>
+						<div class="view"><i class="el-icon-caret-top"></i>{{item.likeCount}}</div>
+						<div class="view"><i class="el-icon-view"></i>{{item.viewCount}}</div>
+				  </div>
+			 
+				
+			</el-card>
+		</section>
+		<section v-else>
+			<el-card v-for="(item,i) in artilceList" class="article">
+			 
+				  <div >
+					   <router-link :to="{ path: '/articleDeatil', query: { id: item.id }}">
+							<span class="title">{{item.title}}</span>
+					    </router-link>
+						<br />
+						<router-link :to="{ path: '/articleDeatil', query: { id: item.id }}">
+							<span>{{item.description}}</span>
+						</router-link>
+						<div class="view"><i class="el-icon-caret-top"></i>{{item.likeCount}}</div>
+						<div class="view"><i class="el-icon-view"></i>{{item.viewCount}}</div>
 				  </div>
 			 
 				
@@ -47,6 +73,10 @@
 		</section>
        
         <div class="search_none" v-if="emptyResult">很抱歉！无搜索结果</div>
+		
+		
+	
+		
         <foot-guide></foot-guide>
     </div>
 </template>
@@ -54,9 +84,10 @@
 <script>
 import headTop from '../../components/header/head'
 import footGuide from '../../components/footer/footGuide'
-import {searchDoctor,getHotArticle} from '../../service/getData'
+import {searchDoctor,getHotArticle,searchArticle} from '../../service/getData'
 import {imgBaseUrl} from '../../config/env'
 import {getStore, setStore} from '../../config/mUtils'
+import myRate from '../../components/common/myRate'
 
 export default {
 	data(){
@@ -71,7 +102,8 @@ export default {
 			userinfo:null,
 			id:'',
 			path:'',
-			artilceList:[]
+			artilceList:[],
+			searchArticleList:[]
         }
     },
     async created(){
@@ -83,6 +115,7 @@ export default {
 	   console.log(this.path);
 	   let res=await getHotArticle();
 	   this.artilceList=res.data;
+	   console.log(this.artilceList);
     },
     mounted(){
         this.geohash = this.$route.params.geohash;
@@ -94,6 +127,7 @@ export default {
     components:{
         headTop,
         footGuide,
+		myRate
     },
     methods:{
         //点击提交按钮，搜索结果并显示，同时将搜索内容存入历史记录
@@ -109,10 +143,14 @@ export default {
             
 			let res = await searchDoctor(this.searchValue);
 			this.doctorList=res.data;
-			console.log("search res:"+this.doctorList.data);
-            this.emptyResult = !this.doctorList.length;
-			console.log("length:"+this.doctorList.length);
-			console.log("empty result:"+this.emptyResult);
+			let articleRes = await searchArticle(this.searchValue);
+			this.searchArticleList=articleRes.data;
+			console.log(this.searchArticleList);
+			if(this.doctorList==null||this.doctorList==undefined||this.doctorList.length==0){
+				if(this.searchArticleList==null||this.searchArticleList.length==0){
+					this.emptyResult=true;
+				}
+			}
             /**
              * 点击搜索结果进入下一页面时进行判断是否已经有一样的历史记录
              * 如果没有则新增，如果有则不做重复储存，判断完成后进入下一页
@@ -283,4 +321,113 @@ export default {
 	#like{
 		front-size:1px;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	#side .item {
+			margin-bottom: 30px;
+		}
+		
+		.art-item {
+			margin-bottom: 30px;
+			position: relative;
+		}
+		
+		.art-item .star {
+			width: 60px;
+			height: 60px;
+			position: absolute;
+			top: 0;
+			right: 0;
+		}
+		
+		img.tag {
+			width: 16px;
+			height: 16px;
+		}
+		
+		.art-title {
+			border-left: 3px solid #F56C6C;
+			padding-left: 5px;
+			cursor: pointer;
+		}
+		
+		.art-title:hover {
+			padding-left: 10px;
+			color: #409EFF;
+		}
+		
+		.art-time {
+			margin-right: 20px;
+		}
+		
+		.art-body {
+			display: flex;
+			padding: 10px 0;
+		}
+		
+		.side-img {
+			height: 150px;
+			width: 270px;
+			overflow: hidden;
+			margin-right: 10px;
+		}
+		
+		img.art-banner {
+			width: 100%;
+			height: 100%;
+			transition: all 0.6s;
+		}
+		
+		img.art-banner:hover {
+			transform: scale(1.4);
+		}
+		
+		.side-abstract {
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+		}
+		
+		.art-abstract {
+			flex: 1;
+			color: #aaa;
+		}
+		
+		.art-more {
+			height: 40px;
+			display: flex;
+			justify-content: space-between;
+			align-items: flex-end;
+		}
+		
+		.art-more .view {
+			color: #aaa;
+		}
+		h5{
+			font-size: 18px;
+		}
+		.pagination {
+			background-color: #F9F9F9;
+		}
+		.view{
+			color: #aaa;
+			float: right;
+		}
+		.article{
+			font-size:15px;
+		}
+		.title{
+			font-weight:bold;
+		}
+	
+	
+	
+	
+	
 </style>

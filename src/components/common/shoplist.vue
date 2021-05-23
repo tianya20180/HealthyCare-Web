@@ -22,7 +22,8 @@
 							
 							<p>姓名 {{item.userName}} </p>
 		                    <p>问诊量 {{item.count}} 单</p>
-							
+							<my-rate v-model="item.score" readonly="false"/>
+						
 		                </div>
 		            
 		            </section>
@@ -42,6 +43,7 @@ import {showBack, animate} from 'src/config/mUtils'
 import {loadMore, getImgPath} from './mixin'
 import loading from './loading'
 import ratingStar from './ratingStar'
+import myRate from './myRate'
 
 export default {
 	data(){
@@ -69,6 +71,7 @@ export default {
 	components: {
 		loading,
 		ratingStar,
+		myRate
 	},
 	props: ['restaurantCategoryId', 'restaurantCategoryIds', 'sortByType', 'deliveryMode', 'supportIds', 'confirmSelect', 'geohash'],
 	mixins: [loadMore, getImgPath],

@@ -23,11 +23,9 @@
 		  
        </form>
 	   <form class="button_form">
-		   <router-link :to="{path:'/prescription',query: { userId:userId,orderId:orderId }}" v-if="identity==1">
-		   	   	<input type="submit" name="submit" class="submit"  value="处方单">
-		      </router-link>
-		    <router-link :to="{path:'/prescription',query: { orderId:orderId }}" v-if="identity==0">
-		    			   	<input type="submit" name="submit" class="submit"  value="处方单">
+	
+		    <router-link :to="{path:'/diagnosis',query: { userId:toId }}" v-if="identity==1">
+		    			   	<input type="submit" name="submit" class="submit"  value="诊断书">
 		    </router-link>
 		     <input type="submit"  class="submit" @click="end()" value="结束" v-if="identity==0">
 		   
@@ -73,7 +71,8 @@ export default {
 		identity:'',
 		tempId:'',
 		photoBase64:'',
-		information:''
+		information:'',
+		toId:''
         }
     },
     created(){
@@ -103,6 +102,7 @@ export default {
 		 this.orderId=this.$route.query.orderId;
 		 this.identity=this.userinfo.identity;
 		 let to = this.$route.query.to;
+		 this.toId= this.$route.query.to;
 		 this.tempId=to;
 		 let res;
 		 if(this.identity==0){
