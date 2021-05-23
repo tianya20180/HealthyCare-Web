@@ -68,8 +68,8 @@ module.exports = server.listen(port, function(err) {
         console.log(err)
         return
     }
-	var uri ='http://192.144.236.155:8080'+ port
-    //var uri = 'http://localhost:' + port
+	//var uri ='http://192.144.236.155:'+ port
+    var uri = 'http://localhost:' + port
     console.log('Listening at ' + uri + '\n')
 
     // when env is testing, don't need open it
