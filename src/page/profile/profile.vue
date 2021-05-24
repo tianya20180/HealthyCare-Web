@@ -97,7 +97,7 @@
 					    </span>
 					</div>
 				</router-link>
-				<router-link to="/articleList" class="myorder">
+				<router-link to="/commitList" class="myorder">
 					<div class="myorder-div" style="border-bottom:0;" v-if="this.identity==1">
 					    <span >我的评论</span>
 					    <span class="myorder-divsvg">
