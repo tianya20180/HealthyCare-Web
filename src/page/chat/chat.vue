@@ -73,7 +73,7 @@ export default {
 		photoBase64:'',
 		information:'',
 		toId:'',
-		status:''
+		status:1
         }
     },
     created(){
@@ -111,7 +111,7 @@ export default {
 			 console.log("0");
 			  res=await getOfflineMsgByUser(this.userinfo.id);
 			  let askRes=await getAskStatus(this.userId,this.toId);
-			  
+			   this.status=askRes.data;
 			  
 			  console.log(this.status)
 		
