@@ -64,8 +64,8 @@
 						<router-link :to="{ path: '/articleDeatil', query: { id: item.id }}">
 							<span>{{item.description}}</span>
 						</router-link>
-						<div class="view"><i class="el-icon-caret-top"></i>{{item.likeCount}}</div>
-						<div class="view"><i class="el-icon-view"></i>{{item.viewCount}}</div>
+						<!--<div class="view"><i class="el-icon-caret-top"></i>{{item.likeCount}}</div>
+						<div class="view"><i class="el-icon-view"></i>{{item.viewCount}}</div>-->
 				  </div>
 			 
 				
