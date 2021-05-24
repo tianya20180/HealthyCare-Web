@@ -111,14 +111,14 @@ export default {
 			 console.log("0");
 			  res=await getOfflineMsgByUser(this.userinfo.id);
 			  let askRes=await getAskStatus(this.userId,this.toId);
-			  console.log(askRes.data);
-			  this.status=askRes.data;
+			  
+			  
 			  console.log(this.status)
 		
 		 }else{
 			 console.log("1");
 			  res=await getOfflineMsgByDoctor(this.userinfo.id);
-			  let ask=await getAskStatus(this.toId,this.userId);
+			  let askRes=await getAskStatus(this.toId,this.userId);
 			  this.status=askRes.data;
 		 }
 		 if(this.status==0){
