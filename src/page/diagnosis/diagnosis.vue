@@ -11,7 +11,7 @@
 							
 							
 				<el-form-item label="治疗建议">
-				    <el-input type="textarea" :rows="4" v-model="suggestsion"></el-input>
+				    <el-input type="textarea" :rows="4" v-model="suggestion"></el-input>
 				 </el-form-item>
 			</el-form>
 				
@@ -27,7 +27,7 @@
     import alertTip from '../../components/common/alertTip'
     import {localapi, proapi, imgBaseUrl} from 'src/config/env'
     import {mapState, mapMutations} from 'vuex'
-    import {addInfomation } from '../../service/getData'
+    import {addInfomation,addDiagnosis} from '../../service/getData'
 	import Stomp from 'stompjs'
 	import SockJS from 'sockjs-client'
     export default {
@@ -49,7 +49,7 @@
 			   title:'',
 			   age:'',
 			   diagnosis:'',
-			   suggestsion:'',
+			   suggestion:'',
 			   identity:'',
 			   stompClient:''
             }
@@ -80,7 +80,7 @@
 		  	 
 		  },
 		   async submit(){
-			   let msg="诊断以及病情："+this.diagnosis+"治疗建议："+this.suggestsion;
+			   let msg="诊断以及病情："+this.diagnosis+"治疗建议："+this.suggestion;
 			   let avatar=this.userinfo.avatar;
 			   let url='../../static/image/avatar/'+avatar;
 			   let obj = {
@@ -94,6 +94,15 @@
 			   };
 			    let jsonStr= JSON.stringify(obj);
 				this.stompClient.send("/app/ptp/single/chat", {}, jsonStr);
+				let data={
+					'suggestion':this.suggestion,
+					'diagnosis':this.diagnosis,
+					'userId':this.userId,
+					'doctorId':this.userinfo.id
+				}
+				console.log(data);
+				let res=await addDiagnosis(data);
+				console.log(res);
 				this.$router.go(-1);
 		   }
         }

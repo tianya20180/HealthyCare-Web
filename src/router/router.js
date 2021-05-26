@@ -63,6 +63,7 @@ const articleCategory=r => require.ensure([], () => r(require('../page/articleCa
 const commitList=r => require.ensure([], () => r(require('../page/commitList/commitList')), 'commitList')
 const orderList=r => require.ensure([], () => r(require('../page/orderList/orderList')), 'orderList')
 const diagnosis=r => require.ensure([], () => r(require('../page/diagnosis/diagnosis')), 'diagnosis')
+const diagnosisList=r => require.ensure([], () => r(require('../page/diagnosisList/diagnosisList')), 'diagnosisList')
 
 export default [{
     path: '/',
@@ -328,6 +329,10 @@ export default [{
 		},{
 			path:'diagnosis',
 			component:diagnosis
+		},
+		{
+			path:'diagnosisList', 
+			component:diagnosisList
 		}
     ]
 }]

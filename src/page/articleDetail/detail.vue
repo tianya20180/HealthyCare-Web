@@ -9,8 +9,8 @@
 		  <div class="con" v-html="detail.content"></div>
 		  <div class="time">{{ detail.createdatetime }}</div>
 		  <div class="author">作者：{{ detail.authorName }}</div>
-		 <!-- <div class="view"><i class="el-icon-caret-top" @click="like()"></i>{{detail.likeCount}}</div>
-		  <div class="view"><i class="el-icon-view" ></i>{{detail.viewCount}}</div>-->
+		  <div class="view"><i class="el-icon-caret-top" @click="like()"></i>{{detail.likeCount}}</div>
+		  <div class="view"><i class="el-icon-view" ></i>{{detail.viewCount}}</div>
 		</el-card>
 	</div>
    

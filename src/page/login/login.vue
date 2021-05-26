@@ -191,7 +191,7 @@
                     this.RECORD_USERINFO(this.userInfo);
 				    this.userInfo.identity=this.identity;
 					this.$store.state.userinfo=this.userInfo;
-					this.$router.push({ name: 'msite', params: { geohash: '31.22299,121.36025' }});
+					this.$router.push({ name: 'msite'});
               //      this.$router.push({ name: 'msite', params: { geohash: '' });
 
                 }

@@ -1,20 +1,15 @@
 <template>
 	<div>
-		  <head-top head-title="文章列表" go-back='true'></head-top>
-		<el-card v-for="(item,i) in artilceList" class="article">
+		  <head-top head-title="诊断记录" go-back='true'></head-top>
+		<el-card v-for="(item,i) in diagnosisList" class="article2">
 			  <div>
-				   <router-link :to="{ path: '/articleDeatil', query: { id: item.id }}">
-						<span class="title">{{item.title}}</span>
-				    </router-link>
+					<span class="title">病情诊断：{{item.illness}}</span>
 					<br />
-					<router-link :to="{ path: '/articleDeatil', query: { id: item.id }}">
-						<span>{{item.description}}</span>
-					</router-link>
-					<div class="view"><i class="el-icon-caret-top"></i>{{item.likeCount}}</div>
-					<div class="view"><i class="el-icon-view"></i>{{item.viewCount}}</div>
+						<span>治疗建议：{{item.suggestion}}</span>
+					<br />
+					<span>医生：{{item.doctorName}}</span>
+					<div class="view"><i class="el-icon-caret-top"></i>{{item.createTime}}</div>
 			  </div>
-		 
-			
 		</el-card>
 		<foot-guide></foot-guide>
 		
@@ -23,7 +18,7 @@
 <script>
 import headTop from '../../components/header/head'
 import footGuide from '../../components/footer/footGuide'
-import {searchDoctor,getHotArticle,getArticleByCategoryId} from '../../service/getData'
+import {searchDoctor,getHotArticle,getCommits,getDiagnosis} from '../../service/getData'
 import {imgBaseUrl} from '../../config/env'
 import {getStore, setStore} from '../../config/mUtils'
 
@@ -40,17 +35,18 @@ export default {
 			userinfo:null,
 			id:'',
 			path:'',
-			artilceList:[]
+			diagnosisList:[],
+			userinfo:{}
         }
     },
     async created(){
 		console.log("created");
-	   let id=this.$route.query.articleCategory;
+	   this.userinfo=this.$store.state.userinfo;
+	   let id=this.userinfo.id;
 	   console.log(id);
-       this.userinfo=this.$store.state.userinfo;
-	   let res=await getArticleByCategoryId(id);
+	   let res=await getDiagnosis(id);
 	   console.log(res);
-	   this.artilceList=res.data;
+	   this.diagnosisList=res.data;
     },
     mounted(){
      
@@ -71,8 +67,9 @@ export default {
 				float: right;
 				font-size:12px;
 	}
-	.article{
+	.article2{
 		font-size:15px;
+		margin-top: 50px;
 	}
 	.title{
 		font-weight:bold;

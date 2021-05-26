@@ -9,98 +9,23 @@
     	<nav class="msite_nav">
     		<div class="swiper-container" >
 		        <div class="swiper-wrapper">
-		           <!-- <div class="swiper-slide food_types_container" v-for="(item, index) in foodTypes" :key="index">
-	            		<router-link :to="{path: '/food', query: {geohash, title: foodItem.title, restaurant_category_id: getCategoryId(foodItem.link)}}" v-for="foodItem in item" :key="foodItem.id" class="link_to_food">
+					
+		            <div class="swiper-slide food_types_container" >
+	            		<router-link :to="{path: '/category',query:{categoryId:foodItem.id}}" v-for="foodItem in foodTypes" :key="foodItem.id" class="link_to_food">
 	            			<figure>
-	            				<img :src="imgBaseUrl + foodItem.image_url">
-	            				<figcaption>{{foodItem.title}}</figcaption>
+	            				<img :src="foodItem.photo">
+	            				<figcaption>{{foodItem.categoryName}}</figcaption>
 	            			</figure>
 	            		</router-link>
-		            </div>-->
-					<div class="swiper-slide food_types_container">
-						<router-link :to="{path:'/category',query:{categoryId:1}}" class="link_to_food">
-						     <figure>
-								    
-						            <!--<img src="..\..\static\img\pifu.jpg">-->
-									<img src="/static/img/pifu.png" />
-						            <figcaption>皮肤科</figcaption>
-						     </figure>
-						</router-link>
-						<router-link :to="{path:'/category',query:{categoryId:2}}" class="link_to_food">
-						     <figure>
-						            <img src="/static/img/er.png" />
-						            <figcaption>耳喉鼻科</figcaption>
-						     </figure>
-						</router-link>
-						<router-link :to="{path:'/category',query:{categoryId:3}}" class="link_to_food">
-						     <figure>
-						            <img src="/static/img/ganbing.png" />
-						            <figcaption>肝病科</figcaption>
-						     </figure>
-						</router-link>
-						<router-link :to="{path:'/category',query:{categoryId:4}}" class="link_to_food">
-						     <figure>
-						             <img src="/static/img/hai.png" />
-						            <figcaption>儿科</figcaption>
-						     </figure>
-						</router-link>
-						<router-link :to="{path:'/category',query:{categoryId:5}}" class="link_to_food">
-						     <figure>
-						             <img src="/static/img/nei.png" />
-						            <figcaption>内科</figcaption>
-						     </figure>
-						</router-link>
-						<router-link :to="{path:'/category',query:{categoryId:6}}" class="link_to_food">
-						     <figure>
-						            <img src="/static/img/xiaohua.png" />
-						            <figcaption>消化科</figcaption>
-						     </figure>
-						</router-link>
-						<router-link :to="{path:'/category',query:{categoryId:7}}" class="link_to_food">
-						     <figure>
-						             <img src="/static/img/fu.png" />
-						            <figcaption>妇科</figcaption>
-						     </figure>
-						</router-link>
-						<router-link :to="{path:'/articleCategory',query:{categoryId:8}}" class="link_to_food">
-						     <figure>
-						           <img src="/static/img/nao.png" />
-						            <figcaption>心脑科</figcaption>
-						     </figure>
-						</router-link>
-						
-					 </div>
-					 <div class="swiper-slide food_types_container">
-						 <router-link :to="{path:'/articleCategory',query:{articleCategory:1}}" class="link_to_food">
-						      <figure>
-						            <img src="/static/img/yangsheng.png" />
-						             <figcaption>养生类</figcaption>
-						      </figure>
-						 </router-link>
-						 <router-link :to="{path:'/articleCategory',query:{articleCategory:2}}" class="link_to_food">
-						      <figure>
-						            <img src="/static/img/chuanran.png" />
-						             <figcaption>传染病防治</figcaption>
-						      </figure>
-						 </router-link>
-						 <router-link :to="{path:'/articleCategory',query:{articleCategory:3}}" class="link_to_food">
-						      <figure>
-						            <img src="/static/img/ertong.png" />
-						             <figcaption>儿童健康</figcaption>
-						      </figure>
-						 </router-link>
-						 <router-link :to="{path:'/articleCategory',query:{articleCategory:3}}" class="link_to_food">
-						      <figure>
-						            <img src="/static/img/old.png" />
-						             <figcaption>老年健康</figcaption>
-						      </figure>
-						 </router-link>
-						 <router-link :to="{path:'/articleCategory',query:{articleCategory:3}}" class="link_to_food">
-						      <figure>
-						            <img src="/static/img/ai.png" />
-						             <figcaption>癌症防治</figcaption>
-						      </figure>
-						 </router-link>
+		            </div>
+			
+					 <div class="swiper-slide food_types_container" >
+					 	<router-link :to="{path: '/category',query:{categoryId:Item.id}}"  v-for="Item in articleTypes" :key="Item.id" class="link_to_food">
+					 		<figure>
+					 			<img :src="Item.photo">
+					 			<figcaption>{{Item.categoryName}}</figcaption>
+					 		</figure>
+					 	</router-link>
 					 </div>
 		        </div>
 		        <div class="swiper-pagination"></div>
@@ -126,7 +51,7 @@ import {mapMutations} from 'vuex'
 import headTop from 'src/components/header/head'
 import footGuide from 'src/components/footer/footGuide'
 import shopList from 'src/components/common/shoplist'
-import {msiteAdress, msiteFoodTypes, cityGuess} from 'src/service/getData'
+import {msiteAdress, msiteFoodTypes, cityGuess,getDoctorCategory,getArticleCategory} from 'src/service/getData'
 import 'src/plugins/swiper.min.js'
 import 'src/style/swiper.min.css'
 
@@ -138,6 +63,7 @@ export default {
             foodTypes: [], // 食品分类列表
             hasGetData: false, //是否已经获取地理位置数据，成功之后再获取商铺列表信息
             imgBaseUrl: 'https://fuss10.elemecdn.com', //图片域名地址
+			articleTypes:[]
         }
     },
     async beforeMount(){
@@ -158,25 +84,21 @@ export default {
 		*/
     	this.hasGetData = true;
     },
-    mounted(){
-        //获取导航食品类型列表
-		
-       	msiteFoodTypes(this.geohash).then(res => {
-       		let resLength = res.length;
-       		let resArr = [...res]; // 返回一个新的数组
-       		let foodArr = [];
-    		for (let i = 0, j = 0; i < resLength; i += 8, j++) {
-    			foodArr[j] = resArr.splice(0, 8);
-    		}
-    		this.foodTypes = foodArr;
-        }).then(() => {
-        	//初始化swiper
-        	new Swiper('.swiper-container', {
-		        pagination: '.swiper-pagination',
-		        loop: true
-		    });
-        })
-    },
+	async mounted(){
+		getDoctorCategory().then(async res => {
+			this.foodTypes = res.data;
+			console.log(this.foodTypes);
+			let articleRes=await getArticleCategory();
+			this.articleTypes=articleRes.data;
+			console.log(this.articleTypes);
+		}).then(() => {
+			//初始化swiper
+			new Swiper('.swiper-container', {
+					        pagination: '.swiper-pagination',
+					        loop: true
+					    });
+		})
+	},
     components: {
     	headTop,
     	shopList,
@@ -276,6 +198,10 @@ export default {
 				@include font(0.55rem, 1.6rem);
 			}
 		}
+	}
+	.all{
+		font-size: 15px;
+		float: right;
 	}
 
 </style>

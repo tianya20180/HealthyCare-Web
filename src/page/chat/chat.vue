@@ -26,8 +26,11 @@
 	
 		    <router-link :to="{path:'/diagnosis',query: { userId:toId }}" v-if="identity==1">
 		    			   	<input type="submit" name="submit" class="submit"  value="诊断书">
-		    </router-link>
-		     <input type="submit"  class="submit" @click="end()" value="结束" v-if="identity==0">
+			  </router-link>
+			  <router-link :to="{path:'/commit',query: { doctorId:toId }}" >
+				<input type="submit"  class="submit" value="结束" v-if="identity==0">
+			  </router-link>
+		 
 		   
 		    <input type="file" name="submit" class="submit" id="file"  size="1" label="发送图片" @change="sendPhoto" style="width: 2rem;">
 			
@@ -116,14 +119,14 @@ export default {
 			  console.log(this.status)
 		
 		 }else{
-			 console.log("1");
+			 console.log("1"); 
 			  res=await getOfflineMsgByDoctor(this.userinfo.id);
 			  let askRes=await getAskStatus(this.toId,this.userId);
 			  this.status=askRes.data;
 		 }
 		 if(this.status==0){
 			 alert("当前问诊已结束");
-			 this.$router.go(-1)
+			 this.$router.push({path:'/msite'})
 		 }
 		 let data=res.data;
 		 console.log(data);
@@ -175,13 +178,7 @@ export default {
 		 }
 	},
     methods:{
-		async end(){ 
-			let id = this.$route.query.id; 
-			let to = this.$route.query.to; 
-			await changeAskStatus(id,to);
-			 this.$router.push({path: '/commit', query: {doctorId:to}});
-			 
-			},
+	
 		async sendPhoto(e){	 
 					let id = this.$route.query.id;
 					let to = this.$route.query.to;
@@ -471,6 +468,7 @@ export default {
 	  width: 100%;
 	  overflow: scroll;
 	  background: #ffffff;
+	  height: 13rem;
 	}
 	
 	.button_form{

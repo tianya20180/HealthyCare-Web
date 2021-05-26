@@ -24,7 +24,7 @@
 
 <script>
     import headTop from 'src/components/header/head'
-    import {getService,addCommit} from 'src/service/getData'
+    import {getService,addCommit,changeAskStatus} from 'src/service/getData'
     import {mapMutations} from 'vuex'
 	import footGuide from '../../components/footer/footGuide'
 	import myRate from 'src/components/common/myRate'
@@ -37,12 +37,15 @@
 				userinfo:{},
 				doctroId:'',
 				content:'',
-				score:0
+				score:0,
+				doctorId:''
             }
         },
-		created(){
+		async created(){
 			this.userinfo=this.$store.state.userinfo;		
 			this.doctorId=this.$route.query.doctorId;
+			await changeAskStatus(this.userinfo.id,this.doctorId);
+		
 		},
         mounted(){
             //this.initData();

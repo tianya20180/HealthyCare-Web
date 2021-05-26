@@ -36,7 +36,7 @@
     import alertTip from '../../components/common/alertTip'
     import {localapi, proapi, imgBaseUrl} from 'src/config/env'
     import {mapState, mapMutations} from 'vuex'
-    import {addInfomation } from '../../service/getData'
+    import {addInfomation,getUserById } from '../../service/getData'
 
     export default {
         data(){
@@ -59,7 +59,10 @@
             }
         },
         async created(){
-		   this.userinfo=this.$store.state.userinfo;
+		    this.userId=this.$route.query.userId;
+		   let res=await getUserById(userId);
+		   this.userinfo=res.data;
+		   this.$store.state.userinfo=this.userInfo;
            this.orderId=this.$route.query.orderId;
 		   this.doctorId=this.$route.query.to;
 		   this.userId=this.userinfo.id;

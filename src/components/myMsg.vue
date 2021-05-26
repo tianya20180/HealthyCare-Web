@@ -4,7 +4,7 @@
        <img :src="avatar" alt="" class="avatar-left" @click="show()"/>
         <img :src="msg"  class="photo" v-if="msg" @click="show()">
        <span v-if="mytime">
-            tt {{ mytime }}
+             {{ mytime }}
        			
          </span>
 		 <el-dialog title="图片" :visible.sync="disable" center :append-to-body='true' :lock-scroll="false" width="30%">
@@ -68,6 +68,7 @@ export default {
 }
 span {
     word-break: break-all;
+	font-size: 13px;
 }
 .time-right {
     position: absolute;

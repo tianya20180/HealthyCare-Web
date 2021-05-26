@@ -35,26 +35,8 @@
         </section>
 		
 		
-		<section v-else-if="searchArticleList.length!=0">
+		<section v-if="searchArticleList.length!=0">
 			<el-card v-for="(item,i) in searchArticleList" class="article">
-			 
-				  <div >
-					   <router-link :to="{ path: '/articleDeatil', query: { id: item.id }}">
-							<span class="title">{{item.title}}</span>
-					    </router-link>
-						<br />
-						<router-link :to="{ path: '/articleDeatil', query: { id: item.id }}">
-							<span>{{item.description}}</span>
-						</router-link>
-						<div class="view"><i class="el-icon-caret-top"></i>{{item.likeCount}}</div>
-						<div class="view"><i class="el-icon-view"></i>{{item.viewCount}}</div>
-				  </div>
-			 
-				
-			</el-card>
-		</section>
-		<section v-else>
-			<el-card v-for="(item,i) in artilceList" class="article">
 			 
 				  <div >
 					   <router-link :to="{ path: '/articleDeatil', query: { id: item.id }}">
@@ -66,6 +48,23 @@
 						</router-link>
 						<!--<div class="view"><i class="el-icon-caret-top"></i>{{item.likeCount}}</div>
 						<div class="view"><i class="el-icon-view"></i>{{item.viewCount}}</div>-->
+				  </div>
+			 
+				
+			</el-card>
+		</section>
+		<section v-else-if="!emptyResult&&doctorList.length==0">
+			<el-card v-for="(item,i) in artilceList" class="article">
+			 
+				  <div >
+					   <router-link :to="{ path: '/articleDeatil', query: { id: item.id }}">
+							<span class="title">{{item.title}}</span>
+					    </router-link>
+						<br />
+						<router-link :to="{ path: '/articleDeatil', query: { id: item.id }}">
+							<span>{{item.description}}</span>
+						</router-link>
+		
 				  </div>
 			 
 				
