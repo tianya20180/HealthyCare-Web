@@ -59,8 +59,9 @@
             }
         },
         async created(){
-		    this.userId=this.$route.query.userId;
-		   let res=await getUserById(userId);
+		    this.userId=this.$route.query.userId; 
+			console.log(this.userId);
+		   let res=await getUserById(this.userId);
 		   this.userinfo=res.data;
 		   this.$store.state.userinfo=this.userInfo;
            this.orderId=this.$route.query.orderId;
