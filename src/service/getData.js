@@ -542,7 +542,7 @@ export const getArticleByDoctorId=(doctorId)=>fetch(baseUrl+'/article/getByDocto
 export const searchArticle=(title)=>fetch(baseUrl+'/article/searchArticle',{title},'GET')
 export const getArticleByCategoryId=(category)=>fetch(baseUrl+'/article/getByCategory',{category},'GET')
 export const getOrderByUserId=(userId)=>fetch(baseUrl+'/order/user/get',{userId},'GET')
-export const getUserById=(userId)=>fetch(baseUrl+'/user/get',{userId},'GET')
+export const getUserById=(id)=>fetch(baseUrl+'/user/get',{id},'GET')
 export const getDoctorCategory=()=>fetch(baseUrl+'/category/doctor/get',{},'GET')
 export const getArticleCategory=()=>fetch(baseUrl+'/category/article/get',{},'GET')
 export const addDiagnosis=(data)=>fetch(baseUrl+'/diagnosis/add',data,'POST')

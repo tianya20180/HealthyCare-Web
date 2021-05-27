@@ -37,7 +37,8 @@
     import {localapi, proapi, imgBaseUrl} from 'src/config/env'
     import {mapState, mapMutations} from 'vuex'
     import {addInfomation,getUserById } from '../../service/getData'
-
+	import Stomp from 'stompjs'
+	import SockJS from 'sockjs-client'
     export default {
         data(){
             return {
@@ -55,20 +56,26 @@
 			   identity:'',
 			   photo:'',
 			   title:'',
-			   age:''
+			   age:'',
+			   stompClient:'',
+			   msgRecord:[]
             }
         },
         async created(){
 		    this.userId=this.$route.query.userId; 
 			console.log(this.userId);
+			console.log(this.$store.state);
 		   let res=await getUserById(this.userId);
 		   this.userinfo=res.data;
-		   this.$store.state.userinfo=this.userInfo;
+		   console.log(this.userinfo);
+		   this.$store.state.userinfo=this.userinfo;
+		   console.log(this.$store.state);
            this.orderId=this.$route.query.orderId;
 		   this.doctorId=this.$route.query.to;
-		   this.userId=this.userinfo.id;
+		   console.log(this.userinfo);
 		   this.identity=this.userinfo.identity;
 		   this.title="问诊单";
+		   this.connect();
         },
         components: {
             headTop,
@@ -76,7 +83,9 @@
         },
      
         methods: {
-		
+			...mapMutations([
+			    'RECORD_USERINFO',
+			]),
             handlePhoto(e){
 				console.log(e);
                 console.log("上传");
@@ -85,7 +94,19 @@
                 	console.log(this.photo);
                  })
             },
-		
+			async connect() {
+				let socket = new SockJS('http://192.144.236.155:8080/endpoint-websocket');
+				let headers = {Authorization:''};
+			  this.stompClient = Stomp.over(socket);
+				await this.stompClient.connect(headers,   () =>  {
+				            }, (err) => {
+				                // 连接发生错误时的处理函数
+				                console.log('失败')
+				                console.log(err);
+				 },
+				 );
+				 
+			},
 		   async submit(){
 			   let data={
 				   userId:this.userId,
@@ -97,16 +118,37 @@
 				   age:this.age
 				   }
 			   console.log(data);
-			   let res=await addInfomation(data);
-			   if(res.status==0){
+			
 				   alert("信息提交成功");
-				   this.$router.push({ path: '/chat', query: { id: this.userId, to: this.doctorId ,orderId:this.orderId} });
+				  
+				   			 let avatar=this.userinfo.avatar;
+				   			 let url='../../static/image/avatar/'+avatar;
+				   		
+				   			 let msg="年龄："+this.age+"  身高（cm）："+this.height+"   体重（kg）："+this.weight+"  病情描述:"+this.desc+"   持续时间"+this.time;
+				   			 console.log(msg);
+				   			 let obj = {
+				   				 content:msg,
+				   			 	  fromId:this.userinfo.id,
+				   			      toId: this.doctorId,
+				   			 	  avatar:url,
+				   			 	  time:"2021",
+				   			      contentType:0,
+				   				  sendType:this.identity
+				   			 };
+							let jsonStr= JSON.stringify(obj);
+							this.stompClient.send("/app/ptp/single/chat", {}, jsonStr);
+				            const record = {
+				   			   time: obj.content,
+				   			   avatar: url,
+							   to:this.doctorId
+				   			 };	
+				            this.msgRecord.push(record);   
+				            localStorage.setItem('msgRecord', JSON.stringify(this.msgRecord));
+				            this.$router.push({ path: '/chat', query: { id: this.userId, to: this.doctorId ,orderId:this.orderId} });
 				   
-			   }else{
-				   alert("信息提交失败");
 			   }
 			   
-		   }
+		   
         }
     }
 

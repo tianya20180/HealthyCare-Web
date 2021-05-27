@@ -102,6 +102,7 @@ export default {
 		 }
 		 
 		 this.userinfo=this.$store.state.userinfo;
+		 console.log(this.userinfo);
 		 this.userId=this.$route.query.id;
 		 this.orderId=this.$route.query.orderId;
 		 this.identity=this.userinfo.identity;
@@ -142,40 +143,16 @@ export default {
 				obj.time=data[i].content;
 			}
 			console.log(obj);
+			/*
+			if(obj.to==this.id){
+				
+			}*/
 			 this.msgRecord.push(obj);
 	
 		 }
 		 
 		 
-		 if(this.identity==0){
-			 let avatar=this.userinfo.avatar;
-			 let url='../../static/image/avatar/'+avatar;
-			 res= await getInfomation(this.orderId);
-			 console.log(res);
-			  data=res.data;
-			 let msg="年龄："+data.age+"  身高（cm）："+data.height+"   体重（kg）："+data.weight+"  病情描述:"+data.des+"   持续时间"+data.times;
-			 console.log(msg);
-			 let obj = {
-				 content:msg,
-			 	  fromId:this.userinfo.id,
-			      toId: to,
-			 	  avatar:url,
-			 	  time:"2021",
-			      contentType:0,
-				  sendType:this.identity
-			 };
-			this.information= JSON.stringify(obj);
-             const record = {
-			   time: obj.content,
-			   avatar: url
-			 };	
-			 console.log(record);
-			 let status=localStorage.getItem('status');
-			 if(status==0){
-			 	console.log("send");
-			 this.msgRecord.push(record);
-			 }
-		 }
+		
 	},
     methods:{
 	
@@ -200,7 +177,8 @@ export default {
 						const record = {
 						  name: id,
 						  msg: res,
-						  avatar: url
+						  avatar: url,
+						  to:to
 						};	
 						this.msgRecord.push(record);
 			            this.stompClient.send("/app/ptp/single/chat", {}, jsonStr);
