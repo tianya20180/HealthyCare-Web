@@ -29,6 +29,7 @@
     },
 	async created(){
 		this.userinfo=this.$store.state.userinfo;
+		
 		let res=null;
 		console.log(this.userinfo.identity);
 		if(this.userinfo.identity==0){

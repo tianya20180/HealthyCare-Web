@@ -497,7 +497,7 @@ export const signout = () => fetch('/v2/signout');
 /**
  * 注册
  * */
- export const doctorRegister =(userName,password,phone,address,cardId,category)=>fetch(baseUrl+'/v1/register',{userName,password,phone,address,cardId,category},'POST')
+ export const doctorRegister =(userName,password,phone,address,cardId,category,sendCode)=>fetch(baseUrl+'/v1/register',{userName,password,phone,address,cardId,category,sendCode},'POST')
  
  export const upload=(data)=> fetch(baseUrl+'/user/upload', {
        file: data,
@@ -525,8 +525,8 @@ export const getMessageListByUser=(userId)=>fetch(baseUrl+'/message/user/get?use
 export const getMessageListByDoctor=(doctorId)=>fetch(baseUrl+'/message/doctor/get?doctorId='+doctorId)
 export const addMessage=(data)=>fetch(baseUrl+'/message/add',data,'POST')
 export const changeMsgStatus=(msgId)=>fetch(baseUrl+'/message/change_status',{msgId},'GET')
-export const getOfflineMsgByUser=(userId)=>fetch(baseUrl+'/message/user/get_offline',{userId},'GET')
-export const getOfflineMsgByDoctor=(doctorId)=>fetch(baseUrl+'/message/doctor/get_offline',{doctorId},'GET')
+export const getOfflineMsgByDoctor=(userId,doctorId)=>fetch(baseUrl+'/message/doctor/get_offline',{userId,doctorId},'GET')
+export const getOfflineMsgByUser=(doctorId,userId)=>fetch(baseUrl+'/message/user/get_offline',{doctorId,userId},'GET')
 export const getAskStatus=(userId,doctorId)=>fetch(baseUrl+'/ask/status',{userId,doctorId},'GET')
 export const getAsk=(userId,doctorId)=>fetch(baseUrl+'/ask/get',{userId,doctorId},'GET')
 export const changeAskStatus=(userId,doctorId)=>fetch(baseUrl+'/ask/change/status',{userId,doctorId},'GET')
@@ -547,5 +547,14 @@ export const getDoctorCategory=()=>fetch(baseUrl+'/category/doctor/get',{},'GET'
 export const getArticleCategory=()=>fetch(baseUrl+'/category/article/get',{},'GET')
 export const addDiagnosis=(data)=>fetch(baseUrl+'/diagnosis/add',data,'POST')
 export const getDiagnosis=(userId)=>fetch(baseUrl+'/diagnosis/user/get',{userId},'GET')
+export const sendRegister = (phone, code, password,userName) => fetch(baseUrl+'/v1/registerByCode', {
+	phone:phone,
+	sendCode:code,
+	password,
+	userName
+}, 'GET');
+
+export const recharge=(money,userId,password)=>fetch(baseUrl+'/recharge/goAlipay/',{money,userId,password},'GET')
+export const transfer=(money,id,identity)=>fetch(baseUrl+'/transfer/money/',{money,id,identity},'GET')
 
 

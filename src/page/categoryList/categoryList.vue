@@ -3,7 +3,7 @@
     	<head-top signin-up='msite'>
     		
 			<router-link to="/home" slot="msite-title" class="msite_title">
-				<span class="title_text ellipsis">谷芽在线问诊平台</span>
+				<span class="title_text ellipsis">全部分类</span>
 			</router-link>
     	</head-top>
     	<nav class="msite_nav">
@@ -17,31 +17,15 @@
 	            				<figcaption>{{foodItem.categoryName}}</figcaption>
 	            			</figure>
 	            		</router-link>
-						<a href="/#/categoryList" style="float: right;font-size:15px">全部分类</a>
 		            </div>
 			
-					 <div class="swiper-slide food_types_container" >
-					 	<router-link :to="{path: '/category',query:{categoryId:Item.id}}"  v-for="Item in articleTypes" :key="Item.id" class="link_to_food">
-					 		<figure>
-					 			<img :src="Item.photo">
-					 			<figcaption>{{Item.categoryName}}</figcaption>
-					 		</figure>
-					 	</router-link>
-					 </div>
+					
 		        </div>
 		        <div class="swiper-pagination"></div>
 		    </div>
 		   <!-- <img src="../../images/fl.svg" class="fl_back animation_opactiy" >-->
     	</nav>
-    	<div class="shop_list_container">
-	    	<header class="shop_header">
-	    		<svg class="shop_icon">
-	    			<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shop"></use>
-	    		</svg>
-	    		<span class="shop_header_title">热门医生</span>
-	    	</header>
-	    	<shop-list v-if="hasGetData" :geohash="geohash"></shop-list>
-    	</div>
+    	
     	<foot-guide></foot-guide>
     </div>    
 </template>
@@ -149,10 +133,11 @@ export default {
         }
 	}
 	.msite_nav{
+		margin-top: 60px;
 		padding-top: 2.1rem;
 		background-color: #fff;
 		border-bottom: 0.025rem solid $bc;
-		height: 10.6rem;
+		height: 20.6rem;
 		.swiper-container{
 			@include wh(100%, auto);
 			padding-bottom: 0.6rem;

@@ -64,6 +64,8 @@ const commitList=r => require.ensure([], () => r(require('../page/commitList/com
 const orderList=r => require.ensure([], () => r(require('../page/orderList/orderList')), 'orderList')
 const diagnosis=r => require.ensure([], () => r(require('../page/diagnosis/diagnosis')), 'diagnosis')
 const diagnosisList=r => require.ensure([], () => r(require('../page/diagnosisList/diagnosisList')), 'diagnosisList')
+const categoryList=r => require.ensure([], () => r(require('../page/categoryList/categoryList')), 'categoryList')
+const NotFound=r => require.ensure([], () => r(require('../page/NotFound/NotFound')), 'NotFound')
 
 export default [{
     path: '/',
@@ -281,7 +283,8 @@ export default [{
 		},
 		{
 			path:'message',
-			component:message
+			component:message,
+			  meta: { keepAlive: false },
 		},
 		{
 			path:'category',
@@ -333,6 +336,18 @@ export default [{
 		{
 			path:'diagnosisList', 
 			component:diagnosisList
-		}
+		},{
+			path:'categoryList',
+			component:categoryList
+		},// ...
+    {
+      name: '404',
+      path: '/NotFound',
+      component: NotFound
+    },
+    {
+      path: '*',    // 此处需特别注意至于最底部
+      redirect: '/NotFound'
+    }
     ]
 }]

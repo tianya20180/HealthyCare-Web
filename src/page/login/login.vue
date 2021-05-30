@@ -5,11 +5,18 @@
         </head-top>
         <form class="loginForm" v-if="loginWay">
             <section class="input_container phone_number">
-                <input type="text" placeholder="请输入账号密码" name="phone" maxlength="11" v-model="phoneNumber">
+                <input type="text" placeholder="请输入手机号"   v-model="phoneNumber">
 				
                 <button @click.prevent="getVerifyCode" :class="{right_phone_number:rightPhoneNumber}" v-show="!computedTime">获取验证码</button>
                 <button  @click.prevent v-show="computedTime">已发送({{computedTime}}s)</button>
             </section>
+			<section class="input_container" v-if="show">
+				<input type="text" placeholder="请输入用户名"  v-model="userName" >
+			</section>
+			<section class="input_container" v-if="show">
+				<input type="password" placeholder="请输入密码"  v-model="passWord" >
+				
+			</section >
             <section class="input_container">
                 <input type="text" placeholder="验证码" name="mobileCode" maxlength="6" v-model="mobileCode">
             </section>
@@ -47,7 +54,7 @@
         <p class="login_tips">
             注册过的用户可凭账号密码登录
         </p>
-        <div class="login_container" @click="mobileLogin">登录</div>
+        <div class="login_container" @click="mobileLogin">{{title}}</div>
 
         <router-link to="/forget" class="to_forget" v-if="!loginWay">重置密码？</router-link>
 		 <router-link to="/register" class="to_forget" >医生注册</router-link>
@@ -60,7 +67,7 @@
     import alertTip from '../../components/common/alertTip'
     import {localapi, proapi, imgBaseUrl} from 'src/config/env'
     import {mapState, mapMutations} from 'vuex'
-    import {mobileCode, checkExsis, sendLogin, getcaptchas, accountLogin} from '../../service/getData'
+    import {mobileCode, checkExsis, sendLogin, getcaptchas, accountLogin,sendRegister} from '../../service/getData'
 
     export default {
         data(){
@@ -80,7 +87,10 @@
                 alertText: null, //提示的内容
 				res:null,
 				checked:false,
-				identity:0
+				identity:0,
+				userName:'',
+				show:false,
+				title:"登录"
             }
         },
         created(){
@@ -139,10 +149,12 @@
                     let exsis = await checkExsis(this.phoneNumber, 'mobile');
 					console.log(exsis);
                     if (exsis.status!=0) {
-                        this.showAlert = true;
-                        this.alertText = exsis.message;
-                        return
-                    }
+                       this.show =true;
+					   this.title="用户注册";
+                    }else{
+						this.show=false;
+						this.title="登录";
+					}
                     //发送短信验证码
                     this.res = await mobileCode(this.phoneNumber);
                     console.log(this.res);
@@ -159,8 +171,16 @@
                         return
                     }
                     //手机号登录
-                    this.res = await sendLogin(this.mobileCode, this.phoneNumber,this.identity);
-					this.userInfo=this.res.data;
+					if(this.show){
+						this.res = await sendRegister(this.phoneNumber,this.mobileCode ,this.passWord,this.userName);
+						this.userInfo=this.res.data;
+						alert("注册成功，即将跳转");
+						
+					}else{
+						this.res = await sendLogin(this.mobileCode, this.phoneNumber,this.identity);
+						this.userInfo=this.res.data;
+					}
+                  
                 }else{
                     if (!this.phoneNumber) {
                         this.showAlert = true;

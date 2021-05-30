@@ -17,9 +17,13 @@
         <form class="loginForm" v-else>
 			<section class="input_container phone_number">
 			  <input type="text" placeholder="手机号" name="phone" maxlength="11" v-model="phoneNumber">
-						
+			  <button @click.prevent="getVerifyCode" :class="{right_phone_number:rightPhoneNumber}" v-show="!computedTime">获取验证码</button>
+			  <button  @click.prevent v-show="computedTime">已发送({{computedTime}}s)</button>		
 			<!--  <button @click.prevent="getVerifyCode" :class="{right_phone_number:rightPhoneNumber}" v-show="!computedTime">获取验证码</button>
 			  <button  @click.prevent v-show="computedTime">已发送({{computedTime}}s)</button>-->
+			</section>
+			<section class="input_container">
+			    <input type="text" placeholder="验证码" name="mobileCode" maxlength="6" v-model="mobileCode">
 			</section>
             <section class="input_container">
                 <input v-if="!showPassword" type="password" placeholder="密码"  v-model="passWord">
@@ -130,13 +134,9 @@
                     }, 1000)
                     //判读用户是否存在
                     let exsis = await checkExsis(this.phoneNumber, 'mobile');
-                    if (exsis.message) {
+                    if (exsis.status==0) {
                         this.showAlert = true;
-                        this.alertText = exsis.message;
-                        return
-                    }else if(!exsis.is_exists) {
-                        this.showAlert = true;
-                        this.alertText = '您输入的手机号尚未绑定';
+                        this.alertText = "该手机号已注册";
                         return
                     }
                     //发送短信验证码
@@ -152,13 +152,14 @@
             //发送登录信息
 			async register(){
 				console.log(this.passWord)
-				let res=await doctorRegister(this.userAccount,this.passWord,this.phoneNumber,this.address,this.cardId);
+				let res=await doctorRegister(this.userAccount,this.passWord,this.phoneNumber,this.address,this.cardId,this.mobileCode);
 				if(res.status!=0){
 					this.showAlert = true;
 					this.alertText = res.message;
 				}else{
 					this.showAlert = true;
 					this.alertText = "注册成功";
+					this.$router.go(-1);
 				}
 					
 			},

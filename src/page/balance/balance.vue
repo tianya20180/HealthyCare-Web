@@ -1,27 +1,51 @@
  <template>
   <div class="page">
         <head-top head-title="我的余额" go-back='true'></head-top>
+		
         <section class="content_container">
+			<el-dialog title="充值" :visible.sync="showDiag">
+			  <el-form :model="null">
+			    <el-form-item label="充值金额">
+			      <el-input v-model="money"></el-input>
+			    </el-form-item>
+			    <el-form-item label="密码">
+			      <el-input v-model="password"></el-input>
+			    </el-form-item>
+			  </el-form>
+			  <div slot="footer" class="dialog-footer">
+			    <el-button @click="showDiag = false">取 消</el-button>
+			    <el-button type="primary" @click="Recharge()">确 定</el-button>
+			  </div>
+			</el-dialog>
+			<el-dialog title="提现" :visible.sync="showTansfer">
+			  <el-form :model="null">
+			    <el-form-item label="提现金额">
+			      <el-input v-model="money"></el-input>
+			    </el-form-item>
+			    
+			  </el-form>
+			  <div slot="footer" class="dialog-footer">
+			    <el-button @click="showTansfer = false">取 消</el-button>
+			    <el-button type="primary" @click="transfer()">确 定</el-button>
+			  </div>
+			</el-dialog>
             <section class="content">
                 <header class="content_header">
                     <span class="content_title_style">当前余额</span>
                     <section class="contetn_description">
                         <img src="../../images/description.png" height="24" width="24">
-                        <router-link to="/balance/detail" class="content_title_style">余额说明</router-link>
+                       
                     </section>
                 </header>
                 <p class="content_num">
-                    <span>0.00</span>
+                    <span>{{this.userinfo.money}}</span>
                     <span>元</span>
                 </p>
-                <div class="promit_button">提现</div>
+                <div class="promit_button" @click="showTransfer()">提现</div>
+			    <div class="promit_button" @click="show">充值</div>
             </section>
         </section>
-        <p class="deal_detail">交易明细</p>
-        <div class="no_log">
-            <img src="../../images/no-log.png">
-            <p>暂无明细记录</p>
-        </div>
+       
         <alert-tip v-if="showAlert" @closeTip="showAlert = false" :alertText="alertText"></alert-tip>
         <transition name="router-slid" mode="out-in">
             <router-view></router-view>
@@ -32,14 +56,25 @@
 <script>
     import headTop from 'src/components/header/head'
     import alertTip from 'src/components/common/alertTip'
+    import {signout,upload,recharge,transfer} from 'src/service/getData'
     
     export default {
       data(){
             return{
                 showAlert: false,
                 alertText: null,
+				userinfo:{},
+				password:'',
+				showDiag:false,
+				money:'',
+				password:'',
+				showTansfer:false
             }
         },
+		created(){
+			this.userinfo=this.$store.state.userinfo;
+			
+		},
         mounted(){
           
         },
@@ -51,7 +86,33 @@
            
         },
         methods: {
-            
+			showTransfer(){
+				this.showTansfer=true;
+			},
+			show(){
+				this.showDiag=true;
+			},
+			async transfer(){
+				console.log(this.userinfo);
+				let res=await transfer(this.money,this.userinfo.id,this.userinfo.identity);
+				if(res.status==0){
+					alert("提现成功");
+				}
+			},
+           async Recharge(){
+				let res=await recharge(this.money,this.userinfo.id,this.password);
+				console.log(res);
+				if(res.status==0){
+					let routerData = this.$router.resolve({path:'/payGateWay',query:{htmls:res.data}})
+					                 this.htmls = res.data.result;
+					                 //打开新页面
+					                 window.open(routerData.href,'_ blank')
+					                  const div = document.createElement('div');
+					                  div.innerHTML = htmls;
+					                 document.body.appendChild(div);
+					                 document.forms [0].submit();
+				}
+			},
         }
     }
 </script>
@@ -105,7 +166,7 @@
                 line-height: 2rem;
                 margin-top: 1rem;
                 text-align: center;
-                background-color: #ccc;
+                background-color: #B52A1D;
             }
         }
     }

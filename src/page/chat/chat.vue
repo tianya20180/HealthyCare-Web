@@ -32,7 +32,7 @@
 			  </router-link>
 		 
 		   
-		    <input type="file" name="submit" class="submit" id="file"  size="1" label="发送图片" @change="sendPhoto" style="width: 2rem;">
+		    <input type="file" name="submit" class="submit" id="file"  size="1" label="发送图片" @change="sendPhoto" style="width: 2rem;"/>
 			
 	   </form>
         <foot-guide></foot-guide>
@@ -95,12 +95,13 @@ export default {
 	    'v-other-msg': otherMsg
     },
 	async created(){
-		
+		 let records=[];
 		 console.log(localStorage.getItem('msgRecord'));
 		 if(localStorage.getItem('msgRecord')!=''&&localStorage.getItem('msgRecord')!=null){
-			 this.msgRecord=JSON.parse(localStorage.getItem('msgRecord'));
+			records=JSON.parse(localStorage.getItem('msgRecord'));
 		 }
-		 
+		
+		 console.log(this.msgRecord); 
 		 this.userinfo=this.$store.state.userinfo;
 		 console.log(this.userinfo);
 		 this.userId=this.$route.query.id;
@@ -111,19 +112,29 @@ export default {
 		 
 		 this.tempId=to;
 		 let res;
+		 
+		 for(let i in records){
+			 console.log(records[i])
+			 console.log(records[i].from);
+			 console.log(this.userId);
+			 console.log(records[i].to)
+			 console.log(this.toId)
+		     if(parseInt(records[i].from)==parseInt(this.userId)&&parseInt(records[i].to)==parseInt(this.toId)){
+			     this.msgRecord.push(records[i]);
+			 }
+			 if(parseInt(records[i].to)==parseInt(this.userId)&&parseInt(records[i].from)==parseInt(this.toId)){
+				 this.msgRecord.push(records[i]);
+			 }
+		 }
+		  
 		 if(this.identity==0){
 			 console.log("0");
-			  res=await getOfflineMsgByUser(this.userinfo.id);
-			  let askRes=await getAskStatus(this.userId,this.toId);
-			   this.status=askRes.data;
-			  
-			  console.log(this.status)
+			  res=await getOfflineMsgByUser(this.toId,this.userinfo.id);
 		
 		 }else{
 			 console.log("1"); 
-			  res=await getOfflineMsgByDoctor(this.userinfo.id);
-			  let askRes=await getAskStatus(this.toId,this.userId);
-			  this.status=askRes.data;
+			  res=await getOfflineMsgByDoctor(this.toId,this.userinfo.id);
+			
 		 }
 		 if(this.status==0){
 			 alert("当前问诊已结束");
@@ -135,7 +146,9 @@ export default {
 			 console.log(data[i]);
 		 	const obj = {
 		 		name: data[i].id,
-		 		avatar: data[i].avatar
+		 		avatar: data[i].avatar,
+				from:data[i].fromId,
+				to:data[i].toId
 		 	}
 			if(data[i].contentType==1){
 				obj.msg=data[i].content;
@@ -147,6 +160,7 @@ export default {
 			if(obj.to==this.id){
 				
 			}*/
+			
 			 this.msgRecord.push(obj);
 	
 		 }
@@ -178,7 +192,8 @@ export default {
 						  name: id,
 						  msg: res,
 						  avatar: url,
-						  to:to
+						  to:to,
+						  from:this.userinfo.id
 						};	
 						this.msgRecord.push(record);
 			            this.stompClient.send("/app/ptp/single/chat", {}, jsonStr);
@@ -228,7 +243,9 @@ export default {
 			 const obj = {
 			   name: id,
 			   time: this.content,
-			   avatar: url
+			   avatar: url,
+			   to:this.toId,
+			   from:this.userinfo.id
 			 };	 
 			 this.msgRecord.push(obj);
 			 console.log("json str"+jsonStr);
@@ -260,7 +277,9 @@ export default {
 								const obj = {
 								  name: msgObject.fromId,
 								  avatar: msgObject.avatar,
-								  type:msgObject.contentType
+								  type:msgObject.contentType,
+								  from:this.userinfo.id,
+								  to:this.toId
 								}
 								if(msgObject.type==1){
 									obj.msg=msgObject.content;
@@ -299,9 +318,9 @@ export default {
         margin-bottom: 2rem;
     }
     .search_form{
-		width: 15rem;
+		width: 15.5rem;
 		position: fixed;
-		top: 15.3rem;
+		top: 15.1rem;
         background-color: #fff;
         padding: 0.5rem;
         display: flex;
@@ -450,9 +469,9 @@ export default {
 	}
 	
 	.button_form{
-		width: 12rem;
+		width: 7.8rem;
 		position: fixed;
-		top: 17.4rem;
+		top: 17.0rem;
 		background-color: #fff;
 		padding: 0.5rem;
 		display: flex;

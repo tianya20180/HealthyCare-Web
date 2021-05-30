@@ -52,7 +52,7 @@
 			   tonguePhoto:'',
 			   time:'',
 			   userId:'',
-			   doctorId:'',
+			   doctorId:0,
 			   identity:'',
 			   photo:'',
 			   title:'',
@@ -140,7 +140,8 @@
 				            const record = {
 				   			   time: obj.content,
 				   			   avatar: url,
-							   to:this.doctorId
+							   to:this.doctorId,
+							   from:this.userinfo.id
 				   			 };	
 				            this.msgRecord.push(record);   
 				            localStorage.setItem('msgRecord', JSON.stringify(this.msgRecord));

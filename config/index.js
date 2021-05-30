@@ -1,5 +1,6 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 var path = require('path')
+const Version = new Date().getTime()
 
 module.exports = {
     build: {
