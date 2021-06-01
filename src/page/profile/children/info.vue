@@ -128,7 +128,7 @@
 			created(){
 				this.userinfo=this.$store.state.userinfo;
 				console.log(this.userinfo);
-				this.path='/static/image/avatar/'+　this.avatar;
+				this.path='../../../static/image/avatar/'+　this.avatar;
 				console.log(this.path)
 			},
             exitlogin(){
@@ -162,7 +162,7 @@
 				
 				console.log("start upload");
                 //上传头像
-				let baseUrl='http://192.144.236.155:8000';
+				let baseUrl='http://192.144.236.155:8080';
                 this.userinfo=this.$store.state.userinfo;
 				console.log(this.userinfo);
                 let input = document.querySelector('.profileinfopanel-upload')
