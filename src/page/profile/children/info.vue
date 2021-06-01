@@ -128,7 +128,7 @@
 			created(){
 				this.userinfo=this.$store.state.userinfo;
 				console.log(this.userinfo);
-				this.path='../../../static/image/avatar/'+　this.avatar;
+				this.path='../../static/image/avatar/'+　this.avatar;
 				console.log(this.path)
 			},
             exitlogin(){
