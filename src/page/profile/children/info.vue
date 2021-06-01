@@ -185,15 +185,8 @@
 					
 					  alert("上传成功");
                    
-                        if(identity==0){
-							this.userinfo=await getMyUser(this.userinfo.id);
-							console.log(this.userinfo);
-						}
-                         else{
-							this.userinfo=await getDoctor(this.userinfo.id);
-						 }
-						 this.$store.state.userinfo=this.userInfo;
-                          
+                     
+           
                     }catch (error) {
                         this.showAlert = true;
                         this.alertText = '上传失败';
