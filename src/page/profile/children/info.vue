@@ -120,6 +120,16 @@
             ...mapState([
                 'userInfo', 'imgPath'
             ]),
+			imgpath:function () {
+			    let path;
+			    if(this.avatar.indexOf('/') !==-1){
+			        path = imgBaseUrl +　this.avatar;
+			    }else{
+			        path = this.getImgPath(this.avatar)
+			    }
+			    this.SAVE_AVANDER(path);
+			    return path;
+			}
         },
         methods: {
             ...mapMutations([
@@ -128,7 +138,7 @@
 			created(){
 				this.userinfo=this.$store.state.userinfo;
 				console.log(this.userinfo);
-				this.path='../../static/image/avatar/'+　this.avatar;
+				this.path='/static/image/avatar/'+　this.avatar;
 				console.log(this.path)
 			},
             exitlogin(){
@@ -184,9 +194,9 @@
                          })
 					
 					  alert("上传成功");
-                   
-                     
-           
+                      
+                     this.userinfo.avatar=response.data;
+					 this.$store.state.userinfo=this.userinfo;
                     }catch (error) {
                         this.showAlert = true;
                         this.alertText = '上传失败';
