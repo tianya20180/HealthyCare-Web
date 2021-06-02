@@ -21,7 +21,7 @@
 		            </div>
 			
 					 <div class="swiper-slide food_types_container" >
-					 	<router-link :to="{path: '/category',query:{categoryId:Item.id}}"  v-for="Item in articleTypes" :key="Item.id" class="link_to_food">
+					 	<router-link :to="{path: '/articleCategory',query:{articleCategory:Item.id}}"  v-for="Item in articleTypes" :key="Item.id" class="link_to_food">
 					 		<figure>
 					 			<img :src="Item.photo">
 					 			<figcaption>{{Item.categoryName}}</figcaption>

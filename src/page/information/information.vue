@@ -10,14 +10,14 @@
 			    <input type="text" placeholder="年龄" v-model.lazy="age">
 			</section>
 			<section class="input_container">
-			    <input type="text" placeholder="身高" v-model.lazy="height">
+			    <input type="text" placeholder="身高(cm)" v-model.lazy="height">
 			</section>
 
 			<section class="input_container">
-			    <input type="text" placeholder="体重" v-model.lazy="weight">
+			    <input type="text" placeholder="体重(kg)" v-model.lazy="weight">
 			</section>
 			<section class="input_container">
-			    <input type="text" placeholder="患病时长" v-model.lazy="time">
+			    <input type="text" placeholder="患病时长(天)" v-model.lazy="time">
 			</section>
 			<section class="input_container">
 			    <input type="text" placeholder="病情简述" v-model.lazy="desc">
