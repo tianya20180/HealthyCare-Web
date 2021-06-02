@@ -188,15 +188,19 @@
 				 else
 				   temp='doctor';
                    try{
-                       let response = await fetch(baseUrl+'/'+temp+'/upload', {
+                        fetch(baseUrl+'/'+temp+'/upload', {
                               method: 'POST',
                               body: data
-                         })
+                         }).then(
+						 res=>{
+							 alert("上传成功");
+							 console.log(res);
+							 
+						 }
+						 )
 					
-					  alert("上传成功");
-                      
-                     this.userinfo.avatar=response.data;
-					 this.$store.state.userinfo=this.userinfo;
+					
+					
                     }catch (error) {
                         this.showAlert = true;
                         this.alertText = '上传失败';

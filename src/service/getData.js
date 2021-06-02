@@ -481,7 +481,8 @@ export const deleteAddress = (userid, addressid) => fetch( '/v1/users/' + userid
 /**
  * 账号密码登录
  */
-export const accountLogin = (phoneNumber, password,identity,captcha_code) => fetch(baseUrl+'/v1/login', {phone:phoneNumber, password,identity,captchaCode:captcha_code}, 'POST');
+//export const accountLogin = (phoneNumber, password,identity,captcha_code) => fetch(baseUrl+'/v1/login', {phone:phoneNumber, password,identity,captchaCode:captcha_code}, 'POST');
+export const accountLogin = (phoneNumber, password,identity,captcha_code) => fetch(baseUrl+'/v2/login', {phone:phoneNumber, password,identity,captchaCode:captcha_code}, 'POST');
 
 
 /**
@@ -497,7 +498,7 @@ export const signout = () => fetch('/v2/signout');
 /**
  * 注册
  * */
- export const doctorRegister =(userName,password,phone,address,cardId,category,sendCode)=>fetch(baseUrl+'/v1/register',{userName,password,phone,address,cardId,category,sendCode},'POST')
+ export const doctorRegister =(userName,password,phone,address,category,sendCode)=>fetch(baseUrl+'/v1/register',{userName,password,phone,address,category,sendCode},'POST')
  
  export const upload=(data)=> fetch(baseUrl+'/user/upload', {
        file: data,

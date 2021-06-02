@@ -178,6 +178,7 @@ import footGuide from 'src/components/footer/footGuide'
 import {mapState, mapMutations} from 'vuex'
 import {imgBaseUrl} from 'src/config/env'
 import {getImgPath} from 'src/components/common/mixin'
+import {getUserById} from 'src/service/getData'
 
 export default {
     data(){
@@ -198,8 +199,14 @@ export default {
 			disabled:false
         }
     },
-	created(){
+	async created(){
+		console.log("created");
 		this.userinfo=this.$store.state.userinfo;
+		let res=await getUserById(this.userinfo.id);
+		console.log(res);
+		this.userinfo=res.data;
+		this.$store.state.userinfo=this.userinfo;
+		
 		 this.initData();
 	},
     mounted(){

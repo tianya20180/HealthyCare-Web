@@ -34,16 +34,7 @@
                     <span>...</span>
                 </div>
             </section>
-            <section class="input_container captcha_code_container">
-                <input type="text" placeholder="验证码" maxlength="4" v-model="codeNumber">
-                <div class="img_change_img">
-                    <img v-show="captchaCodeImg" :src="captchaCodeImg">
-                    <div class="change_img" @click="getCaptchaCode">
-                        <p>看不清</p>
-                        <p>换一张</p>
-                    </div>
-                </div>
-            </section>
+    
 			<!--<el-checkbox class="doctor"  v-model="checked" @click="checkedChange">医生登录</el-checkbox>-->
 			<label style="font-size:20px; float: right;">医生登录</label>
 			<input type="checkbox" v-model="checked" value="false"  @click="checkedChange" style="float: right;"></input>
@@ -82,7 +73,7 @@
                 userAccount: null, //用户名
                 passWord: null, //密码
                 captchaCodeImg: null, //验证码地址
-                codeNumber: null, //验证码
+                codeNumber: '1234', //验证码
                 showAlert: false, //显示提示组件
                 alertText: null, //提示的内容
 				res:null,
@@ -174,8 +165,8 @@
 					if(this.show){
 						this.res = await sendRegister(this.phoneNumber,this.mobileCode ,this.passWord,this.userName);
 						this.userInfo=this.res.data;
+						if(res.status==0)
 						alert("注册成功，即将跳转");
-						
 					}else{
 						this.res = await sendLogin(this.mobileCode, this.phoneNumber,this.identity);
 						this.userInfo=this.res.data;
@@ -189,10 +180,6 @@
                     }else if(!this.passWord){
                         this.showAlert = true;
                         this.alertText = '请输入密码';
-                        return
-                    }else if(!this.codeNumber){
-                        this.showAlert = true;
-                        this.alertText = '请输入验证码';
                         return
                     }
                     //用户名登录

@@ -38,9 +38,7 @@
 			    <input type="text" placeholder="用户名" v-model.lazy="userAccount">
 			</section>
 		 
-			<section class="input_container">
-			    <input type="text" placeholder="身份证号" v-model.lazy="cardId">
-			</section>
+			
 			<section class="input_container">
 			    <input type="text" placeholder="地址" v-model.lazy="address">
 			</section>
@@ -87,9 +85,7 @@
                 codeNumber: null, //验证码
                 showAlert: false, //显示提示组件
                 alertText: null, //提示的内容
-				address:'',//地址
-				cardId:''//身份证号
-		
+				address:''		
             }
         },
         created(){
@@ -152,7 +148,7 @@
             //发送登录信息
 			async register(){
 				console.log(this.passWord)
-				let res=await doctorRegister(this.userAccount,this.passWord,this.phoneNumber,this.address,this.cardId,this.mobileCode);
+				let res=await doctorRegister(this.userAccount,this.passWord,this.phoneNumber,this.address,this.mobileCode);
 				if(res.status!=0){
 					this.showAlert = true;
 					this.alertText = res.message;
