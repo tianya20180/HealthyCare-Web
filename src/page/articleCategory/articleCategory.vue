@@ -1,7 +1,7 @@
 <template>
 	<div>
-		  <head-top head-title="文章列表" go-back='true'></head-top>
-		<el-card v-for="(item,i) in artilceList" class="article">
+		 
+		<el-card v-for="(item,i) in artilceList" class="article1">
 			  <div>
 				   <router-link :to="{ path: '/articleDeatil', query: { id: item.id }}">
 						<span class="title">{{item.title}}</span>
@@ -71,8 +71,9 @@ export default {
 				float: right;
 				font-size:12px;
 	}
-	.article{
+	.article1{
 		font-size:15px;
+		
 	}
 	.title{
 		font-weight:bold;

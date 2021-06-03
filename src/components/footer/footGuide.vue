@@ -21,9 +21,12 @@
 	    	</defs>
     	</svg>
         <section @click = "gotoAddress({path: '/msite', query: {geohash}})" class="guide_item">
-        	<svg class="icon_style">
+        	<!--<svg class="icon_style">
                 <use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="$route.path.indexOf('msite') !== -1? '#msiteActive' : '#msite'"></use>
-            </svg>
+            </svg>-->
+			
+			<svg t="1622717349437" class="icon_style" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2774" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200"><defs></defs><path d="M512 64l448 320v576h-320v-320H384v320H64V384l448-320z m0 78.592L128 416.896V896h192V576h384v320h192V416.896L512 142.592z" fill="#2C374D" p-id="2775"></path></svg>
+			</svg>
             <span>主页</span>
         </section>
         <section @click = "gotoAddress({path: '/search/geohash'})" class="guide_item">

@@ -72,6 +72,7 @@ export default {
 	}
 	.article{
 		font-size:15px;
+		
 	}
 	.title{
 		font-weight:bold;
