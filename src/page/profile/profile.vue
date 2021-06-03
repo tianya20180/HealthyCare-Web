@@ -178,7 +178,7 @@ import footGuide from 'src/components/footer/footGuide'
 import {mapState, mapMutations} from 'vuex'
 import {imgBaseUrl} from 'src/config/env'
 import {getImgPath} from 'src/components/common/mixin'
-import {getUserById} from 'src/service/getData'
+import {getUserById,getDoctorInfo} from 'src/service/getData'
 
 export default {
     data(){
@@ -202,7 +202,11 @@ export default {
 	async created(){
 		console.log("created");
 		this.userinfo=this.$store.state.userinfo;
-		let res=await getUserById(this.userinfo.id);
+		let res;
+		if(this.userinfo.identity==0)
+		  res=await getUserById(this.userinfo.id);
+		else 
+		   res=await getDoctorInfo(this.userinfo.id);
 		console.log(res);
 		this.userinfo=res.data;
 		this.$store.state.userinfo=this.userinfo;
