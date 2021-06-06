@@ -32,14 +32,20 @@
 			   <h2>科室</h2> 
 			   
 				  <el-select v-model="category"  style="width: 12rem; ">
-				  	<el-option value="1" label="皮肤科"></el-option>
+					   <el-option
+					                v-for="item in categorys"
+					                :key="item.id"
+					                :label="item.categoryName"
+					                :value="item.id"/>
+					
+				  	<!--<el-option value="1" label="皮肤科"></el-option>
 				  	<el-option value="2" label="耳喉鼻科"></el-option>
 				  	<el-option value="3" label="肝病科"></el-option>
 				  	<el-option value="4" label="儿科"></el-option>
 				  	<el-option value="5" label="内科"></el-option>
 				  	<el-option value="6" label="消化科"></el-option>
 				  	<el-option value="7" label="妇科"></el-option>
-				  	<el-option value="8" label="心脑科"></el-option>
+				  	<el-option value="8" label="心脑科"></el-option>-->
 				  </el-select>
 			   
 			</section>
@@ -144,7 +150,7 @@
 <script>
     import {mapMutations, mapState} from 'vuex'
     import headTop from 'src/components/header/head'
-    import {signout,upload,authentication} from 'src/service/getData'
+    import {signout,upload,authentication,getDoctorCategory } from 'src/service/getData'
     import alertTip from 'src/components/common/alertTip'
     import {getImgPath} from 'src/components/common/mixin'
     import {imgBaseUrl} from 'src/config/env'
@@ -172,7 +178,9 @@
 				doctorPhoto:'',
 				doctorId:'',
 				check:false,
-				disable:false
+				disable:false,
+				category:'',
+				categorys:[]
             }
         },
         beforeDestroy(){
@@ -180,10 +188,17 @@
         },
 		created(){
 			this.userinfo=this.$store.state.userinfo;
+			/*
 			if(this.userinfo.status!=0){
 				alert("该医生已经认证，无需认证");
 				this.$router.go(-1);		   
-			}
+			}*/
+			
+			
+			getDoctorCategory().then(async res => {
+				this.categorys = res.data;
+				
+			})
 			console.log(this.$store.state);
 			console.log(this.userinfo);
 		},
@@ -251,6 +266,13 @@
                 this.showAlert = true;
                 this.alertText = '请在手机APP中设置';
             },
+			checkNumber(theObj) {
+			  var reg = /^[0-9]+.?[0-9]*$/;
+			  if (reg.test(theObj)) {
+			    return true;
+			  }
+			  return false;
+			},
            async submit(){
 			   if(!this.check){
 				   alert("请同意用户协议")
@@ -260,6 +282,14 @@
 			   ||this.doctorPhoto==null||this.doctorPhoto==''){
 				   alert("请填写完整");
 				   return;
+			   }
+			   if(!checkNumber(this.money)){
+				   alert("金额请输入数字");
+				   return;
+			   }
+			   if(!checkNumber(this.years)){
+			   		alert("工作年限请输入数字");
+			   	     return;
 			   }
 			   console.log(this.userinfo);
 			   this.doctorId=this.userinfo.id;

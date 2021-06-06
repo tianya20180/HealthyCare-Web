@@ -16,6 +16,19 @@
 		 
 			
 		</el-card>
+		<div class="search_none" v-if="this.count==0">很抱歉！当前分类暂无文章</div>
+		
+		<div class="Pagination" style="text-align: left; margin-top: 10px">
+		  <el-pagination
+		    @size-change="handleSizeChange"
+		    @current-change="handleCurrentChange"
+		    :current-page="currentPage"
+		    :page-size="20"
+		    layout="total, prev, pager, next"
+		    :total="count"
+		  >
+		  </el-pagination>
+		</div>
 		<foot-guide></foot-guide>
 		
 	</div>
@@ -40,17 +53,20 @@ export default {
 			userinfo:null,
 			id:'',
 			path:'',
-			artilceList:[]
+			artilceList:[],
+			currentPage:1,
+			offset:20,
+			count:'',
+			limit:20
+			
         }
     },
     async created(){
 		console.log("created");
-	   let id=this.$route.query.articleCategory;
-	   console.log(id);
+	   this.id=this.$route.query.articleCategory;
+	   //console.log(id);
        this.userinfo=this.$store.state.userinfo;
-	   let res=await getArticleByCategoryId(id);
-	   console.log(res);
-	   this.artilceList=res.data;
+	   this.init();
     },
     mounted(){
      
@@ -60,6 +76,22 @@ export default {
         footGuide,
     },
     methods:{
+		handleSizeChange(val) {
+		    console.log(`每页 ${val} 条`);
+		},
+		handleCurrentChange(val) {
+		    this.currentPage = val;
+		    this.offset = (val - 1)*this.limit;
+		    this.init();
+		},
+		async init(){
+			console.log("init");
+			let res=await getArticleByCategoryId(this.id,this.currentPage,this.offset);
+			console.log(res);
+			this.artilceList=res.data.records;
+			this.count =res.data.total;
+			
+		}
         }
 }
 
@@ -77,5 +109,17 @@ export default {
 	}
 	.title{
 		font-weight:bold;
+	}
+	.search_none{
+	
+	    margin: 0 auto;
+	    @include font(0.65rem, 1.75rem);
+	    color: #333;
+	    background-color: #fff;
+	    text-align: center;
+	    margin-top: 5.5rem;
+	}
+	.Pagination{
+		margin-top: 15rem;
 	}
 </style>

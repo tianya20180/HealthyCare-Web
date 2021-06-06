@@ -5,7 +5,7 @@ let baseUrl = '';
 let routerMode = 'history';
 if (process.env.NODE_ENV == 'development') {  
    baseUrl = 'http://192.144.236.155:8080';
-   //baseUrl = 'http://localhost:8080';
+   baseUrl = 'http://localhost:8080';
 }else{  
     baseUrl = 'http://www.test.com';
 }
@@ -121,8 +121,8 @@ export const searchDoctor = (keyword) => fetch(baseUrl+'/doctor/search', {
 export const getDoctorByTime = () => fetch(baseUrl+'/doctor/getDoctorByTime', {
 	
 });
-export const getDoctorByCategory = (category) => fetch(baseUrl+'/doctor/getDoctorByCategory', {
-	category
+export const getDoctorByCategory = (category,currentPage,pageSize) => fetch(baseUrl+'/doctor/getDoctorByCategory', {
+	category,currentPage,pageSize
 });
 
 /**
@@ -541,7 +541,7 @@ export const viewArticle=(articleId)=>fetch(baseUrl+'/article/view/',{articleId}
 export const likeArticle=(articleId,userId)=>fetch(baseUrl+'/article/like',{articleId,userId},'GET')
 export const getArticleByDoctorId=(doctorId)=>fetch(baseUrl+'/article/getByDoctorId',{doctorId},'GET')
 export const searchArticle=(title)=>fetch(baseUrl+'/article/searchArticle',{title},'GET')
-export const getArticleByCategoryId=(category)=>fetch(baseUrl+'/article/getByCategory',{category},'GET')
+export const getArticleByCategoryId=(category,currentPage,currentSize)=>fetch(baseUrl+'/article/getByCategory',{category,currentPage,currentSize},'GET')
 export const getOrderByUserId=(userId)=>fetch(baseUrl+'/order/user/get',{userId},'GET')
 export const getUserById=(id)=>fetch(baseUrl+'/user/get',{id},'GET')
 export const getDoctorCategory=()=>fetch(baseUrl+'/category/doctor/get',{},'GET')

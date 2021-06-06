@@ -63,6 +63,14 @@
             ]),
             //获取信息
 			async submit(){
+				if(this.content==''){
+					alert("请填写评论内容");
+					return;
+				}
+				if(this.score==''){
+					alert("请选择分数");
+					return;
+				}
 				console.log(this.score);
 				let res=await addCommit(this.userinfo.userName,this.doctorId,this.content,this.score);
 				if(res.status==0){

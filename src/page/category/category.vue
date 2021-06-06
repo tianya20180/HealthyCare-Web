@@ -1,6 +1,6 @@
 <template>
   	<div class="paddingTop search_page">
-        <section v-if="doctorList.length">
+        <section v-if="count!=0">
             <h4 class="title_restaurant">医生</h4>
             <ul class="list_container">
                 <router-link :to="{path:'/detailed', query:{id:item.id}}" tag="li" v-for="item in doctorList" :key="item.id" class="list_li">
@@ -29,7 +29,18 @@
             </ul>
         </section>
        
-        <div class="search_none" v-if="emptyResult">很抱歉！当前科室暂无医生</div>
+        <div class="search_none" v-if="count==0">很抱歉！当前科室暂无医生</div>
+		<div class="Pagination" style="text-align: left; margin-top: 10px">
+		  <el-pagination
+		    @size-change="handleSizeChange"
+		    @current-change="handleCurrentChange"
+		    :current-page="currentPage"
+		    :page-size="20"
+		    layout="total, prev, pager, next"
+		    :total="count"
+		  >
+		  </el-pagination>
+		 </div>
         <foot-guide></foot-guide>
     </div>
 </template>
@@ -52,16 +63,17 @@ export default {
             searchHistory: [], // 搜索历史记录
             showHistory: true, // 是否显示历史记录，只有在返回搜索结果后隐藏
             emptyResult: false, // 搜索结果为空时显示
+			currentPage:1,
+			offset:20,
+			count:0,
+			limit:20,
+			id:''
         }
     },
    async created(){
-       let category = this.$route.query.categoryId;
-       let res = await getDoctorByCategory(category);
-       this.doctorList=res.data;
-       console.log("search res:"+this.doctorList.data);
-       this.emptyResult = !this.doctorList.length;
-       console.log("length:"+this.doctorList.length);
-       console.log("empty result:"+this.emptyResult);
+       this.id = this.$route.query.categoryId;
+	   this.init();
+	   
     },
     mounted(){
       
@@ -72,7 +84,22 @@ export default {
 		myRate
     },
     methods:{
-   
+		handleSizeChange(val) {
+		    console.log(`每页 ${val} 条`);
+		},
+		handleCurrentChange(val) {
+		    this.currentPage = val;
+		    this.offset = (val - 1)*this.limit;
+		    this.init(this.currentPage,this.offset)
+		},
+		async init(){
+			console.log("init");
+			let res=await getDoctorByCategory(this.id,this.currentPage,this.offset);
+			console.log(res);
+			this.doctorList=res.data.records;
+			this.count =res.data.total;
+			
+		}
     }
 }
 

@@ -86,6 +86,13 @@
 			...mapMutations([
 			    'RECORD_USERINFO',
 			]),
+			checkNumber(theObj) {
+			  var reg = /^[0-9]+.?[0-9]*$/;
+			  if (reg.test(theObj)) {
+			    return true;
+			  }
+			  return false;
+			},
             handlePhoto(e){
 				console.log(e);
                 console.log("上传");
@@ -108,6 +115,21 @@
 				 
 			},
 		   async submit(){
+			   
+			   
+			   if(this.weight==''||this.height==''||this.time==''||this.desc==''||this.age==''){
+				   alert("请输入完整的问诊单");
+				   return;
+			   }
+			   
+			   
+			   if(!checkNumber(this.height)||!checkNumber(this.weight)||!checkNumber(this.time)||!checkNumber(this.age)){
+				   alert("请输入数字");
+				   return;
+			   }
+			   
+			   
+			   
 			   let data={
 				   userId:this.userId,
 				   orderId:this.orderId,

@@ -39,9 +39,7 @@
 			<label style="font-size:20px; float: right;">医生登录</label>
 			<input type="checkbox" v-model="checked" value="false"  @click="checkedChange" style="float: right;"></input>
         </form>
-        <p class="login_tips">
-            温馨提示：通过短信登录时，未注册过的账号，登录时将自动注册
-        </p>
+     
         <p class="login_tips">
             注册过的用户可凭账号密码登录
         </p>
