@@ -20,6 +20,8 @@
             <section class="input_container">
                 <input type="text" placeholder="验证码" name="mobileCode" maxlength="6" v-model="mobileCode">
             </section>
+			<label style="font-size:20px; float: right;">医生登录</label>
+			<input type="checkbox" v-model="checked" value="false"  @click="checkedChange" style="float: right;"></input>
         </form>
         <form class="loginForm" v-else>
             <section class="input_container">
@@ -45,7 +47,6 @@
         </p>
         <div class="login_container" @click="mobileLogin">{{title}}</div>
 
-        <router-link to="/forget" class="to_forget" v-if="!loginWay">重置密码？</router-link>
 		 <router-link to="/register" class="to_forget" >医生注册</router-link>
         <alert-tip v-if="showAlert" :showHide="showAlert" @closeTip="closeTip" :alertText="alertText"></alert-tip>
     </div>

@@ -6,7 +6,7 @@
                 <input type="file" class="profileinfopanel-upload" @change="uploadAvatar">
                 <h2>头像</h2>
                 <div class="headportrait-div">
-                     <img :src="path" class="privateImage" >
+                    <!-- <img :src="path" class="privateImage" >-->
                     <span class="headportrait-div-top" >
                         <svg>
                             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#avatar-default"></use>
@@ -23,7 +23,7 @@
                 <section class="headportrait headportraitwo">
                     <h2>用户名</h2>
                     <div class="headportrait-div">
-                        <p>{{username}}</p>
+                        <p>{{userinfo.userName}}</p>
                         <span class="headportrait-div-bottom">
                             <svg fill="#d8d8d8">
                                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
@@ -36,24 +36,9 @@
                
             </router-link>
             <section class="bind-phone">
-                账号绑定
+                账号绑定<p>{{userinfo.phone}}</p>
             </section>
-            <section class="info-router" @click="changePhone">
-                <section class="headportrait headportraitwo headportraithree">
-                        <h2><img src="../../../images/bindphone.png" style="display:inline-block;margin-right:.4rem;" alt="">手机</h2>
-                        <div class="headportrait-div">
-                            <p>{{infotel}}</p>
-                            <span class="headportrait-div-bottom">
-                                <svg fill="#d8d8d8">
-                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
-                                </svg>
-                            </span>
-                        </div>
-                </section>
-            </section>
-            <section class="bind-phone">
-                安全设置
-            </section>
+           
             <router-link to="/forget" class="info-router">
                
             </router-link>
@@ -131,6 +116,9 @@
 			    return path;
 			}
         },
+		created(){
+			  this.userinfo=this.$store.state.userinfo;
+		},
         methods: {
             ...mapMutations([
                 'OUT_LOGIN', 'SAVE_AVANDER'

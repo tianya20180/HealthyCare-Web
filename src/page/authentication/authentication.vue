@@ -216,6 +216,7 @@
             ...mapMutations([
                 'OUT_LOGIN', 'SAVE_AVANDER'
             ]),
+			
 			showDialog(){
 				this.disable=true;
 			},
@@ -283,11 +284,11 @@
 				   alert("请填写完整");
 				   return;
 			   }
-			   if(!checkNumber(this.money)){
+			   if(!this.checkNumber(this.money)){
 				   alert("金额请输入数字");
 				   return;
 			   }
-			   if(!checkNumber(this.years)){
+			   if(!this.checkNumber(this.years)){
 			   		alert("工作年限请输入数字");
 			   	     return;
 			   }

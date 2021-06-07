@@ -6,21 +6,20 @@
                 <svg>
                     <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#human"></use>
                 </svg>
-                <span>在线客服</span>
+                <span @click="alert("请联系wx 17854255138")">在线客服</span>
             </a>
             <a href="tel:10105757" class="service_right">
                 <svg>
                     <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#phone"></use>
                 </svg>
-                <span>在线客服</span>
+                <span @click="alert("请联系17854255138")">在线客服</span>
             </a>
         </section>
         <section class="hot_questions" >
-            <h4 class="qustion_header">热门问题</h4>
-            <h4 class="qustion_header">如何问诊</h4>
-			<h4 class="qustion_header">如何查找医生</h4>
-			<h4 class="qustion_header">如何付款</h4>
-			<h4 class="qustion_header">帮助手册</h4>
+            <h4 class="qustion_header" @click="alert("暂无")">热门问题</h4>
+            <h4 class="qustion_header" @click="alert("点击医生，进入医生详情，点击发起问诊，付款后即可")">如何问诊</h4>
+			<h4 class="qustion_header" @click="alert("在发现页，输入医生的名字或者所患疾病")">如何查找医生</h4>
+			<h4 class="qustion_header" @click="alert("可以选择支付宝付款或者余额支付 点击发起问诊后，选择支付宝付款，使用手机支付宝扫码即可")">如何付款</h4>
         </section>
         <transition name="router-slid" mode="out-in">
             <router-view></router-view>
@@ -64,6 +63,8 @@
                         if (insertItem == this.serviceData[item]) {
                             avoidRepeat = true;
                         }
+						
+						
                     })
                     //将标题和内容分别放进数组中
                     if (item.indexOf('Caption') !== -1 && !avoidRepeat) {

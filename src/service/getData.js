@@ -4,7 +4,7 @@ import {getStore} from '../config/mUtils'
 let baseUrl = '';
 let routerMode = 'history';
 if (process.env.NODE_ENV == 'development') {  
-   baseUrl = 'http://192.144.236.155:8080';
+ // baseUrl = 'http://192.144.236.155:8080';
    baseUrl = 'http://localhost:8080';
 }else{  
     baseUrl = 'http://www.test.com';
@@ -508,7 +508,7 @@ export const signout = () => fetch('/v2/signout');
      },'POST'
 	  )
 	  
-export const changePassword=(oldPassword,newPassword,phone)=>fetch(baseUrl+'/user/changePassword',{oldPassword,newPassword,phone},'POST')
+export const changePassword=(oldPassword,newPassword,phone)=>fetch(baseUrl+'/user/changePassword',{oldPassword,newPassword,phone},'GET')
 
 export const getDoctorInfo=(id)=>fetch(baseUrl+'/doctor/profile',{id},'GET')
 export const addDrug=(drugName,sum,times,way,orderId)=>fetch(baseUrl+'/prescription/addDrug',{drugName,sum,times,way,orderId},'POST')
