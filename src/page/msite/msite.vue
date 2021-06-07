@@ -9,6 +9,7 @@
     	<nav class="msite_nav">
     		<div class="swiper-container" >
 		        <div class="swiper-wrapper">
+					<router-link to='/categoryList' class="myorder"><span style="float: right;font-size:15px">全部分类</span></router-link>
 					
 		            <div class="swiper-slide food_types_container" >
 	            		<router-link :to="{path: '/category',query:{categoryId:foodItem.id}}" v-for="foodItem in foodTypes" :key="foodItem.id" class="link_to_food">
@@ -17,9 +18,8 @@
 	            				<figcaption>{{foodItem.categoryName}}</figcaption>
 	            			</figure>
 	            		</router-link>
-						<a href="/#/categoryList" style="float: right;font-size:15px">全部分类</a>
 		            </div>
-			
+					
 					 <div class="swiper-slide food_types_container" >
 					 	<router-link :to="{path: '/articleCategory',query:{articleCategory:Item.id}}"  v-for="Item in articleTypes" :key="Item.id" class="link_to_food">
 					 		<figure>
