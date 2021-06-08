@@ -123,7 +123,7 @@
 			   }
 			   
 			   
-			   if(!checkNumber(this.height)||!checkNumber(this.weight)||!checkNumber(this.time)||!checkNumber(this.age)){
+			   if(!this.checkNumber(this.height)||!this.checkNumber(this.weight)||!this.checkNumber(this.time)||!this.checkNumber(this.age)){
 				   alert("请输入数字");
 				   return;
 			   }

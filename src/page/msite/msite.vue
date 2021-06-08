@@ -59,11 +59,11 @@ import 'src/style/swiper.min.css'
 export default {
 	data(){
         return {
-        	geohash: '', // city页面传递过来的地址geohash
-            msietTitle: '请选择地址...', // msiet页面头部标题
-            foodTypes: [], // 食品分类列表
-            hasGetData: false, //是否已经获取地理位置数据，成功之后再获取商铺列表信息
-            imgBaseUrl: 'https://fuss10.elemecdn.com', //图片域名地址
+        	geohash: '', 
+            msietTitle: '请选择地址...', 
+            foodTypes: [], 
+            hasGetData: false, 
+            imgBaseUrl: 'https://fuss10.elemecdn.com', 
 			articleTypes:[]
         }
     },
@@ -74,15 +74,7 @@ export default {
 		}else{
 			this.geohash = this.$route.query.geohash
 		}
-		//保存geohash 到vuex
-		/*
-		this.SAVE_GEOHASH(this.geohash);
-    	//获取位置信息
-    	let res = await msiteAdress(this.geohash);
-    	this.msietTitle = res.name;
-    	// 记录当前经度纬度
-    	this.RECORD_ADDRESS(res);
-		*/
+		
     	this.hasGetData = true;
     },
 	async mounted(){
